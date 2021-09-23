@@ -3,9 +3,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import Home from '../views/Home';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Login from '../views/Login';
+
 import {MainContext} from '../contexts/MainContext';
-import {Icon} from 'react-native-elements';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -14,10 +13,9 @@ const TabScreen = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Home"
+        name="Front"
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: () => <Icon name="home" color={'#000'} size={26} />,
         }}
         component={Home}
       />

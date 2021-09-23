@@ -7,7 +7,7 @@ const Home = (props) => {
   return <SafeAreaView style={styles.droidSafeArea}></SafeAreaView>;
 };
 
-const styles = (StyleSheet.create = {
+const styles = StyleSheet.create({
   droidSafeArea: {
     flex: 1,
     backgroundColor: '#000',
