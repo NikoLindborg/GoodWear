@@ -29,15 +29,7 @@ const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
   return (
     <Stack.Navigator>
-      {isLoggedIn ? (
-        <>
-          <Stack.Screen name="Home" component={TabScreen} />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="Login" component={Login} />
-        </>
-      )}
+      <Stack.Screen name="Home" component={TabScreen} />
     </Stack.Navigator>
   );
 };
