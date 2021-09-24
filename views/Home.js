@@ -44,7 +44,7 @@ const Home = ({navigation}) => {
       </View>
     </ScrollView>
   );
-
+  }
 const styles = StyleSheet.create({
   droidSafeArea: {
     flex: 1,
