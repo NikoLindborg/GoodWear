@@ -17,6 +17,7 @@ const TabScreen = () => {
         name="Front"
         options={{
           tabBarLabel: 'Home',
+          headerShown: false,
         }}
         component={Home}
       />
