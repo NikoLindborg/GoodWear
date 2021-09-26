@@ -6,6 +6,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {MainContext} from '../contexts/MainContext';
 import Login from '../views/Login';
+import Profile from '../views/Profile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -20,6 +21,14 @@ const TabScreen = () => {
           headerShown: false,
         }}
         component={Home}
+      />
+      <Tab.Screen
+        name="Profile"
+        options={{
+          tabBarLabel: 'Profile',
+          headerShown: false,
+        }}
+        component={Profile}
       />
     </Tab.Navigator>
   );
