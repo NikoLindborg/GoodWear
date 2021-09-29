@@ -3,15 +3,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
 import {Text, Card} from 'react-native-elements';
-import {RobotoCondensed_400Regular} from '@expo-google-fonts/roboto-condensed';
 
 const ListItem = ({singleMedia, navigation}) => {
   return (
     <TouchableOpacity
       style={{alignItems: 'center'}}
+      navigation={navigation}
       onPress={() => {
-        //  navigation.navigate('Single', singleMedia);
-        //  TODO: singleitem navigation
+        navigation.navigate('SingleItem', {
+          filename: singleMedia.filename,
+          title: singleMedia.title,
+          description: singleMedia.description,
+          time_added: singleMedia.time_added,
+        });
       }}
     >
       <Card wrapperStyle={styles.card}>

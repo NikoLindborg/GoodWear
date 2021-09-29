@@ -3,10 +3,11 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import Home from '../views/Home';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
 import {MainContext} from '../contexts/MainContext';
 import Login from '../views/Login';
 import Upload from '../views/Upload';
+import SingleItem from '../views/SingleItem';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -41,6 +42,7 @@ const StackScreen = () => {
       {isLoggedIn ? (
         <>
           <Stack.Screen name="Home" component={TabScreen} />
+          <Stack.Screen name="SingleItem" component={SingleItem} />
         </>
       ) : (
         <>

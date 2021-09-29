@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
-
-import {Platform, ScrollView, StyleSheet, View} from 'react-native';
+import {Platform, StyleSheet, ScrollView, View} from 'react-native';
 import {Image, Text} from 'react-native-elements';
 import List from '../components/List';
+import fontStyles from '../utils/fontStyles';
 
 const Home = ({navigation}) => {
   return (
@@ -18,11 +18,11 @@ const Home = ({navigation}) => {
           <Text style={styles.headerFont}>
             {'\n'}Hello user!{'\n'}
           </Text>
-          <Text style={styles.basicFont}>
+          <Text style={fontStyles.regularFont}>
             Scroll to find the latest items in Goodwear or add categories that
             you are looking for{'\n'}
           </Text>
-          <Text style={styles.basicFont}>
+          <Text style={fontStyles.regularFont}>
             Edit or add to your watchlist{'\n'}
           </Text>
         </View>
@@ -31,7 +31,7 @@ const Home = ({navigation}) => {
         <View style={styles.textBar}>
           <Text style={styles.headerFont}>Newest in clothing</Text>
         </View>
-        <List style={styles.list} navigation={navigation} />
+        <List navigation={navigation} />
       </View>
 
       <View style={styles.divider} />
@@ -40,21 +40,18 @@ const Home = ({navigation}) => {
         <View style={styles.textBarGreen}>
           <Text style={styles.headerFont}>Newest in clothing</Text>
         </View>
-        <List style={styles.list} navigation={navigation} />
+        <List navigation={navigation} />
       </View>
     </ScrollView>
   );
 };
+
 const styles = StyleSheet.create({
   droidSafeArea: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 25 : 0,
     backgroundColor: '#FFF',
     alignItems: 'center',
-  },
-  image: {
-    width: 200,
-    height: 300,
   },
   textBar: {
     backgroundColor: '#F4F1DE',
@@ -89,7 +86,6 @@ const styles = StyleSheet.create({
     height: 100,
     resizeMode: 'contain',
   },
-  list: {},
   introBox: {
     alignSelf: 'center',
     padding: 10,
@@ -97,9 +93,6 @@ const styles = StyleSheet.create({
   headerFont: {
     fontFamily: 'RobotoCondensed_700Bold',
     fontSize: 24,
-  },
-  basicFont: {
-    fontFamily: 'RobotoCondensed_400Regular',
   },
   divider: {
     margin: 50,
