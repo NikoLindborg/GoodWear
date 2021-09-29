@@ -7,6 +7,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {MainContext} from '../contexts/MainContext';
 import Login from '../views/Login';
 import Profile from '../views/Profile';
+import Settings from '../views/Settings';
+import ModifyUser from '../views/ModifyUser';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -41,6 +43,8 @@ const StackScreen = () => {
       {isLoggedIn ? (
         <>
           <Stack.Screen name="Home" component={TabScreen} />
+          <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="ModifyUser" component={ModifyUser} />
         </>
       ) : (
         <>
