@@ -6,6 +6,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {MainContext} from '../contexts/MainContext';
 import Login from '../views/Login';
+import Upload from '../views/Upload';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -20,6 +21,14 @@ const TabScreen = () => {
           headerShown: false,
         }}
         component={Home}
+      />
+      <Tab.Screen
+        name="Upload"
+        options={{
+          tabBarLabel: 'Upload',
+          headerShown: false,
+        }}
+        component={Upload}
       />
     </Tab.Navigator>
   );

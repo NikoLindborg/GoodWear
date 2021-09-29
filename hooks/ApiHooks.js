@@ -1,8 +1,8 @@
-
 import {useEffect, useState, useContext} from 'react';
 import {doFetch} from '../utils/http';
 import {appId, baseUrl} from '../utils/variables';
 import {MainContext} from '../contexts/MainContext';
+import axios from 'axios';
 
 const useMedia = (ownFiles = false) => {
   const [mediaArray, setMediaArray] = useState([]);
@@ -36,10 +36,32 @@ const useMedia = (ownFiles = false) => {
     }
   };
 
+  const uploadMedia = async (formData, token) => {
+    try {
+      // setLoading(true);
+      const options = {
+        method: 'POST',
+        headers: {
+          'x-access-token': token,
+        },
+        data: formData,
+      };
+      const result = await axios(baseUrl + 'media/', options);
+      console.log('axios', result.data);
+      return result.data;
+    } catch (e) {
+      console.log('uploadmedia', e);
+      throw new Error(e.message);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
   return {
     mediaArray,
     loadSingleMedia,
     loadMedia,
+    uploadMedia,
   };
 };
 
@@ -60,7 +82,7 @@ const useUser = () => {
     };
     try {
       const response = await doFetch(baseUrl + 'users', fetchOptions);
-      console.log(response)
+      console.log(response);
       return response;
     } catch (e) {
       console.log('ApiHooks register', e.message);
@@ -116,4 +138,37 @@ const useLogin = () => {
   return {login};
 };
 
-export {useUser, useLogin, useMedia};
+const useTag = () => {
+  const getFilesByTag = async (tag) => {
+    try {
+      const tagList = await doFetch(baseUrl + 'tags/' + tag);
+      return tagList;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
+
+  // eslint-disable-next-line camelcase
+  const addTag = async (file_id, tag, token) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({file_id, tag}),
+    };
+    try {
+      console.log('adding tag');
+      const tagResult = await doFetch(baseUrl + 'tags/', options);
+      console.log('tagResult', tagResult);
+      return tagResult;
+    } catch (e) {
+      console.log('add tag error ', e.message);
+      throw new Error(e.message);
+    }
+  };
+  return {getFilesByTag, addTag};
+};
+
+export {useUser, useLogin, useMedia, useTag};

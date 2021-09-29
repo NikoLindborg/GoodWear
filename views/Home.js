@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {FlatList, Platform, ScrollView, StyleSheet, View} from 'react-native';
+import {Platform, ScrollView, StyleSheet, View} from 'react-native';
 import {Image, Text} from 'react-native-elements';
 import List from '../components/List';
 
@@ -44,7 +44,7 @@ const Home = ({navigation}) => {
       </View>
     </ScrollView>
   );
-  }
+};
 const styles = StyleSheet.create({
   droidSafeArea: {
     flex: 1,
