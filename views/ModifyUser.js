@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {Alert, StyleSheet} from 'react-native';
+import React, {useContext} from 'react';
+import {Alert, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {Button, Card, Input, ListItem, Text} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
@@ -35,44 +35,41 @@ const ModifyUser = ({navigation}) => {
         flex: 0,
       }}
     >
-      <ListItem
-        containerStyle={{
-          alignSelf: 'flex-end',
-          height: 50,
-          width: 50,
-        }}
-      ></ListItem>
-
-      <ListItem>
-        <Text style={styles.basicFont}>username: </Text>
-        <Input
-          autoCapitalize="none"
-          onChangeText={(txt) => handleInputChange('username', txt)}
-          onEndEditing={(event) => {
-            checkUserAvailable(event.nativeEvent.text);
-            handleInputEnd('username', event.nativeEvent.text);
-          }}
-          errorMessage={editErrors.username}
-        >
-          {user.username}
-        </Input>
-      </ListItem>
-      <ListItem>
-        <Text style={styles.basicFont}>email: </Text>
-        <Input
-          autoCapitalize="none"
-          onChangeText={(txt) => handleInputChange('email', txt)}
-          onEndEditing={(event) => {
-            handleInputEnd('email', event.nativeEvent.text);
-          }}
-        >
-          {user.email}
-        </Input>
-      </ListItem>
+      <View style={{height: 300, maxWidth: '80%'}}>
+        <ListItem>
+          <View style={{width: '35%'}}>
+            <Text style={styles.basicFont}>username: </Text>
+          </View>
+          <Input
+            autoCapitalize="none"
+            onChangeText={(txt) => handleInputChange('username', txt)}
+            onEndEditing={(event) => {
+              checkUserAvailable(event.nativeEvent.text);
+              handleInputEnd('username', event.nativeEvent.text);
+            }}
+            errorMessage={editErrors.username}
+          >
+            {user.username}
+          </Input>
+        </ListItem>
+        <ListItem>
+          <View style={{width: '35%'}}>
+            <Text style={styles.basicFont}>email: </Text>
+          </View>
+          <Input
+            autoCapitalize="none"
+            onChangeText={(txt) => handleInputChange('email', txt)}
+            onEndEditing={(event) => {
+              handleInputEnd('email', event.nativeEvent.text);
+            }}
+          >
+            {user.email}
+          </Input>
+        </ListItem>
+      </View>
       <Button
-        raised
         title="Save Changes"
-        containerStyle={{width: 100, height: 100}}
+        buttonStyle={{width: 200, height: 100, alignSelf: 'center'}}
         onPress={editUserInfo}
       ></Button>
     </Card>

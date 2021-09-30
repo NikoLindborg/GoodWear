@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {Avatar, Card, ListItem, Text} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
@@ -22,9 +22,13 @@ const Settings = ({navigation}) => {
     >
       <ListItem
         containerStyle={{
-          alignSelf: 'flex-end',
           height: 50,
           width: 50,
+          justifyContent: 'center',
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          zIndex: 1,
         }}
       >
         <Avatar
@@ -40,12 +44,14 @@ const Settings = ({navigation}) => {
         />
       </ListItem>
 
-      <ListItem>
-        <Text style={styles.basicFont}>username: {user.username}</Text>
-      </ListItem>
-      <ListItem>
-        <Text style={styles.basicFont}>email: {user.email}</Text>
-      </ListItem>
+      <View style={{height: 500}}>
+        <ListItem>
+          <Text style={styles.basicFont}>Username: {user.username}</Text>
+        </ListItem>
+        <ListItem>
+          <Text style={styles.basicFont}>Email: {user.email}</Text>
+        </ListItem>
+      </View>
       <Card.Divider />
       <ListItem onPress={logout}>
         <Avatar icon={{name: 'logout', color: 'black'}} />
