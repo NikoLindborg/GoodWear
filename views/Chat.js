@@ -4,14 +4,13 @@ import {GiftedChat} from 'react-native-gifted-chat';
 import PropTypes from 'prop-types';
 import 'firebase/firestore';
 import firebase from 'firebase';
+import {firebaseConfig} from '../firebaseConfig';
 
 const Chat = (chatUserIds) => {
   const {user} = useContext(MainContext);
   const chatId = chatUserIds.route.params.chatId;
   const productTitle = chatUserIds.route.params.subject;
   const chatAvatar = chatUserIds.route.params.filename;
-
-
 
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
