@@ -115,7 +115,24 @@ const useUser = () => {
     }
   };
 
-  return {checkUserName, register, checkToken};
+  const editUser = async (userInfo, token) => {
+    console.log('Apihooks - editUser', userInfo);
+    const options = {
+      method: 'PUT',
+      headers: {'x-access-token': token, 'Content-Type': 'application/json'},
+      body: JSON.stringify(userInfo),
+    };
+    try {
+      const response = await doFetch(baseUrl + 'users', options);
+      console.log(response);
+      return response;
+    } catch (e) {
+      console.log('ApiHooks - editUser', e.message);
+      return false;
+    }
+  };
+
+  return {checkUserName, register, checkToken, editUser};
 };
 
 const useLogin = () => {
