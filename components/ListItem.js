@@ -15,6 +15,7 @@ const ListItem = ({singleMedia, navigation}) => {
           title: singleMedia.title,
           description: singleMedia.description,
           time_added: singleMedia.time_added,
+          user_id: singleMedia.user_id,
         });
       }}
     >

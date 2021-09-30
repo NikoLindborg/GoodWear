@@ -1,13 +1,25 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {Text, Image, View, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {uploadsUrl} from '../utils/variables';
 import {Button} from 'react-native-elements';
 import fontStyles from '../utils/fontStyles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {MainContext} from '../contexts/MainContext';
 
 const SingleItem = ({route, navigation}) => {
-  const {filename, title, description} = route.params;
+  const {setIsLoggedIn, user} = useContext(MainContext);
+  const logout = async () => {
+    await AsyncStorage.clear();
+    setIsLoggedIn(false);
+  };
+  const setChatId = (firstId, secondId) => {
+    const chatId =
+      Math.min(firstId, secondId) + '_' + Math.max(firstId, secondId);
+    return chatId;
+  };
+  const {filename, title, description, user_id} = route.params;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.item}>
@@ -25,7 +37,13 @@ const SingleItem = ({route, navigation}) => {
           buttonStyle={styles.buttonRed}
           titleStyle={fontStyles.boldFont}
           onPress={() => {
-            navigation.navigate('Home');
+            navigation.navigate('Chat', {
+              chatId: setChatId(user_id, user.user_id),
+              subject: title,
+              filename: filename,
+            });
+            //  Toimiva
+            //  navigation.navigate('Chat', {owner: user_id, buyer: user.user_id});
             //  TODO: navigate to chat
           }}
         />
@@ -34,7 +52,8 @@ const SingleItem = ({route, navigation}) => {
           titleStyle={fontStyles.boldBlackFont}
           title={'Offer'}
           onPress={() => {
-            navigation.navigate('Home');
+            logout();
+            //  navigation.navigate('Home');
             //  TODO: navigate to chat
           }}
         />
