@@ -8,11 +8,10 @@ import firebase from 'firebase';
 import 'firebase/auth';
 import {FlatList, SafeAreaView, Text, TouchableOpacity} from 'react-native';
 import {Avatar, ListItem} from 'react-native-elements';
+import {firebaseConfig} from '../firebaseConfig';
 
 const Messages = ({navigation}) => {
   const {user} = useContext(MainContext);
-
- 
 
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
