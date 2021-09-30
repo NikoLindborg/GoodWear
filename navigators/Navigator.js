@@ -26,18 +26,20 @@ const TabScreen = () => {
         component={Home}
       />
       <Tab.Screen
-        name="Profile"
-        options={{
-          tabBarLabel: 'Profile',
-          headerShown: false,
-        }}
-        component={Profile}
         name="Upload"
         options={{
           tabBarLabel: 'Upload',
           headerShown: false,
         }}
         component={Upload}
+      />
+      <Tab.Screen
+        name="Profile"
+        options={{
+          tabBarLabel: 'Profile',
+          headerShown: false,
+        }}
+        component={Profile}
       />
     </Tab.Navigator>
   );

@@ -100,7 +100,7 @@ const useUser = () => {
       const userInfo = await doFetch(baseUrl + 'users/user', options);
       return userInfo;
     } catch (e) {
-      console.log('useUser', e);
+      console.log('useUser - checkToken', e);
     }
   };
 
