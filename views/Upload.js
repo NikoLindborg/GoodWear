@@ -58,6 +58,16 @@ const Upload = ({navigation}) => {
         userToken
       );
       const sizeResult = await addTag(result.file_id, inputs.size, userToken);
+      if (inputs.gender === 'unisex') {
+        const menResult = await addTag(result.file_id, 'male', userToken);
+        const femaleResult = await addTag(result.file_id, 'female', userToken);
+      } else {
+        const genderResult = await addTag(
+          result.file_id,
+          inputs.gender,
+          userToken
+        );
+      }
       if (tagResult.message) {
         Alert.alert(
           'Upload',

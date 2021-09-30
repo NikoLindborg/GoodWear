@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+import {View} from 'react-native';
 import FormTextInput from './FormTextInput';
-import {Button} from 'react-native-elements';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {StyleSheet} from 'react-native';
 
-const UploadForm = ({
+const SearchForm = ({
   title,
   handleSubmit,
   handleInputChange,
@@ -40,16 +39,8 @@ const UploadForm = ({
     {label: 'Womens', value: 'female'},
     {label: 'Unisex', value: 'unisex'},
   ]);
-
   return (
     <>
-      <FormTextInput
-        autoCapitalize="none"
-        placeholder="title"
-        onChangeText={(txt) => handleInputChange('title', txt)}
-        errorMessage={uploadErrors.title}
-        value={inputs.title}
-      />
       <DropDownPicker
         open={open}
         value={value}
@@ -85,24 +76,9 @@ const UploadForm = ({
       />
       <FormTextInput
         autoCapitalize="none"
-        placeholder="price"
-        onChangeText={(txt) => handleInputChange('price', txt)}
-        errorMessage={uploadErrors.price}
-        value={inputs.price}
-      />
-      <FormTextInput
-        autoCapitalize="none"
         placeholder="size"
         onChangeText={(txt) => handleInputChange('size', txt)}
-        errorMessage={uploadErrors.size}
         value={inputs.size}
-      />
-      <FormTextInput
-        autoCapitalize="none"
-        placeholder="description"
-        onChangeText={(txt) => handleInputChange('description', txt)}
-        errorMessage={uploadErrors.description}
-        value={inputs.description}
       />
 
       <Button
@@ -118,11 +94,7 @@ const UploadForm = ({
   );
 };
 
-const styles = StyleSheet.create({
-  dropDown: {},
-});
-
-UploadForm.propTypes = {
+SearchForm.propTypes = {
   title: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleInputChange: PropTypes.func.isRequired,
@@ -131,4 +103,4 @@ UploadForm.propTypes = {
   uploadErrors: PropTypes.object,
 };
 
-export default UploadForm;
+export default SearchForm;
