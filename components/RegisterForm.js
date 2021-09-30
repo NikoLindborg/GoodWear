@@ -4,7 +4,7 @@ import {Alert, View} from 'react-native';
 import FormTextInput from './FormTextInput';
 import useSignUpForm from '../hooks/RegisterHooks';
 
-import {Button, Input} from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import {useUser} from '../hooks/ApiHooks';
 
 const RegisterForm = ({navigation}) => {
