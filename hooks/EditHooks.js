@@ -29,15 +29,23 @@ const useEditForm = (callback) => {
   const handleInputEnd = (name, text) => {
     let error;
     error = validator(name, text, constraints);
-    setErrors((editErrors) => {
+    setErrors((errors) => {
       return {
-        ...editErrors,
+        ...errors,
         [name]: error,
       };
     });
   };
 
   const handleInputChange = (name, text) => {
+    let error;
+    error = validator(name, text, constraints);
+    setErrors((errors) => {
+      return {
+        ...errors,
+        [name]: error,
+      };
+    });
     setInputs((inputs) => {
       return {
         ...inputs,
@@ -53,9 +61,9 @@ const useEditForm = (callback) => {
     try {
       const isAvailable = await checkUserName(text);
       if (!isAvailable) {
-        setErrors((editErrors) => {
+        setErrors((errors) => {
           return {
-            ...editErrors,
+            ...errors,
             username: 'Username already exists',
           };
         });
