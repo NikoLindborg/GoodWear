@@ -1,18 +1,37 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, Text, View} from 'react-native';
-import {Avatar, Button, ButtonGroup, Card, colors} from 'react-native-elements';
-import {ScrollView} from 'react-native-gesture-handler';
+import {Avatar, Button, Card} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
 import MyItems from '../components/MyItems';
 import SavedItems from '../components/SavedItems';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useUser} from '../hooks/ApiHooks';
 
 const Profile = ({navigation}) => {
-  const {user} = useContext(MainContext);
   const [selectedView, setSelectedView] = useState(false);
+  const {user, setUser} = useContext(MainContext);
+  const {checkToken} = useUser();
+
+  const getToken = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+
+    if (userToken) {
+      try {
+        const userInfo = await checkToken(userToken);
+        if (userInfo.user_id) {
+          setUser(userInfo);
+        }
+      } catch (e) {
+        console.log('getToken', e);
+      }
+    }
+  };
+
   useEffect(() => {
-    (async () => {})();
+    getToken();
   }, []);
+
 
   return (
     <View style={{flex: 0}}>
@@ -48,10 +67,12 @@ const Profile = ({navigation}) => {
             >
               <Button
                 title="My Items"
+                titleStyle={{color: '#E07A5F'}}
                 raised
                 buttonStyle={{
                   width: 165,
                   height: 60,
+                  backgroundColor: 'white',
                 }}
                 onPress={() => setSelectedView(!selectedView)}
               ></Button>
@@ -88,10 +109,12 @@ const Profile = ({navigation}) => {
               ></Button>
               <Button
                 title="Saved Items"
+                titleStyle={{color: '#E07A5F'}}
                 raised
                 buttonStyle={{
                   width: 165,
                   height: 60,
+                  backgroundColor: 'white',
                 }}
                 onPress={() => setSelectedView(!selectedView)}
               ></Button>

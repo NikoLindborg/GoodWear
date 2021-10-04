@@ -8,7 +8,7 @@ import {useUser} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ModifyUser = ({navigation}) => {
-  const {user} = useContext(MainContext);
+  const {user, setUser} = useContext(MainContext);
   const {
     handleInputChange,
     handleInputEnd,
@@ -16,15 +16,31 @@ const ModifyUser = ({navigation}) => {
     checkUserAvailable,
     editErrors,
   } = useEditForm();
-  const {editUser} = useUser();
+  const {editUser, checkToken} = useUser();
 
   const editUserInfo = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-    const serverResponse = await editUser(inputs, userToken);
-    if (serverResponse) {
-      Alert.alert(serverResponse.message);
-    } else {
-      Alert.alert('Edit failed');
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      const result = await editUser(inputs, userToken);
+      if (result.message) {
+        try {
+          const userDetails = await checkToken(userToken);
+          console.log(userDetails);
+          if (userDetails) {
+            setUser(userDetails);
+            navigation.navigate('Settings');
+          } else {
+            console.log('EditUserInfo setUser failed');
+          }
+        } catch (e) {
+          console.log(e.message);
+        }
+        Alert.alert(result.message);
+      } else {
+        Alert.alert('Edit failed');
+      }
+    } catch (e) {
+      console.log(e.message);
     }
   };
 
