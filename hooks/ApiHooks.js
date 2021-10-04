@@ -185,7 +185,19 @@ const useTag = () => {
       throw new Error(e.message);
     }
   };
-  return {getFilesByTag, addTag};
+
+  // eslint-disable-next-line camelcase
+  const getPostTags = async (file_id) => {
+    try {
+      const postTagsResult = await doFetch(baseUrl + 'tags/file/' + file_id);
+      return postTagsResult;
+    } catch (e) {
+      console.log('getPtostTags error ', e.message);
+      throw new Error(e.message);
+    }
+
+  }
+  return {getFilesByTag, addTag, getPostTags};
 };
 
 export {useUser, useLogin, useMedia, useTag};
