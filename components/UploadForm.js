@@ -86,7 +86,13 @@ const UploadForm = ({
         errorMessage={uploadErrors.description}
         value={inputs.description}
       />
-
+      <FormTextInput
+        autoCapitalize="none"
+        placeholder="shipping"
+        onChangeText={(txt) => handleInputChange('shipping', txt)}
+        errorMessage={uploadErrors.shipping}
+        value={inputs.shipping}
+      />
       <Button
         raised
         title={title}

@@ -16,6 +16,7 @@ const ListItem = ({singleMedia, navigation}) => {
           description: singleMedia.description,
           time_added: singleMedia.time_added,
           user_id: singleMedia.user_id,
+          file_id: singleMedia.file_id,
         });
       }}
     >
@@ -28,7 +29,7 @@ const ListItem = ({singleMedia, navigation}) => {
           style={styles.image}
         />
         <Text style={{fontFamily: 'RobotoCondensed_400Regular'}}>
-          {singleMedia.description}
+          {JSON.parse(singleMedia.description).description}
         </Text>
       </Card>
     </TouchableOpacity>
