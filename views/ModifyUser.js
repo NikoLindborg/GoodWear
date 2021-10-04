@@ -79,6 +79,7 @@ const ModifyUser = ({navigation}) => {
             onEndEditing={(event) => {
               handleInputEnd('email', event.nativeEvent.text);
             }}
+            errorMessage={errors.email}
           >
             {user.email}
           </FormTextInput>

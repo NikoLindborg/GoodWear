@@ -38,6 +38,14 @@ const useEditForm = (callback) => {
   };
 
   const handleInputChange = (name, text) => {
+    let error;
+    error = validator(name, text, constraints);
+    setErrors((editErrors) => {
+      return {
+        ...editErrors,
+        [name]: error,
+      };
+    });
     setInputs((inputs) => {
       return {
         ...inputs,
