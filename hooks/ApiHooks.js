@@ -100,7 +100,7 @@ const useUser = () => {
       const userInfo = await doFetch(baseUrl + 'users/user', options);
       return userInfo;
     } catch (e) {
-      console.log('useUser', e);
+      console.log('useUser - checkToken', e);
     }
   };
 
@@ -109,13 +109,30 @@ const useUser = () => {
       const availability = await doFetch(
         baseUrl + 'users/username/' + username
       );
-      return availability;
+      return availability.available;
     } catch (e) {
-      throw new Error(e.message);
+      console.log('checkUsername error', e);
     }
   };
 
-  return {checkUserName, register, checkToken};
+  const editUser = async (userInfo, token) => {
+    console.log('Apihooks - editUser', userInfo);
+    const options = {
+      method: 'PUT',
+      headers: {'x-access-token': token, 'Content-Type': 'application/json'},
+      body: JSON.stringify(userInfo),
+    };
+    try {
+      const response = await doFetch(baseUrl + 'users', options);
+      console.log(response);
+      return response;
+    } catch (e) {
+      console.log('ApiHooks - editUser', e.message);
+      return false;
+    }
+  };
+
+  return {checkUserName, register, checkToken, editUser};
 };
 
 const useLogin = () => {
@@ -168,7 +185,19 @@ const useTag = () => {
       throw new Error(e.message);
     }
   };
-  return {getFilesByTag, addTag};
+
+  // eslint-disable-next-line camelcase
+  const getPostTags = async (file_id) => {
+    try {
+      const postTagsResult = await doFetch(baseUrl + 'tags/file/' + file_id);
+      return postTagsResult;
+    } catch (e) {
+      console.log('getPtostTags error ', e.message);
+      throw new Error(e.message);
+    }
+
+  }
+  return {getFilesByTag, addTag, getPostTags};
 };
 
 export {useUser, useLogin, useMedia, useTag};

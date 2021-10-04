@@ -14,10 +14,6 @@ import {KeyboardAvoidingView} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native';
 import {Keyboard} from 'react-native';
 import {ScrollView} from 'react-native';
-import {
-  BottomTabBarHeightContext,
-  useBottomTabBarHeight,
-} from '@react-navigation/bottom-tabs';
 
 const Upload = ({navigation}) => {
   const [image, setImage] = useState();
@@ -38,7 +34,7 @@ const Upload = ({navigation}) => {
     const formData = new FormData();
     const fullData = {
       description: inputs.description,
-      price: inputs.price,
+      shipping: inputs.shipping,
     };
     formData.append('file', {uri: image.uri, name: filename, type});
     formData.append('title', inputs.title);
@@ -68,6 +64,7 @@ const Upload = ({navigation}) => {
           userToken
         );
       }
+      const priceResult = await addTag(result.file_id, inputs.price, userToken);
       if (tagResult.message) {
         Alert.alert(
           'Upload',

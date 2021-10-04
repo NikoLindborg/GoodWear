@@ -15,6 +15,8 @@ const ListItem = ({singleMedia, navigation}) => {
           title: singleMedia.title,
           description: singleMedia.description,
           time_added: singleMedia.time_added,
+          user_id: singleMedia.user_id,
+          file_id: singleMedia.file_id,
         });
       }}
     >
@@ -27,7 +29,7 @@ const ListItem = ({singleMedia, navigation}) => {
           style={styles.image}
         />
         <Text style={{fontFamily: 'RobotoCondensed_400Regular'}}>
-          {singleMedia.description}
+          {JSON.parse(singleMedia.description).description}
         </Text>
       </Card>
     </TouchableOpacity>
@@ -36,7 +38,7 @@ const ListItem = ({singleMedia, navigation}) => {
 
 ListItem.propTypes = {
   singleMedia: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
+  navigation: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
