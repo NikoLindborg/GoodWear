@@ -1,11 +1,12 @@
 import React, {useContext} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
-import {Button, Card, Input, ListItem, Text} from 'react-native-elements';
+import {Button, Card, ListItem, Text} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
 import useEditForm from '../hooks/EditHooks';
 import {useUser} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FormTextInput from '../components/FormTextInput';
 
 const ModifyUser = ({navigation}) => {
   const {user, setUser} = useContext(MainContext);
@@ -13,8 +14,8 @@ const ModifyUser = ({navigation}) => {
     handleInputChange,
     handleInputEnd,
     inputs,
-    checkUserAvailable,
-    editErrors,
+    checkUsernameAvailable,
+    errors,
   } = useEditForm();
   const {editUser, checkToken} = useUser();
 
@@ -56,23 +57,23 @@ const ModifyUser = ({navigation}) => {
           <View style={{width: '35%'}}>
             <Text style={styles.basicFont}>username: </Text>
           </View>
-          <Input
+          <FormTextInput
             autoCapitalize="none"
             onChangeText={(txt) => handleInputChange('username', txt)}
             onEndEditing={(event) => {
-              checkUserAvailable(event.nativeEvent.text);
+              checkUsernameAvailable(event.nativeEvent.text);
               handleInputEnd('username', event.nativeEvent.text);
             }}
-            errorMessage={editErrors.username}
+            errorMessage={errors.username}
           >
             {user.username}
-          </Input>
+          </FormTextInput>
         </ListItem>
         <ListItem>
           <View style={{width: '35%'}}>
             <Text style={styles.basicFont}>email: </Text>
           </View>
-          <Input
+          <FormTextInput
             autoCapitalize="none"
             onChangeText={(txt) => handleInputChange('email', txt)}
             onEndEditing={(event) => {
@@ -80,13 +81,14 @@ const ModifyUser = ({navigation}) => {
             }}
           >
             {user.email}
-          </Input>
+          </FormTextInput>
         </ListItem>
       </View>
       <Button
         title="Save Changes"
         buttonStyle={{width: 200, height: 100, alignSelf: 'center'}}
         onPress={editUserInfo}
+        disabled={errors.username || errors.email}
       ></Button>
     </Card>
   );

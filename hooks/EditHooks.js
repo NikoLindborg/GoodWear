@@ -13,9 +13,7 @@ const constraints = {
     },
   },
   email: {
-    presence: {
-      message: 'cannot be empty',
-    },
+    presence: true,
     email: {
       message: 'is not valid',
     },
@@ -26,16 +24,12 @@ const useEditForm = (callback) => {
   const {checkUserName} = useUser();
   const [inputs, setInputs] = useState({});
 
-  const [editErrors, setEditErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
-  const handleInputEnd = (name, text, input) => {
-    if (text === '') {
-      text = null;
-      return;
-    }
+  const handleInputEnd = (name, text) => {
     let error;
-
-    setEditErrors((editErrors) => {
+    error = validator(name, text, constraints);
+    setErrors((editErrors) => {
       return {
         ...editErrors,
         [name]: error,
@@ -52,37 +46,30 @@ const useEditForm = (callback) => {
     });
   };
 
-  const checkUserAvailable = async (text) => {
+  const checkUsernameAvailable = async (text) => {
     if (text.length < 3) {
       return;
     }
     try {
-      const result = await checkUserName(text);
-      if (!result.available) {
-        setEditErrors((registerErrors) => {
+      const isAvailable = await checkUserName(text);
+      if (!isAvailable) {
+        setErrors((editErrors) => {
           return {
-            ...registerErrors,
+            ...editErrors,
             username: 'Username already exists',
           };
         });
-      } else {
-        setEditErrors((registerErrors) => {
-          return {
-            ...registerErrors,
-            username: null,
-          };
-        });
       }
-    } catch (error) {
-      console.error('reg checkUserAvailable', error);
+    } catch (e) {
+      console.error('username check failed', e);
     }
   };
 
   return {
     handleInputChange,
     inputs,
-    checkUserAvailable,
-    editErrors,
+    checkUsernameAvailable,
+    errors,
     handleInputEnd,
   };
 };
