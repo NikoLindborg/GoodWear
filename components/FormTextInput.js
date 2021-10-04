@@ -6,6 +6,8 @@ const FormTextInput = ({style, ...otherProps}) => {
   return <Input {...otherProps} />;
 };
 
-FormTextInput.propTypes = {};
+FormTextInput.propTypes = {
+  style: PropTypes.object,
+};
 
 export default FormTextInput;

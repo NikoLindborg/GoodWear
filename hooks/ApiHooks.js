@@ -109,9 +109,9 @@ const useUser = () => {
       const availability = await doFetch(
         baseUrl + 'users/username/' + username
       );
-      return availability;
+      return availability.available;
     } catch (e) {
-      throw new Error(e.message);
+      console.log('checkUsername error', e);
     }
   };
 
