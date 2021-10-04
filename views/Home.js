@@ -5,8 +5,10 @@ import {Platform, StyleSheet, ScrollView, View} from 'react-native';
 import {Image, Text} from 'react-native-elements';
 import List from '../components/List';
 import fontStyles from '../utils/fontStyles';
+import {MainContext} from '../contexts/MainContext';
 
 const Home = ({navigation}) => {
+  const {user} = useContext(MainContext);
   return (
     <ScrollView style={{paddingTop: 0, marginTop: 0}}>
       <SafeAreaView style={styles.droidSafeArea}>
@@ -16,7 +18,7 @@ const Home = ({navigation}) => {
         />
         <View style={styles.introBox}>
           <Text style={styles.headerFont}>
-            {'\n'}Hello user!{'\n'}
+            {'\n'}Hello {user.username}!{'\n'}
           </Text>
           <Text style={fontStyles.regularFont}>
             Scroll to find the latest items in Goodwear or add categories that
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
     height: 450,
   },
   topImage: {
+    marginTop: 50,
     width: 400,
     height: 100,
     resizeMode: 'contain',
