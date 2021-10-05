@@ -1,17 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
-import {useMedia} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContext';
 
-const List = ({navigation}) => {
-  const {mediaArray} = useMedia();
+const List = ({navigation, isHorizontal, data}) => {
   return (
     <FlatList
-      data={mediaArray.reverse()}
+      data={data}
       style={{alignItems: 'center'}}
       keyExtractor={(item, index) => index.toString()}
-      horizontal
+      horizontal={isHorizontal}
       renderItem={({item}) => (
         <ListItem navigation={navigation} singleMedia={item} />
       )}
@@ -21,6 +20,8 @@ const List = ({navigation}) => {
 
 List.propTypes = {
   navigation: PropTypes.object,
+  isHorizontal: PropTypes.bool,
+  data: PropTypes.array,
 };
 
 export default List;

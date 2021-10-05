@@ -12,6 +12,7 @@ import Upload from '../views/Upload';
 import SingleItem from '../views/SingleItem';
 import Chat from '../views/Chat';
 import Messages from '../views/Messages';
+import ProductList from '../views/ProductList';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -28,28 +29,28 @@ const TabScreen = () => {
         component={Home}
       />
       <Tab.Screen
-          name="Upload"
-          options={{
-            tabBarLabel: 'Upload',
-            headerShown: false,
-          }}
-          component={Upload}
-        />
-        <Tab.Screen
-          name="Messages"
-          options={{
-            tabBarLabel: 'Messages',
-          }}
-          component={Messages}
-        />
-        <Tab.Screen
-          name="Profile"
-          options={{
-            tabBarLabel: 'Profile',
-            headerShown: false,
-          }}
-          component={Profile}
-        />
+        name="Upload"
+        options={{
+          tabBarLabel: 'Upload',
+          headerShown: false,
+        }}
+        component={Upload}
+      />
+      <Tab.Screen
+        name="Messages"
+        options={{
+          tabBarLabel: 'Messages',
+        }}
+        component={Messages}
+      />
+      <Tab.Screen
+        name="Profile"
+        options={{
+          tabBarLabel: 'Profile',
+          headerShown: false,
+        }}
+        component={Profile}
+      />
     </Tab.Navigator>
   );
 };
@@ -72,6 +73,7 @@ const StackScreen = () => {
           <Stack.Screen name="ModifyUser" component={ModifyUser} />
           <Stack.Screen name="SingleItem" component={SingleItem} />
           <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="ProductList" component={ProductList} />
         </>
       ) : (
         <>
