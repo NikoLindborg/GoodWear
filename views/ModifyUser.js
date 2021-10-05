@@ -24,7 +24,6 @@ const ModifyUser = ({navigation}) => {
       const userToken = await AsyncStorage.getItem('userToken');
       const result = await editUser(inputs, userToken);
       if (result.message) {
-        console.log('haha', result.message)
         try {
           const userDetails = await checkToken(userToken);
           console.log(userDetails);

@@ -11,11 +11,7 @@ const MyItems = ({navigation}) => {
     <FlatList
       data={mediaArray.reverse()}
       renderItem={({item}) => (
-        <ListItem
-          singleMedia={item}
-          navigation={navigation}
-          showButtons={true}
-        />
+        <ListItem singleMedia={item} navigation={navigation} />
       )}
       keyExtractor={(item, index) => index.toString()}
     />

@@ -86,7 +86,6 @@ const Profile = ({navigation}) => {
                 raised
               ></Button>
             </View>
-            <SavedItems />
           </>
         ) : (
           <>

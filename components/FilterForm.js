@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Button} from 'react-native-elements';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -6,8 +6,10 @@ import {StyleSheet} from 'react-native';
 import useFilterForm from '../hooks/FilterHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContext';
 
 const FilterForm = () => {
+  const {setUser} = useContext(MainContext);
   const {inputs, handleInputChange} = useFilterForm();
   const {editUser} = useUser();
   const [open, setOpen] = useState(false);
@@ -23,6 +25,23 @@ const FilterForm = () => {
     {label: 'Skirts', value: 'skirts'},
   ]);
 
+  const {checkToken} = useUser();
+
+  const getToken = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+
+    if (userToken) {
+      try {
+        const userInfo = await checkToken(userToken);
+        if (userInfo.user_id) {
+          setUser(userInfo);
+        }
+      } catch (e) {
+        console.log('getToken', e);
+      }
+    }
+  };
+
   const addFilteredItems = async (inputs) => {
     const filteredItems = {
       full_name: 'testi',
@@ -33,7 +52,12 @@ const FilterForm = () => {
       const userToken = await AsyncStorage.getItem('userToken');
       if (userToken) {
         const result = await editUser(data, userToken);
-        console.log('filterform - addfiltered items', result);
+        if (result) {
+          setUser(data);
+          getToken();
+        } else {
+          console.log('Add filters failed');
+        }
       }
     } catch (e) {
       console.log(e.message);
@@ -53,12 +77,9 @@ const FilterForm = () => {
         setValue={setValue}
         setItems={setItems}
         onChangeValue={(value) => handleInputChange('category', value)}
-        zIndex={3000}
-        zIndexInverse={1000}
       />
 
       <Button
-        raised
         title="Add filters"
         onPress={() => {
           addFilteredItems(inputs);
@@ -67,10 +88,6 @@ const FilterForm = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  dropDown: {},
-});
 
 FilterForm.propTypes = {};
 

@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const useMedia = (ownFiles = false) => {
   const [mediaArray, setMediaArray] = useState([]);
-  const {update} = useContext(MainContext);
+  const {update, user} = useContext(MainContext);
 
   useEffect(() => {
     (async () => {
@@ -16,7 +16,12 @@ const useMedia = (ownFiles = false) => {
 
   const loadMedia = async () => {
     try {
-      const mediaWithoutThumbnails = await doFetch(baseUrl + 'tags/' + appId);
+      let mediaWithoutThumbnails = await doFetch(baseUrl + 'tags/' + appId);
+      if (ownFiles) {
+        mediaWithoutThumbnails = mediaWithoutThumbnails.filter(
+          (item) => item.user_id === user.user_id
+        );
+      }
       const allMedia = mediaWithoutThumbnails.map(async (media) => {
         return await loadSingleMedia(media.file_id);
       });
