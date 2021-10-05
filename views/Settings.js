@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {Avatar, Card, ListItem, Text} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FilterForm from '../components/FilterForm';
 
 const Settings = ({navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
@@ -11,6 +12,13 @@ const Settings = ({navigation}) => {
   const logout = async () => {
     await AsyncStorage.clear();
     setIsLoggedIn(false);
+  };
+
+  const filters = () =>{
+    const allData = JSON.parse(user.full_name);
+    const items = allData.items;
+    console.log('kama', items);
+    return items;
   };
 
   return (
@@ -44,7 +52,7 @@ const Settings = ({navigation}) => {
         />
       </ListItem>
 
-      <View style={{height: 500}}>
+      <View style={{height: 150}}>
         <ListItem>
           <Text style={styles.basicFont}>Username: {user.username}</Text>
         </ListItem>
@@ -53,6 +61,12 @@ const Settings = ({navigation}) => {
         </ListItem>
       </View>
       <Card.Divider />
+      <View style={{height: 300}}>
+        <FilterForm />
+      </View>
+      <View style={{height: 100}}>
+        <Text>{filters()}</Text>
+      </View>
       <ListItem onPress={logout}>
         <Avatar icon={{name: 'logout', color: 'black'}} />
         <ListItem.Content>

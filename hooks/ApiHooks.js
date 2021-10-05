@@ -124,7 +124,7 @@ const useUser = () => {
     };
     try {
       const response = await doFetch(baseUrl + 'users', options);
-      console.log(response);
+      console.log('edituser response', response);
       return response;
     } catch (e) {
       console.log('ApiHooks - editUser', e.message);
