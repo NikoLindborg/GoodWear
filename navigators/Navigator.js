@@ -12,6 +12,7 @@ import Upload from '../views/Upload';
 import SingleItem from '../views/SingleItem';
 import Chat from '../views/Chat';
 import Messages from '../views/Messages';
+import Search from '../views/Search';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -28,28 +29,36 @@ const TabScreen = () => {
         component={Home}
       />
       <Tab.Screen
-          name="Upload"
-          options={{
-            tabBarLabel: 'Upload',
-            headerShown: false,
-          }}
-          component={Upload}
-        />
-        <Tab.Screen
-          name="Messages"
-          options={{
-            tabBarLabel: 'Messages',
-          }}
-          component={Messages}
-        />
-        <Tab.Screen
-          name="Profile"
-          options={{
-            tabBarLabel: 'Profile',
-            headerShown: false,
-          }}
-          component={Profile}
-        />
+        name="Search"
+        options={{
+          tabBarLabel: 'Search',
+          headerShown: false,
+        }}
+        component={Search}
+      />
+      <Tab.Screen
+        name="Upload"
+        options={{
+          tabBarLabel: 'Upload',
+          headerShown: false,
+        }}
+        component={Upload}
+      />
+      <Tab.Screen
+        name="Messages"
+        options={{
+          tabBarLabel: 'Messages',
+        }}
+        component={Messages}
+      />
+      <Tab.Screen
+        name="Profile"
+        options={{
+          tabBarLabel: 'Profile',
+          headerShown: false,
+        }}
+        component={Profile}
+      />
     </Tab.Navigator>
   );
 };

@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import FormTextInput from './FormTextInput';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {Button} from 'react-native-elements';
 
 const SearchForm = ({
   title,
   handleSubmit,
   handleInputChange,
   loading,
-  uploadErrors,
-  inputs,
+  filters,
 }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -78,22 +78,12 @@ const SearchForm = ({
         autoCapitalize="none"
         placeholder="size"
         onChangeText={(txt) => handleInputChange('size', txt)}
-        value={inputs.size}
       />
 
-      <Button
-        raised
-        title={title}
-        onPress={handleSubmit}
-        loading={loading}
-        disabled={
-          uploadErrors.title !== null || uploadErrors.description !== null
-        }
-      />
+      <Button raised title={title} onPress={handleSubmit} loading={loading} />
     </>
   );
 };
-
 SearchForm.propTypes = {
   title: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
