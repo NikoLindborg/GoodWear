@@ -33,7 +33,11 @@ const Home = ({navigation}) => {
         <View style={styles.textBar}>
           <Text style={styles.headerFont}>Newest in clothing</Text>
         </View>
-        <List navigation={navigation} isHorizontal={true} data={mediaArray.reverse()} />
+        <List
+          navigation={navigation}
+          isHorizontal={true}
+          data={mediaArray.reverse()}
+        />
         <Button
           title={'SHOP MORE'}
           buttonStyle={styles.shopMore}

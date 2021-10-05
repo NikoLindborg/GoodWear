@@ -10,13 +10,13 @@ const useMedia = (ownFiles = false) => {
 
   useEffect(() => {
     (async () => {
-      setMediaArray(await loadMedia());
+      setMediaArray(await loadMedia(appId));
     })();
   }, [update]);
 
-  const loadMedia = async () => {
+  const loadMedia = async (tag) => {
     try {
-      const mediaWithoutThumbnails = await doFetch(baseUrl + 'tags/' + appId);
+      const mediaWithoutThumbnails = await doFetch(baseUrl + 'tags/' + tag);
       const allMedia = mediaWithoutThumbnails.map(async (media) => {
         return await loadSingleMedia(media.file_id);
       });

@@ -40,7 +40,7 @@ const constraints = {
   },
 };
 
-const useSignUpForm = (callback) => {
+const useSignUpForm = () => {
   const {checkUserName} = useUser();
   const [inputs, setInputs] = useState({
     username: '',
