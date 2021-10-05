@@ -89,7 +89,6 @@ SearchForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleInputChange: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  inputs: PropTypes.object.isRequired,
   uploadErrors: PropTypes.object,
 };
 

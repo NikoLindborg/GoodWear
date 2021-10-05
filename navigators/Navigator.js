@@ -13,6 +13,8 @@ import SingleItem from '../views/SingleItem';
 import Chat from '../views/Chat';
 import Messages from '../views/Messages';
 import Search from '../views/Search';
+import ProductList from '../views/ProductList';
+import FilteredView from '../views/FilteredView';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -81,6 +83,8 @@ const StackScreen = () => {
           <Stack.Screen name="ModifyUser" component={ModifyUser} />
           <Stack.Screen name="SingleItem" component={SingleItem} />
           <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="ProductList" component={ProductList} />
+          <Stack.Screen name="FilteredView" component={FilteredView} />
         </>
       ) : (
         <>

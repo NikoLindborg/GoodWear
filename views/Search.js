@@ -21,7 +21,6 @@ const Search = ({navigation}) => {
     setUpdate(update + 1);
 
     let filteredList;
-
     if (filters.category) {
       const categoryList = await loadMedia(filters.category);
 
@@ -31,7 +30,6 @@ const Search = ({navigation}) => {
         });
       });
       filteredList = listGettingFiltered;
-      console.log(filteredList);
     }
 
     if (filters.condition) {
@@ -50,7 +48,6 @@ const Search = ({navigation}) => {
       } else {
         filteredList = listGettingFiltered;
       }
-      console.log('distinct ', filteredList);
     }
 
     if (filters.gender) {
