@@ -2,13 +2,13 @@ import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Platform, StyleSheet, ScrollView, View} from 'react-native';
-import {Image, Text} from 'react-native-elements';
+import {Button, Image, Text} from 'react-native-elements';
 import List from '../components/List';
 import fontStyles from '../utils/fontStyles';
 import {MainContext} from '../contexts/MainContext';
 
 const Home = ({navigation}) => {
-  const {user} = useContext(MainContext);
+  const {user, mediaArray} = useContext(MainContext);
   return (
     <ScrollView style={{paddingTop: 0, marginTop: 0}}>
       <SafeAreaView style={styles.droidSafeArea}>
@@ -33,7 +33,16 @@ const Home = ({navigation}) => {
         <View style={styles.textBar}>
           <Text style={styles.headerFont}>Newest in clothing</Text>
         </View>
-        <List navigation={navigation} />
+        <List navigation={navigation} isHorizontal={true} data={mediaArray.reverse()} />
+        <Button
+          title={'SHOP MORE'}
+          buttonStyle={styles.shopMore}
+          titleStyle={fontStyles.boldFont}
+          containerStyle={styles.shopMoreContainer}
+          onPress={() => {
+            navigation.navigate('ProductList', {category: 'accessories'});
+          }}
+        />
       </View>
 
       <View style={styles.divider} />
@@ -42,7 +51,16 @@ const Home = ({navigation}) => {
         <View style={styles.textBarGreen}>
           <Text style={styles.headerFont}>Newest in clothing</Text>
         </View>
-        <List navigation={navigation} />
+        <List navigation={navigation} isHorizontal={true} />
+        <Button
+          title={'SHOP MORE'}
+          buttonStyle={styles.shopMore}
+          titleStyle={fontStyles.boldFont}
+          containerStyle={styles.shopMoreContainer}
+          onPress={() => {
+            navigation.navigate('ProductList', {category: 'jackets'});
+          }}
+        />
       </View>
     </ScrollView>
   );
@@ -82,6 +100,20 @@ const styles = StyleSheet.create({
   postBackgroundEggshell: {
     backgroundColor: '#F4F1DE',
     height: 450,
+  },
+  shopMore: {
+    height: 75,
+    alignSelf: 'center',
+    backgroundColor: '#E07A5F',
+  },
+  shopMoreContainer: {
+    borderRadius: 0,
+    backgroundColor: '#E07A5F',
+    alignSelf: 'center',
+    width: '50%',
+    position: 'absolute',
+    zIndex: 1,
+    bottom: -40,
   },
   topImage: {
     marginTop: 50,

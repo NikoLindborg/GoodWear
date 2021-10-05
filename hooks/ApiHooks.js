@@ -195,9 +195,19 @@ const useTag = () => {
       console.log('getPtostTags error ', e.message);
       throw new Error(e.message);
     }
+  };
 
-  }
-  return {getFilesByTag, addTag, getPostTags};
+  const getListByTag = async (tag) => {
+    try {
+      const listByTag = await doFetch(baseUrl + 'tags/' + tag);
+      return listByTag;
+    } catch (e) {
+      console.log('listByTag error ', e.message);
+      throw new Error(e.message);
+    }
+  };
+
+  return {getFilesByTag, addTag, getPostTags, getListByTag};
 };
 
 export {useUser, useLogin, useMedia, useTag};
