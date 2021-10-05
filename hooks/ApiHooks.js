@@ -185,7 +185,29 @@ const useTag = () => {
       throw new Error(e.message);
     }
   };
-  return {getFilesByTag, addTag};
+
+  // eslint-disable-next-line camelcase
+  const getPostTags = async (file_id) => {
+    try {
+      const postTagsResult = await doFetch(baseUrl + 'tags/file/' + file_id);
+      return postTagsResult;
+    } catch (e) {
+      console.log('getPtostTags error ', e.message);
+      throw new Error(e.message);
+    }
+  };
+
+  const getListByTag = async (tag) => {
+    try {
+      const listByTag = await doFetch(baseUrl + 'tags/' + tag);
+      return listByTag;
+    } catch (e) {
+      console.log('listByTag error ', e.message);
+      throw new Error(e.message);
+    }
+  };
+
+  return {getFilesByTag, addTag, getPostTags, getListByTag};
 };
 
 export {useUser, useLogin, useMedia, useTag};

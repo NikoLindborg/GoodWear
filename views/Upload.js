@@ -38,7 +38,7 @@ const Upload = ({navigation}) => {
     const formData = new FormData();
     const fullData = {
       description: inputs.description,
-      price: inputs.price,
+      shipping: inputs.shipping,
     };
     formData.append('file', {uri: image.uri, name: filename, type});
     formData.append('title', inputs.title);
@@ -58,6 +58,7 @@ const Upload = ({navigation}) => {
         userToken
       );
       const sizeResult = await addTag(result.file_id, inputs.size, userToken);
+      const priceResult = await addTag(result.file_id, inputs.price, userToken);
       if (tagResult.message) {
         Alert.alert(
           'Upload',
