@@ -11,7 +11,15 @@ const MainProvider = (props) => {
   const {mediaArray} = useMedia();
   return (
     <MainContext.Provider
-      value={{isLoggedIn, setIsLoggedIn, user, setUser, update, setUpdate, mediaArray}}
+      value={{
+        isLoggedIn,
+        setIsLoggedIn,
+        user,
+        setUser,
+        update,
+        setUpdate,
+        mediaArray,
+      }}
     >
       {props.children}
     </MainContext.Provider>

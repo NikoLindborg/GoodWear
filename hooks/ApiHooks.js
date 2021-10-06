@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const useMedia = (ownFiles = false) => {
   const [mediaArray, setMediaArray] = useState([]);
-  const {update} = useContext(MainContext);
+  const {update, user} = useContext(MainContext);
 
   useEffect(() => {
     (async () => {
@@ -16,7 +16,12 @@ const useMedia = (ownFiles = false) => {
 
   const loadMedia = async (tag) => {
     try {
-      const mediaWithoutThumbnails = await doFetch(baseUrl + 'tags/' + tag);
+      let mediaWithoutThumbnails = await doFetch(baseUrl + 'tags/' + appId);
+      if (ownFiles) {
+        mediaWithoutThumbnails = mediaWithoutThumbnails.filter(
+          (item) => item.user_id === user.user_id
+        );
+      }
       const allMedia = mediaWithoutThumbnails.map(async (media) => {
         return await loadSingleMedia(media.file_id);
       });
@@ -124,7 +129,7 @@ const useUser = () => {
     };
     try {
       const response = await doFetch(baseUrl + 'users', options);
-      console.log(response);
+      console.log('edituser response', response);
       return response;
     } catch (e) {
       console.log('ApiHooks - editUser', e.message);

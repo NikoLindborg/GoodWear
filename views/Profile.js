@@ -32,7 +32,6 @@ const Profile = ({navigation}) => {
     getToken();
   }, []);
 
-
   return (
     <View style={{flex: 0}}>
       <Card containerStyle={{flex: 0, backgroundColor: '#F4F1DE'}}>
@@ -51,6 +50,7 @@ const Profile = ({navigation}) => {
         <Card.Title>
           <Text h1 style={styles.basicFont}>
             {user.username}
+            {user.full_name.filteredItems}
           </Text>
         </Card.Title>
       </Card>
@@ -86,7 +86,6 @@ const Profile = ({navigation}) => {
                 raised
               ></Button>
             </View>
-            <SavedItems />
           </>
         ) : (
           <>
@@ -119,7 +118,7 @@ const Profile = ({navigation}) => {
                 onPress={() => setSelectedView(!selectedView)}
               ></Button>
             </View>
-            <MyItems />
+            <MyItems navigation={navigation} />
           </>
         )}
       </View>

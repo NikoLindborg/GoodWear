@@ -14,7 +14,16 @@ const MyItems = ({navigation}) => {
         <ListItem
           singleMedia={item}
           navigation={navigation}
-          showButtons={true}
+          onPress={() => {
+            navigation.navigate('SingleItem', {
+              filename: item.filename,
+              title: item.title,
+              description: item.description,
+              time_added: item.time_added,
+              user_id: item.user_id,
+              file_id: item.file_id,
+            });
+          }}
         />
       )}
       keyExtractor={(item, index) => index.toString()}
