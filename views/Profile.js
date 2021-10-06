@@ -118,7 +118,7 @@ const Profile = ({navigation}) => {
                 onPress={() => setSelectedView(!selectedView)}
               ></Button>
             </View>
-            <MyItems />
+            <MyItems navigation={navigation} />
           </>
         )}
       </View>

@@ -76,11 +76,14 @@ const FilterForm = () => {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
+        selectedItemContainerStyle={{
+          backgroundColor: '#E07A5F',
+        }}
         onChangeValue={(value) => handleInputChange('category', value)}
       />
 
       <Button
-        title="Add filters"
+        title="Set filters"
         onPress={() => {
           addFilteredItems(inputs);
         }}
