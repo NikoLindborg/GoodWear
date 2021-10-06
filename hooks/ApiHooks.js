@@ -215,4 +215,55 @@ const useTag = () => {
   return {getFilesByTag, addTag, getPostTags, getListByTag};
 };
 
-export {useUser, useLogin, useMedia, useTag};
+const useFavourite = () => {
+  const [favouriteArray, setFavouriteArray] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      setFavouriteArray(await loadFavourites());
+    })();
+  });
+  // eslint-disable-next-line camelcase
+  const loadFavourites = async (file_id, token) => {
+    const options = {
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(file_id),
+    };
+    try {
+      console.log('get list of favourites');
+      const result = await doFetch(baseUrl + 'favourites', options);
+      console.log('get avourites result', result);
+      return result;
+    } catch (e) {
+      console.log('get favourites error ', e.message);
+      throw new Error(e.message);
+    }
+  };
+
+  // eslint-disable-next-line camelcase
+  const addFavourite = async (file_id, token) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(file_id),
+    };
+    try {
+      console.log('adding favourite');
+      const result = await doFetch(baseUrl + 'favourites', options);
+      console.log('add favourite result', result);
+      return result;
+    } catch (e) {
+      console.log('add favourite error ', e.message);
+      throw new Error(e.message);
+    }
+  };
+
+  return {loadFavourites, addFavourite, favouriteArray};
+};
+export {useUser, useLogin, useMedia, useTag, useFavourite};

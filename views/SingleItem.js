@@ -59,9 +59,7 @@ const SingleItem = ({route, navigation}) => {
             </Text>
             <Text style={fontStyles.regularFont}>Size: {postTags[3].tag}</Text>
             <Text style={fontStyles.regularFont}>Price: {postTags[4].tag}</Text>
-            <Text style={fontStyles.regularFont}>
-              {allData.description}
-            </Text>
+            <Text style={fontStyles.regularFont}>{allData.description}</Text>
             <Text style={fontStyles.regularFont}>{allData.shipping}</Text>
           </View>
           <View style={styles.buttonContainer}>
