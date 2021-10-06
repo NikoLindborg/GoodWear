@@ -5,6 +5,7 @@ import ListItem from './ListItem';
 import {MainContext} from '../contexts/MainContext';
 
 const List = ({navigation, isHorizontal, data}) => {
+  console.log('daatta', data)
   return (
     <FlatList
       data={data}
