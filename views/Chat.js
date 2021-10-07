@@ -11,65 +11,31 @@ const Chat = (chatUserIds) => {
   const chatId = chatUserIds.route.params.chatId;
   const productTitle = chatUserIds.route.params.subject;
   const chatAvatar = chatUserIds.route.params.filename;
+  const lastMessage = new Date();
 
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
 
-  //const sentToUserId = sentToUser.route.params.owner;
-  //const sentByUserId = sentToUser.route.params.buyer;
-
-  //  const chatId = sentByUserId + '_' + sentByUserId;
-  //  console.log('chattiId', chatId);
-
   const db = firebase.firestore();
-  //  Toimiva
-  //  const chatsRef = db.collection('chats');
   const chatsRef = db
     .collection('chats')
     .doc(chatId)
     .collection('chatmessages');
 
-  const username = user.username;
-
-  db.collection('chats').doc(chatId).set({
-    chatId,
-    subject: productTitle,
-    avatar: chatAvatar,
+  db.collection('chats').doc(chatId).update({
+    read: true,
+    readBy: user.username,
   });
+
   const [chatUser, setChatUser] = useState();
   const [messages, setMessages] = useState([]);
-
-  //  Sub-collection for chat's
-  /*  const chatsRef = db
-    .collection('chats')
-    .doc('chatId')
-    .collection('chatmessages');
-  const [chatUser, setChatUser] = useState();
-  const [messages, setMessages] = useState([]);
-
-  db.collection('chats')
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id);
-      });
-    });
-
-  db.collection('chats')
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        console.log('submessage', doc.id);
-      });
-    });*/
 
   useEffect(() => {
     setChatUser({
       _id: user.user_id,
       name: user.username,
       avatar: require('../assets/images/avatar.png'),
-      //sentTo: sentToUserId,
     });
     const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
       const messagesFirestore = querySnapshot
@@ -79,14 +45,6 @@ const Chat = (chatUserIds) => {
           const message = doc.data();
           return {...message, createdAt: message.createdAt.toDate()};
         })
-        //toimiva
-        /*  .filter(
-            (item) =>
-              (item.user._id === sentToUserId &&
-                item.user.sentTo === user.user_id) ||
-              (item.user._id === user.user_id &&
-                item.user.sentTo === sentToUserId)
-          )*/
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
       appendMessages(messagesFirestore);
     });
@@ -105,6 +63,15 @@ const Chat = (chatUserIds) => {
   const handleSend = async (messages) => {
     const writer = messages.map((m) => chatsRef.add(m));
     await Promise.all(writer);
+    db.collection('chats').doc(chatId).set({
+      chatId,
+      subject: productTitle,
+      avatar: chatAvatar,
+      lastMessage: lastMessage,
+      read: false,
+      sentBy: user.username,
+      readBy: user.username,
+    });
   };
 
   return <GiftedChat messages={messages} user={chatUser} onSend={handleSend} />;
