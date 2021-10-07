@@ -14,6 +14,7 @@ import {KeyboardAvoidingView} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native';
 import {Keyboard} from 'react-native';
 import {ScrollView} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const Upload = ({navigation}) => {
   const [image, setImage] = useState();
@@ -113,7 +114,7 @@ const Upload = ({navigation}) => {
     }
   };
   return (
-    <ScrollView>
+    <KeyboardAwareScrollView>
       <KeyboardAvoidingView
         behavior={Platform.os === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
@@ -139,7 +140,7 @@ const Upload = ({navigation}) => {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 const styles = StyleSheet.create({
