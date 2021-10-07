@@ -215,4 +215,64 @@ const useTag = () => {
   return {getFilesByTag, addTag, getPostTags, getListByTag};
 };
 
-export {useUser, useLogin, useMedia, useTag};
+const useFavourite = () => {
+  // eslint-disable-next-line camelcase
+  const loadFavourites = async (token) => {
+    const options = {
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      const result = await doFetch(baseUrl + 'favourites', options);
+      return result;
+    } catch (e) {
+      console.log('get favourites error ', e.message);
+      throw new Error(e.message);
+    }
+  };
+
+  // eslint-disable-next-line camelcase
+  const addFavourite = async (file_id, token) => {
+    try {
+      const options = {
+        method: 'POST',
+        headers: {
+          'x-access-token': token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({file_id: file_id}),
+      };
+      const result = await doFetch(baseUrl + 'favourites', options);
+      return result;
+    } catch (e) {
+      console.log('add favourite error ', e.message);
+      throw new Error(e.message);
+    }
+  };
+
+  // eslint-disable-next-line camelcase
+  const deleteFavourite = async (file_id, token) => {
+    try {
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'x-access-token': token,
+          'Content-Type': 'application/json',
+        },
+      };
+      const result = await doFetch(
+        // eslint-disable-next-line camelcase
+        baseUrl + 'favourites/file/' + file_id,
+        options
+      );
+      return result;
+    } catch (e) {
+      console.log('delete favourite error ', e.message);
+      throw new Error(e.message);
+    }
+  };
+
+  return {loadFavourites, addFavourite, deleteFavourite};
+};
+export {useUser, useLogin, useMedia, useTag, useFavourite};

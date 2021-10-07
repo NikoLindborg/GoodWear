@@ -50,7 +50,6 @@ const Profile = ({navigation}) => {
         <Card.Title>
           <Text h1 style={styles.basicFont}>
             {user.username}
-            {user.full_name.filteredItems}
           </Text>
         </Card.Title>
       </Card>
@@ -86,6 +85,7 @@ const Profile = ({navigation}) => {
                 raised
               ></Button>
             </View>
+            <SavedItems navigation={navigation} />
           </>
         ) : (
           <>
