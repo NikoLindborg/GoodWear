@@ -216,26 +216,15 @@ const useTag = () => {
 };
 
 const useFavourite = () => {
-  const [favouriteArray, setFavouriteArray] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      setFavouriteArray(await loadFavourites());
-    })();
-  });
   // eslint-disable-next-line camelcase
-  const loadFavourites = async (file_id, token) => {
+  const loadFavourites = async (token) => {
     const options = {
       headers: {
         'x-access-token': token,
-        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(file_id),
     };
     try {
-      console.log('get list of favourites');
       const result = await doFetch(baseUrl + 'favourites', options);
-      console.log('get avourites result', result);
       return result;
     } catch (e) {
       console.log('get favourites error ', e.message);
@@ -245,18 +234,16 @@ const useFavourite = () => {
 
   // eslint-disable-next-line camelcase
   const addFavourite = async (file_id, token) => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'x-access-token': token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(file_id),
-    };
     try {
-      console.log('adding favourite');
+      const options = {
+        method: 'POST',
+        headers: {
+          'x-access-token': token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({file_id: file_id}),
+      };
       const result = await doFetch(baseUrl + 'favourites', options);
-      console.log('add favourite result', result);
       return result;
     } catch (e) {
       console.log('add favourite error ', e.message);
@@ -264,6 +251,28 @@ const useFavourite = () => {
     }
   };
 
-  return {loadFavourites, addFavourite, favouriteArray};
+  // eslint-disable-next-line camelcase
+  const deleteFavourite = async (file_id, token) => {
+    try {
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'x-access-token': token,
+          'Content-Type': 'application/json',
+        },
+      };
+      const result = await doFetch(
+        // eslint-disable-next-line camelcase
+        baseUrl + 'favourites/file/' + file_id,
+        options
+      );
+      return result;
+    } catch (e) {
+      console.log('delete favourite error ', e.message);
+      throw new Error(e.message);
+    }
+  };
+
+  return {loadFavourites, addFavourite, deleteFavourite};
 };
 export {useUser, useLogin, useMedia, useTag, useFavourite};

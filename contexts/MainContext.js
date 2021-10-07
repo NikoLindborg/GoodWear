@@ -8,6 +8,7 @@ const MainProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const [update, setUpdate] = useState(0);
+  const [updateFavourite, setUpdateFavourite] = useState(0);
   const {mediaArray} = useMedia();
   return (
     <MainContext.Provider
@@ -19,6 +20,8 @@ const MainProvider = (props) => {
         update,
         setUpdate,
         mediaArray,
+        updateFavourite,
+        setUpdateFavourite,
       }}
     >
       {props.children}
