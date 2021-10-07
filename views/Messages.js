@@ -1,7 +1,6 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {GiftedChat} from 'react-native-gifted-chat';
-import {baseUrl, uploadsUrl} from '../utils/variables';
+import {uploadsUrl} from '../utils/variables';
 import PropTypes from 'prop-types';
 import 'firebase/firestore';
 import firebase from 'firebase';
@@ -9,9 +8,11 @@ import 'firebase/auth';
 import {FlatList, SafeAreaView, Text, TouchableOpacity} from 'react-native';
 import {Avatar, ListItem} from 'react-native-elements';
 import {firebaseConfig} from '../firebaseConfig';
+import {useIsFocused} from '@react-navigation/native';
 
 const Messages = ({navigation}) => {
   const {user} = useContext(MainContext);
+  const isFocused = useIsFocused();
 
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
@@ -20,74 +21,28 @@ const Messages = ({navigation}) => {
   const db = firebase.firestore();
   const chatsRef = db.collection('chats');
 
-  const [chatUser, setChatUser] = useState();
-  const [messages, setMessages] = useState([]);
-
-  /*  const conversationArray = [];
-  const myConvos = [];
-
-  const checkIfMyChat = (array) => {
-    array.filter((item) => {
-      if (item.chatId.includes(user.user_id)) {
-        myConvos.push(item);
-      }
-    });
-  };
-
-  chatsRef.get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      conversationArray.push(doc.data());
-    });
-    checkIfMyChat(conversationArray);
-  });*/
+  const emptyArray = [];
+  const [messagesArray, setMessagesArray] = useState([]);
 
   useEffect(() => {
-    setChatUser({
-      _id: user.user_id,
-      name: user.username,
-      avatar: require('../assets/images/avatar.png'),
-    });
-    const unsubscribe = chatsRef
-      //  .where('user.sentTo', '==', user.user_id)
-      //  .where('user.sentTo', 'array-contains', user.user_id)
-      .onSnapshot((querySnapshot) => {
-        const messagesFirestore = querySnapshot
-          .docChanges()
-          .filter(({type}) => type === 'added')
-          .map(({doc}) => {
-            const message = doc.data();
-            if (message.chatId.includes(user.user_id)) {
-              return {...message};
-            } else {
-              return {};
-            }
-          });
-        appendMessages(
-          messagesFirestore.filter(
-            (message) => JSON.stringify(message) !== '{}'
-          )
-        );
+    (() => {
+      chatsRef.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.id.includes(user.user_id)) {
+            //  emptyArray.push(doc.get("chatId"));
+            emptyArray.push(doc.data());
+            emptyArray.sort((a, b) => b.lastMessage - a.lastMessage);
+          }
+          setMessagesArray(emptyArray);
+        });
       });
-    return () => unsubscribe();
-  }, []);
-
-  const appendMessages = useCallback(
-    (messages) => {
-      setMessages((previousMessages) =>
-        GiftedChat.append(previousMessages, messages)
-      );
-    },
-    [messages]
-  );
-
-  const arrayUniqueByKey = [
-    ...new Map(messages.map((item) => [item.chatId, item])).values(),
-  ];
+    })();
+  }, [isFocused]);
 
   return (
     <SafeAreaView>
       <FlatList
-        data={arrayUniqueByKey}
+        data={messagesArray}
         keyExtractor={(item) => item.chatId}
         renderItem={({item}) => (
           <TouchableOpacity
@@ -105,7 +60,24 @@ const Messages = ({navigation}) => {
                 source={{uri: uploadsUrl + item.avatar}}
                 avatarStyle={{borderRadius: 50}}
               />
-              <Text>{item.subject}</Text>
+              {(item.read === false &&
+                item.sentBy !== user.username &&
+                item.readBy !== user.username) ||
+              (item.read === true &&
+                item.sentBy !== user.username &&
+                item.readBy !== user.username) ? (
+                <>
+                  <Text style={{fontWeight: 'bold'}}>
+                    Product: {item.subject} Buyer: {item.sentBy}
+                  </Text>
+                </>
+              ) : (
+                <>
+                  <Text>
+                    Product: {item.subject} Buyer: {item.sentBy}
+                  </Text>
+                </>
+              )}
             </ListItem>
           </TouchableOpacity>
         )}

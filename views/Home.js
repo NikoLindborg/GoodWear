@@ -72,7 +72,7 @@ const Home = ({navigation}) => {
         <View style={styles.textBarGreen}>
           <Text style={styles.headerFont}>Newest in clothing</Text>
         </View>
-        <List navigation={navigation} isHorizontal={true} />
+        <List navigation={navigation} isHorizontal={true} data={mediaArray.reverse()} />
         <Button
           title={'SHOP MORE'}
           buttonStyle={styles.shopMore}

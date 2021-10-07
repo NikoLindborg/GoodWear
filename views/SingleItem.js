@@ -7,10 +7,11 @@ import {Button} from 'react-native-elements';
 import fontStyles from '../utils/fontStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
-import {useTag} from '../hooks/ApiHooks';
+import {useFavourite, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
-  const {setIsLoggedIn, user} = useContext(MainContext);
+  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite} = useContext(MainContext);
+
   const logout = async () => {
     await AsyncStorage.clear();
     setIsLoggedIn(false);
@@ -24,7 +25,7 @@ const SingleItem = ({route, navigation}) => {
 
   const {getPostTags} = useTag();
   const [postTags, setPostTags] = useState();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState();
   const allData = JSON.parse(description);
 
   const getTags = async () => {
@@ -37,8 +38,56 @@ const SingleItem = ({route, navigation}) => {
     }
   };
 
+  const [favourite, setFavourite] = useState(false);
+  const {addFavourite, deleteFavourite} = useFavourite();
+  const {loadFavourites} = useFavourite();
+
+  const saveItem = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      const result = await addFavourite(file_id, userToken);
+      if (result) {
+        setFavourite(true);
+        setUpdateFavourite(updateFavourite + 1);
+      }
+      return result;
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const removeItem = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      const result = await deleteFavourite(file_id, userToken);
+      if (result) {
+        setFavourite(false);
+      }
+      return result;
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const getFavourites = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      const favouriteArray = await loadFavourites(userToken);
+      if (favouriteArray) {
+        favouriteArray.forEach((favourite) => {
+          if (favourite.file_id === file_id) {
+            setFavourite(true);
+          }
+        });
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
   useEffect(() => {
     getTags();
+    getFavourites();
   }, []);
 
   return (
@@ -46,6 +95,38 @@ const SingleItem = ({route, navigation}) => {
       {isLoaded ? (
         <>
           <View style={styles.item}>
+            {favourite ? (
+              <Button
+                buttonStyle={styles.buttonWhite}
+                containerStyle={{
+                  position: 'absolute',
+                  top: 20,
+                  right: 70,
+                  zIndex: 1,
+                }}
+                titleStyle={fontStyles.boldBlackFont}
+                title={'Remove'}
+                onPress={() => {
+                  removeItem();
+                }}
+              />
+            ) : (
+              <Button
+                buttonStyle={styles.buttonWhite}
+                containerStyle={{
+                  position: 'absolute',
+                  top: 20,
+                  right: 70,
+                  zIndex: 1,
+                }}
+                titleStyle={fontStyles.boldBlackFont}
+                title={'Save'}
+                onPress={() => {
+                  saveItem();
+                }}
+              />
+            )}
+
             <Image
               source={{uri: uploadsUrl + filename}}
               style={styles.imageSingle}
@@ -59,9 +140,7 @@ const SingleItem = ({route, navigation}) => {
             </Text>
             <Text style={fontStyles.regularFont}>Size: {postTags[3].tag}</Text>
             <Text style={fontStyles.regularFont}>Price: {postTags[4].tag}</Text>
-            <Text style={fontStyles.regularFont}>
-              {allData.description}
-            </Text>
+            <Text style={fontStyles.regularFont}>{allData.description}</Text>
             <Text style={fontStyles.regularFont}>{allData.shipping}</Text>
           </View>
           <View style={styles.buttonContainer}>
