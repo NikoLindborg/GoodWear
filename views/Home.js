@@ -20,11 +20,12 @@ const Home = ({navigation}) => {
 
   if (userFilters && !filteredMediaArray) {
     userFilters.forEach(async (e, i) => {
-      const array = await loadMedia(e)
+      const array = await loadMedia(e);
       setFilteredMediaArray(await array);
     });
   }
   console.log('filtered array ', filteredMediaArray);
+
   return (
     <ScrollView style={{paddingTop: 0, marginTop: 0}}>
       <SafeAreaView style={styles.droidSafeArea}>
@@ -72,7 +73,11 @@ const Home = ({navigation}) => {
         <View style={styles.textBarGreen}>
           <Text style={styles.headerFont}>Newest in clothing</Text>
         </View>
-        <List navigation={navigation} isHorizontal={true} data={mediaArray.reverse()} />
+        <List
+          navigation={navigation}
+          isHorizontal={true}
+          data={mediaArray.reverse()}
+        />
         <Button
           title={'SHOP MORE'}
           buttonStyle={styles.shopMore}
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
   droidSafeArea: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 25 : 0,
-    backgroundColor: '#FFF',
+    backgroundColor: '#fff',
     alignItems: 'center',
   },
   textBar: {
