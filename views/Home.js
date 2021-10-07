@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Platform, StyleSheet, ScrollView, View} from 'react-native';
@@ -6,38 +6,55 @@ import {Button, Image, Text} from 'react-native-elements';
 import List from '../components/List';
 import fontStyles from '../utils/fontStyles';
 import {MainContext} from '../contexts/MainContext';
+import {useMedia} from '../hooks/ApiHooks';
 
 const Home = ({navigation}) => {
   const {user, mediaArray} = useContext(MainContext);
+  const [userFilters, setUserFilters] = useState();
+  const [filteredMediaArray, setFilteredMediaArray] = useState();
+  const {loadMedia} = useMedia();
+  if (user.full_name && !userFilters) {
+    const parsedUserData = JSON.parse(user.full_name);
+    setUserFilters(parsedUserData.items);
+  }
+
+  if (userFilters && !filteredMediaArray) {
+    userFilters.forEach(async (e, i) => {
+      const array = await loadMedia(e)
+      setFilteredMediaArray(await array);
+    });
+  }
+  console.log('filtered array ', filteredMediaArray);
   return (
     <ScrollView style={{paddingTop: 0, marginTop: 0}}>
       <SafeAreaView style={styles.droidSafeArea}>
         <Image
+          // eslint-disable-next-line no-undef
           source={require('../assets/GW_graphics_slogan.png')}
           style={styles.topImage}
         />
-        <View style={styles.introBox}>
-          <Text style={styles.headerFont}>
-            {'\n'}Hello {user.username}!{'\n'}
-          </Text>
-          <Text style={fontStyles.regularFont}>
-            Scroll to find the latest items in Goodwear or add categories that
-            you are looking for{'\n'}
-          </Text>
-          <Text style={fontStyles.regularFont}>
-            Edit or add to your watchlist{'\n'}
-          </Text>
-        </View>
+        {!userFilters ? (
+          <View style={styles.introBox}>
+            <Text style={styles.headerFont}>
+              {'\n'}Hello {user.username}!{'\n'}
+            </Text>
+            <Text style={fontStyles.regularFont}>
+              Scroll to find the latest items in Goodwear or add categories that
+              you are looking for{'\n'}
+            </Text>
+            <Text style={fontStyles.regularFont}>
+              Edit or add to your watchlist{'\n'}
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
       </SafeAreaView>
       <View style={styles.postBackground}>
         <View style={styles.textBar}>
           <Text style={styles.headerFont}>Newest in clothing</Text>
         </View>
-        <List
-          navigation={navigation}
-          isHorizontal={true}
-          data={mediaArray.reverse()}
-        />
+        <List navigation={navigation} isHorizontal={true} data={mediaArray} />
         <Button
           title={'SHOP MORE'}
           buttonStyle={styles.shopMore}

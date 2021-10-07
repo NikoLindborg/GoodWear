@@ -6,7 +6,7 @@ import {MainContext} from '../contexts/MainContext';
 import MyItems from '../components/MyItems';
 import SavedItems from '../components/SavedItems';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useUser} from '../hooks/ApiHooks';
+import {useMedia, useUser} from '../hooks/ApiHooks';
 
 const Profile = ({navigation}) => {
   const [selectedView, setSelectedView] = useState(false);
@@ -23,7 +23,7 @@ const Profile = ({navigation}) => {
           setUser(userInfo);
         }
       } catch (e) {
-        console.log('getToken', e);
+        console.log('getToken profile', e);
       }
     }
   };
@@ -50,7 +50,9 @@ const Profile = ({navigation}) => {
         <Card.Title>
           <Text h1 style={styles.basicFont}>
             {user.username}
-            {user.full_name.filteredItems}
+            {user.full_name.filteredItems
+              ? useMedia.full_name.filteredItems
+              : null}
           </Text>
         </Card.Title>
       </Card>

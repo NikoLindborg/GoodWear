@@ -1,17 +1,10 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {View} from 'react-native';
 import FormTextInput from './FormTextInput';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Button} from 'react-native-elements';
 
-const SearchForm = ({
-  title,
-  handleSubmit,
-  handleInputChange,
-  loading,
-  filters,
-}) => {
+const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
