@@ -37,14 +37,13 @@ const FilterForm = () => {
           setUser(userInfo);
         }
       } catch (e) {
-        console.log('getToken', e);
+        console.log('getToken filterform', e);
       }
     }
   };
 
   const addFilteredItems = async (inputs) => {
     const filteredItems = {
-      full_name: 'testi',
       items: inputs.category,
     };
     const data = {full_name: JSON.stringify(filteredItems)};

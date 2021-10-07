@@ -17,9 +17,12 @@ const Settings = ({navigation}) => {
   };
 
   const selectedFilters = () => {
-    const allData = JSON.parse(user.full_name);
-    const items = allData.items;
-    return items;
+    if (user.full_name) {
+      const allData = JSON.parse(user.full_name);
+      const items = allData.items;
+      return items;
+    }
+    return null;
   };
 
   const getToken = async () => {
@@ -32,7 +35,7 @@ const Settings = ({navigation}) => {
           setUser(userInfo);
         }
       } catch (e) {
-        console.log('getToken', e);
+        console.log('getToken settings', e);
       }
     }
   };

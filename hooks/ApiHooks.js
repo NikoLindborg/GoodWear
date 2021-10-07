@@ -10,13 +10,14 @@ const useMedia = (ownFiles = false) => {
 
   useEffect(() => {
     (async () => {
-      setMediaArray(await loadMedia(appId));
+      const array = await loadMedia(appId);
+      setMediaArray(array.reverse());
     })();
   }, [update]);
 
   const loadMedia = async (tag) => {
     try {
-      let mediaWithoutThumbnails = await doFetch(baseUrl + 'tags/' + appId);
+      let mediaWithoutThumbnails = await doFetch(baseUrl + 'tags/' + tag);
       if (ownFiles) {
         mediaWithoutThumbnails = mediaWithoutThumbnails.filter(
           (item) => item.user_id === user.user_id
@@ -25,6 +26,7 @@ const useMedia = (ownFiles = false) => {
       const allMedia = mediaWithoutThumbnails.map(async (media) => {
         return await loadSingleMedia(media.file_id);
       });
+
       return Promise.all(allMedia);
     } catch (e) {
       console.log('apiHooks loadMedia: ', e.message);
@@ -194,6 +196,7 @@ const useTag = () => {
   // eslint-disable-next-line camelcase
   const getPostTags = async (file_id) => {
     try {
+      // eslint-disable-next-line camelcase
       const postTagsResult = await doFetch(baseUrl + 'tags/file/' + file_id);
       return postTagsResult;
     } catch (e) {
