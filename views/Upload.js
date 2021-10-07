@@ -14,10 +14,6 @@ import {KeyboardAvoidingView} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native';
 import {Keyboard} from 'react-native';
 import {ScrollView} from 'react-native';
-import {
-  BottomTabBarHeightContext,
-  useBottomTabBarHeight,
-} from '@react-navigation/bottom-tabs';
 
 const Upload = ({navigation}) => {
   const [image, setImage] = useState();
@@ -58,6 +54,16 @@ const Upload = ({navigation}) => {
         userToken
       );
       const sizeResult = await addTag(result.file_id, inputs.size, userToken);
+      if (inputs.gender === 'unisex') {
+        const menResult = await addTag(result.file_id, 'male', userToken);
+        const femaleResult = await addTag(result.file_id, 'female', userToken);
+      } else {
+        const genderResult = await addTag(
+          result.file_id,
+          inputs.gender,
+          userToken
+        );
+      }
       const priceResult = await addTag(result.file_id, inputs.price, userToken);
       if (tagResult.message) {
         Alert.alert(

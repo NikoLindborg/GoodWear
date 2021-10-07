@@ -12,7 +12,9 @@ import Upload from '../views/Upload';
 import SingleItem from '../views/SingleItem';
 import Chat from '../views/Chat';
 import Messages from '../views/Messages';
+import Search from '../views/Search';
 import ProductList from '../views/ProductList';
+import FilteredView from '../views/FilteredView';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,6 +29,14 @@ const TabScreen = () => {
           headerShown: false,
         }}
         component={Home}
+      />
+      <Tab.Screen
+        name="Search"
+        options={{
+          tabBarLabel: 'Search',
+          headerShown: false,
+        }}
+        component={Search}
       />
       <Tab.Screen
         name="Upload"
@@ -57,6 +67,7 @@ const TabScreen = () => {
 
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
+
   return (
     <Stack.Navigator>
       {isLoggedIn ? (
@@ -74,6 +85,7 @@ const StackScreen = () => {
           <Stack.Screen name="SingleItem" component={SingleItem} />
           <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="ProductList" component={ProductList} />
+          <Stack.Screen name="FilteredView" component={FilteredView} />
         </>
       ) : (
         <>
