@@ -44,7 +44,6 @@ const FilterForm = () => {
 
   const addFilteredItems = async (inputs) => {
     const filteredItems = {
-      full_name: 'testi',
       items: inputs.category,
     };
     const data = {full_name: JSON.stringify(filteredItems)};

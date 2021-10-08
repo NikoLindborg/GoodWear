@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Text, Image, View, StyleSheet} from 'react-native';
+import {Text, Image, View, StyleSheet, Alert} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {uploadsUrl} from '../utils/variables';
 import {Button} from 'react-native-elements';
@@ -10,8 +10,8 @@ import {MainContext} from '../contexts/MainContext';
 import {useFavourite, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
-  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite} = useContext(MainContext);
-
+  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite} =
+    useContext(MainContext);
   const logout = async () => {
     await AsyncStorage.clear();
     setIsLoggedIn(false);
@@ -56,7 +56,7 @@ const SingleItem = ({route, navigation}) => {
     }
   };
 
-  const removeItem = async () => {
+  const removeSavedItem = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
       const result = await deleteFavourite(file_id, userToken);
@@ -85,6 +85,12 @@ const SingleItem = ({route, navigation}) => {
     }
   };
 
+  const [isMyItem, setIsMyItem] = useState(false);
+
+  const deleteItem = async () => {};
+
+  const modifyItem = async () => {};
+
   useEffect(() => {
     getTags();
     getFavourites();
@@ -107,7 +113,7 @@ const SingleItem = ({route, navigation}) => {
                 titleStyle={fontStyles.boldBlackFont}
                 title={'Remove'}
                 onPress={() => {
-                  removeItem();
+                  removeSavedItem();
                 }}
               />
             ) : (
@@ -144,31 +150,52 @@ const SingleItem = ({route, navigation}) => {
             <Text style={fontStyles.regularFont}>{allData.shipping}</Text>
           </View>
           <View style={styles.buttonContainer}>
-            <Button
-              title={'Buy item'}
-              buttonStyle={styles.buttonRed}
-              titleStyle={fontStyles.boldFont}
-              onPress={() => {
-                navigation.navigate('Chat', {
-                  chatId: setChatId(user_id, user.user_id),
-                  subject: title,
-                  filename: filename,
-                });
-                //  Toimiva
-                //  navigation.navigate('Chat', {owner: user_id, buyer: user.user_id});
-                //  TODO: navigate to chat
-              }}
-            />
-            <Button
-              buttonStyle={styles.buttonWhite}
-              titleStyle={fontStyles.boldBlackFont}
-              title={'Offer'}
-              onPress={() => {
-                logout();
-                //  navigation.navigate('Home');
-                //  TODO: navigate to chat
-              }}
-            />
+            {isMyItem ? (
+              <>
+                <Button
+                  title={'Modify item'}
+                  buttonStyle={styles.buttonRed}
+                  titleStyle={fontStyles.boldFont}
+                  onPress={() => {
+                    modifyItem();
+                  }}
+                />
+                <Button
+                  title={'Delete item'}
+                  buttonStyle={styles.buttonRed}
+                  titleStyle={fontStyles.boldFont}
+                  onPress={() => {}}
+                />
+              </>
+            ) : (
+              <>
+                <Button
+                  title={'Buy item'}
+                  buttonStyle={styles.buttonRed}
+                  titleStyle={fontStyles.boldFont}
+                  onPress={() => {
+                    navigation.navigate('Chat', {
+                      chatId: setChatId(user_id, user.user_id),
+                      subject: title,
+                      filename: filename,
+                    });
+                    //  Toimiva
+                    //  navigation.navigate('Chat', {owner: user_id, buyer: user.user_id});
+                    //  TODO: navigate to chat
+                  }}
+                />
+                <Button
+                  buttonStyle={styles.buttonWhite}
+                  titleStyle={fontStyles.boldBlackFont}
+                  title={'Offer'}
+                  onPress={() => {
+                    logout();
+                    //  navigation.navigate('Home');
+                    //  TODO: navigate to chat
+                  }}
+                />
+              </>
+            )}
           </View>
         </>
       ) : (

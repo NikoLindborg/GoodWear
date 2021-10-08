@@ -72,7 +72,7 @@ const Settings = ({navigation}) => {
         />
       </ListItem>
 
-      <View style={{height: 150}}>
+      <View style={{height: 'auto'}}>
         <ListItem>
           <Text style={styles.basicFont}>Username: {user.username}</Text>
         </ListItem>
@@ -82,7 +82,7 @@ const Settings = ({navigation}) => {
       </View>
       <Card.Divider />
       <View style={{height: 'auto'}}>
-        <FilterForm />
+        <FilterForm style={{zIndex: 2}} />
       </View>
       <View style={{height: 250}}>
         <Text h4 style={{alignSelf: 'center', marginTop: 40}}>
