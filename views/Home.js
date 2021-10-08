@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Platform, StyleSheet, ScrollView, View} from 'react-native';
@@ -7,9 +7,12 @@ import List from '../components/List';
 import fontStyles from '../utils/fontStyles';
 import {MainContext} from '../contexts/MainContext';
 import {useMedia} from '../hooks/ApiHooks';
+import {useIsFocused} from '@react-navigation/native';
+import firebase from 'firebase';
+import {firebaseConfig} from '../firebaseConfig';
 
 const Home = ({navigation}) => {
-  const {user, mediaArray} = useContext(MainContext);
+  const {user, mediaArray, setUnreadMessages} = useContext(MainContext);
   const [userFilters, setUserFilters] = useState();
   const [filteredMediaArray, setFilteredMediaArray] = useState();
   const {loadMedia} = useMedia();
@@ -25,6 +28,40 @@ const Home = ({navigation}) => {
     });
   }
   console.log('filtered array ', filteredMediaArray);
+
+  const isFocused = useIsFocused();
+
+  if (firebase.apps.length === 0) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  const db = firebase.firestore();
+  const chatsRef = db.collection('chats');
+  const emptyArray = [];
+
+  useEffect(() => {
+    emptyArray.splice(0, emptyArray.length);
+    chatsRef.get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.id.includes(user.user_id)) {
+          const item = doc.data();
+          if (
+            (item.read === false &&
+              item.sentBy !== user.username &&
+              item.readBy !== user.username) ||
+            (item.read === true &&
+              item.sentBy !== user.username &&
+              item.readBy !== user.username)
+          ) {
+            if (!emptyArray.includes(item.chatId)) {
+              emptyArray.push(item.chatId);
+            }
+          }
+        }
+      });
+      setUnreadMessages(emptyArray);
+    });
+  }, [isFocused]);
 
   return (
     <ScrollView style={{paddingTop: 0, marginTop: 0}}>

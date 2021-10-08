@@ -145,7 +145,7 @@ const SingleItem = ({route, navigation}) => {
           </View>
           <View style={styles.buttonContainer}>
             <Button
-              title={'Buy item'}
+              title={'Send message to seller'}
               buttonStyle={styles.buttonRed}
               titleStyle={fontStyles.boldFont}
               onPress={() => {
@@ -153,20 +153,8 @@ const SingleItem = ({route, navigation}) => {
                   chatId: setChatId(user_id, user.user_id),
                   subject: title,
                   filename: filename,
+                  buyer: user.username,
                 });
-                //  Toimiva
-                //  navigation.navigate('Chat', {owner: user_id, buyer: user.user_id});
-                //  TODO: navigate to chat
-              }}
-            />
-            <Button
-              buttonStyle={styles.buttonWhite}
-              titleStyle={fontStyles.boldBlackFont}
-              title={'Offer'}
-              onPress={() => {
-                logout();
-                //  navigation.navigate('Home');
-                //  TODO: navigate to chat
               }}
             />
           </View>
@@ -201,7 +189,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   buttonRed: {
-    width: 100,
+    width: 250,
     backgroundColor: '#E07A5F',
   },
   buttonWhite: {
