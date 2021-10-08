@@ -37,7 +37,7 @@ const FilterForm = () => {
           setUser(userInfo);
         }
       } catch (e) {
-        console.log('getToken', e);
+        console.log('getToken filterform', e);
       }
     }
   };
