@@ -16,7 +16,11 @@ const Home = ({navigation}) => {
   const [userFilters, setUserFilters] = useState();
   const [filteredMediaArray, setFilteredMediaArray] = useState();
   const {loadMedia} = useMedia();
-  const [extraFilters, setExtraFilters] = useState(['jackets', 'shoes', 'hats']);
+  const [extraFilters, setExtraFilters] = useState([
+    'jackets',
+    'shoes',
+    'hats',
+  ]);
 
   if (user.full_name && !userFilters) {
     const parsedUserData = JSON.parse(user.full_name);
@@ -66,8 +70,8 @@ const Home = ({navigation}) => {
   }, [isFocused]);
 
   return (
-    <ScrollView style={{paddingTop: 0, marginTop: 0}}>
-      <SafeAreaView style={styles.droidSafeArea}>
+    <SafeAreaView style={styles.droidSafeArea} edges={'top'}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Image
           // eslint-disable-next-line no-undef
           source={require('../assets/GW_graphics_slogan.png')}
@@ -79,12 +83,15 @@ const Home = ({navigation}) => {
               {'\n'}Hello {user.username}!{'\n'}
             </Text>
             <Text style={fontStyles.regularFont}>
-              We see you have not yet added filters, and thats okay.{'\n'}
+              We see you have not added any filters yet, and that's okay.{'\n'}
             </Text>
             <Text style={fontStyles.regularFont}>
               You can edit them from your profile, click the button below{'\n'}
             </Text>
             <Button
+              buttonStyle={styles.buttonWhite}
+              raised={true}
+              titleStyle={fontStyles.boldBlackFont}
               title={'Watchlist'}
               onPress={() => {
                 navigation.navigate('Settings');
@@ -114,55 +121,61 @@ const Home = ({navigation}) => {
             />
           </View>
         )}
-      </SafeAreaView>
 
-      <View style={styles.divider} />
+        <View style={styles.divider} />
 
-      <View style={styles.postBackgroundEggshell}>
-        <View style={styles.textBarGreen}>
-          <Text style={styles.headerFont}>Newest in clothing</Text>
+        <View style={styles.postBackground}>
+          <View style={styles.textBar}>
+            <Text style={styles.headerFont}>Newest in clothing</Text>
+          </View>
+          <List navigation={navigation} isHorizontal={true} data={mediaArray} />
+          <Button
+            title={'SHOP MORE'}
+            buttonStyle={styles.shopMore}
+            titleStyle={fontStyles.boldFont}
+            containerStyle={styles.shopMoreContainer}
+            onPress={() => {
+              navigation.navigate('ProductList', {category: 'jackets'});
+            }}
+          />
         </View>
-        <List navigation={navigation} isHorizontal={true} data={mediaArray} />
-        <Button
-          title={'SHOP MORE'}
-          buttonStyle={styles.shopMore}
-          titleStyle={fontStyles.boldFont}
-          containerStyle={styles.shopMoreContainer}
-          onPress={() => {
-            navigation.navigate('ProductList', {category: 'jackets'});
-          }}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          title={'More ' + extraFilters[0]}
-          //containerStyle={styles.shopMoreContainer}
-          buttonStyle={styles.extraButtton}
-          titleStyle={fontStyles.boldFont}
-          onPress={() => {
-            navigation.navigate('ProductList', {category: extraFilters[0]});
-          }}
-        />
-        <Button
-          title={'More ' + extraFilters[1]}
-          //containerStyle={styles.shopMoreContainer}
-          buttonStyle={styles.extraButtton}
-          titleStyle={fontStyles.boldFont}
-          onPress={() => {
-            navigation.navigate('ProductList', {category: extraFilters[1]});
-          }}
-        />
-        <Button
-          title={'More ' + extraFilters[2]}
-          //containerStyle={styles.shopMoreContainer}
-          buttonStyle={styles.extraButtton}
-          titleStyle={fontStyles.boldFont}
-          onPress={() => {
-            navigation.navigate('ProductList', {category: extraFilters[2]});
-          }}
-        />
-      </View>
-    </ScrollView>
+
+        <View style={styles.buttonBackground}>
+          <View style={styles.textBarTwo}>
+            <Text style={styles.headerFont}>Top categories</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title={'More ' + extraFilters[0]}
+              //containerStyle={styles.shopMoreContainer}
+              buttonStyle={styles.extraButton}
+              titleStyle={fontStyles.boldBlackFont}
+              onPress={() => {
+                navigation.navigate('ProductList', {category: extraFilters[0]});
+              }}
+            />
+            <Button
+              title={'More ' + extraFilters[1]}
+              //containerStyle={styles.shopMoreContainer}
+              buttonStyle={styles.extraButton}
+              titleStyle={fontStyles.boldBlackFont}
+              onPress={() => {
+                navigation.navigate('ProductList', {category: extraFilters[1]});
+              }}
+            />
+            <Button
+              title={'More ' + extraFilters[2]}
+              //containerStyle={styles.shopMoreContainer}
+              buttonStyle={styles.extraButton}
+              titleStyle={fontStyles.boldBlackFont}
+              onPress={() => {
+                navigation.navigate('ProductList', {category: extraFilters[2]});
+              }}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -176,9 +189,18 @@ const styles = StyleSheet.create({
   textBar: {
     backgroundColor: '#F4F1DE',
     height: 50,
-    width: '90%',
+    width: '88%',
     position: 'absolute',
-    top: 10,
+    top: 35,
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 20,
+  },
+  textBarTwo: {
+    height: 50,
+    width: '88%',
+    position: 'absolute',
+    top: 15,
     flex: 1,
     justifyContent: 'center',
     paddingLeft: 20,
@@ -195,7 +217,15 @@ const styles = StyleSheet.create({
   },
   postBackground: {
     backgroundColor: '#9AC1AE',
-    height: 450,
+    height: 480,
+    width: '100%',
+    justifyContent: 'center',
+    marginBottom: 50,
+  },
+  buttonBackground: {
+    marginTop: 100,
+    backgroundColor: '#F4F1DE',
+    height: 240,
     width: '100%',
     justifyContent: 'center',
   },
@@ -210,13 +240,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    marginTop: 80,
+    marginTop: 100,
+    marginBottom: 50,
     justifyContent: 'space-evenly',
     flexDirection: 'row',
   },
   extraButton: {
-    backgroundColor: '#E07A5F',
-    color: '#E07A5F',
+    width: 120,
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderRadius: 0,
   },
   extraButtonContainer: {
     borderRadius: 0,
@@ -233,13 +268,16 @@ const styles = StyleSheet.create({
   },
   topImage: {
     marginTop: 50,
-    width: 400,
+    marginBottom: 50,
+    width: '100%',
     height: 100,
     resizeMode: 'contain',
+    left: 5,
   },
   introBox: {
+    width: '100%',
+    alignItems: 'center',
     alignSelf: 'center',
-    padding: 10,
   },
   headerFont: {
     fontFamily: 'RobotoCondensed_700Bold',
@@ -247,6 +285,15 @@ const styles = StyleSheet.create({
   },
   divider: {
     margin: 50,
+  },
+  buttonWhite: {
+    marginTop: 5,
+    width: '100%',
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderRadius: 0,
   },
 });
 

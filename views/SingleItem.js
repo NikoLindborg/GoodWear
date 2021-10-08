@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Text, Image, View, StyleSheet} from 'react-native';
+import {Text, Image, View, StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {uploadsUrl} from '../utils/variables';
 import {Button} from 'react-native-elements';
@@ -10,7 +10,8 @@ import {MainContext} from '../contexts/MainContext';
 import {useFavourite, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
-  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite} = useContext(MainContext);
+  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite} =
+    useContext(MainContext);
 
   const logout = async () => {
     await AsyncStorage.clear();
@@ -92,78 +93,83 @@ const SingleItem = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {isLoaded ? (
-        <>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {isLoaded ? (
+          <>
+            <View style={styles.item}>
+              {favourite ? (
+                <Button
+                  buttonStyle={styles.buttonWhite}
+                  containerStyle={{
+                    position: 'absolute',
+                    top: 20,
+                    right: 70,
+                    zIndex: 1,
+                  }}
+                  titleStyle={fontStyles.boldBlackFont}
+                  title={'Remove'}
+                  onPress={() => {
+                    removeItem();
+                  }}
+                />
+              ) : (
+                <Button
+                  buttonStyle={styles.buttonWhite}
+                  containerStyle={{
+                    position: 'absolute',
+                    top: 20,
+                    right: 70,
+                    zIndex: 1,
+                  }}
+                  titleStyle={fontStyles.boldBlackFont}
+                  title={'Save'}
+                  onPress={() => {
+                    saveItem();
+                  }}
+                />
+              )}
+              <Image
+                source={{uri: uploadsUrl + filename}}
+                style={styles.imageSingle}
+              />
+              <Text style={fontStyles.boldFontHeader}>{title}</Text>
+              <Text style={fontStyles.regularFont}>
+                Category: {postTags[1].tag}
+              </Text>
+              <Text style={fontStyles.regularFont}>
+                Condition: {postTags[2].tag}
+              </Text>
+              <Text style={fontStyles.regularFont}>
+                Size: {postTags[3].tag}
+              </Text>
+              <Text style={fontStyles.regularFont}>
+                Price: {postTags[4].tag}
+              </Text>
+              <Text style={fontStyles.regularFont}>{allData.description}</Text>
+              <Text style={fontStyles.regularFont}>{allData.shipping}</Text>
+            </View>
+          </>
+        ) : (
           <View style={styles.item}>
-            {favourite ? (
-              <Button
-                buttonStyle={styles.buttonWhite}
-                containerStyle={{
-                  position: 'absolute',
-                  top: 20,
-                  right: 70,
-                  zIndex: 1,
-                }}
-                titleStyle={fontStyles.boldBlackFont}
-                title={'Remove'}
-                onPress={() => {
-                  removeItem();
-                }}
-              />
-            ) : (
-              <Button
-                buttonStyle={styles.buttonWhite}
-                containerStyle={{
-                  position: 'absolute',
-                  top: 20,
-                  right: 70,
-                  zIndex: 1,
-                }}
-                titleStyle={fontStyles.boldBlackFont}
-                title={'Save'}
-                onPress={() => {
-                  saveItem();
-                }}
-              />
-            )}
-
-            <Image
-              source={{uri: uploadsUrl + filename}}
-              style={styles.imageSingle}
-            />
-            <Text style={fontStyles.boldFont}>{title}</Text>
-            <Text style={fontStyles.regularFont}>
-              Category: {postTags[1].tag}
-            </Text>
-            <Text style={fontStyles.regularFont}>
-              Condition: {postTags[2].tag}
-            </Text>
-            <Text style={fontStyles.regularFont}>Size: {postTags[3].tag}</Text>
-            <Text style={fontStyles.regularFont}>Price: {postTags[4].tag}</Text>
-            <Text style={fontStyles.regularFont}>{allData.description}</Text>
-            <Text style={fontStyles.regularFont}>{allData.shipping}</Text>
+            <Text>Moro</Text>
           </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              title={'Send message to seller'}
-              buttonStyle={styles.buttonRed}
-              titleStyle={fontStyles.boldFont}
-              onPress={() => {
-                navigation.navigate('Chat', {
-                  chatId: setChatId(user_id, user.user_id),
-                  subject: title,
-                  filename: filename,
-                  buyer: user.username,
-                });
-              }}
-            />
-          </View>
-        </>
-      ) : (
-        <View style={styles.item}>
-          <Text>Moro</Text>
-        </View>
-      )}
+        )}
+      </ScrollView>
+      <View style={styles.buttonContainer}>
+        <Button
+          title={'Send message to seller'}
+          buttonStyle={styles.buttonRed}
+          titleStyle={fontStyles.boldFont}
+          onPress={() => {
+            navigation.navigate('Chat', {
+              chatId: setChatId(user_id, user.user_id),
+              subject: title,
+              filename: filename,
+              buyer: user.username,
+            });
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 };

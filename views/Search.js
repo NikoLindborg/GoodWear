@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView} from 'react-native';
+import {SafeAreaView, ScrollView, Text} from 'react-native';
 import {KeyboardAvoidingView} from 'react-native';
 import {Platform} from 'react-native';
 import {StyleSheet} from 'react-native';
@@ -88,31 +88,40 @@ const Search = ({navigation}) => {
     });
   };
   return (
-    <ScrollView>
-      <KeyboardAvoidingView
-        behavior={Platform.os === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardView}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-            <SearchForm
-              title={'Search'}
-              handleInputChange={handleInputChange}
-              handleSubmit={doSearch}
-            />
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </ScrollView>
+    <KeyboardAvoidingView
+      behavior={Platform.os === 'ios' ? 'padding' : 'height'}
+      style={styles.keyboardView}
+    >
+      <View style={{alignSelf: 'center', paddingTop: 50}}>
+        <Text>Search for products here</Text>
+      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <SearchForm
+            title={'Search'}
+            handleInputChange={handleInputChange}
+            handleSubmit={doSearch}
+          />
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 const styles = StyleSheet.create({
   keyboardView: {
     flex: 1,
+    backgroundColor: 'white',
   },
   container: {
     flex: 1,
     marginTop: 200,
+    width: '90%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  header: {
+
   },
 });
 Search.propTypes = {
