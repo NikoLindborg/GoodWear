@@ -8,6 +8,10 @@ const fontStyles = StyleSheet.create({
   boldFont: {
     fontFamily: 'RobotoCondensed_700Bold',
   },
+  boldFontHeader: {
+    fontFamily: 'RobotoCondensed_700Bold',
+    fontSize: 16,
+  },
   boldBlackFont: {
     color: 'black',
     fontFamily: 'RobotoCondensed_700Bold',

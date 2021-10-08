@@ -27,6 +27,7 @@ const TabScreen = () => {
       <Tab.Screen
         name="Front"
         options={{
+          tabBarActiveTintColor: '#E07A5F',
           tabBarLabel: 'Home',
           headerShown: false,
           tabBarIcon: () => <Icon name="home" color={'grey'} size={25} />,
@@ -36,8 +37,8 @@ const TabScreen = () => {
       <Tab.Screen
         name="Search"
         options={{
+          tabBarActiveTintColor: '#E07A5F',
           tabBarLabel: 'Search',
-          headerShown: false,
           tabBarIcon: () => <Icon name="search" color={'grey'} size={25} />,
         }}
         component={Search}
@@ -45,8 +46,8 @@ const TabScreen = () => {
       <Tab.Screen
         name="Upload"
         options={{
+          tabBarActiveTintColor: '#E07A5F',
           tabBarLabel: 'Upload',
-          headerShown: false,
           tabBarIcon: () => (
             <Icon
               name="add"
@@ -63,6 +64,7 @@ const TabScreen = () => {
         <Tab.Screen
           name="Messages"
           options={{
+            tabBarActiveTintColor: '#E07A5F',
             tabBarLabel: 'Messages',
             tabBarIcon: () => <Icon name="chat" color={'grey'} size={25} />,
             tabBarBadge: unreadMessages.length,
@@ -74,6 +76,7 @@ const TabScreen = () => {
         <Tab.Screen
           name="Messages"
           options={{
+            tabBarActiveTintColor: '#E07A5F',
             tabBarLabel: 'Messages',
             tabBarIcon: () => <Icon name="chat" color={'grey'} size={25} />,
           }}
@@ -84,6 +87,7 @@ const TabScreen = () => {
       <Tab.Screen
         name="Profile"
         options={{
+          tabBarActiveTintColor: '#E07A5F',
           tabBarLabel: 'Profile',
           headerShown: false,
           tabBarIcon: () => <Icon name="person" color={'grey'} size={25} />,
@@ -96,7 +100,10 @@ const TabScreen = () => {
 
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
-
+  const customOptions = {
+    headerTintColor: '#E07A5F',
+    headerTitleStyle: {color: 'black'},
+  };
   return (
     <Stack.Navigator>
       {isLoggedIn ? (
@@ -109,12 +116,32 @@ const StackScreen = () => {
             component={TabScreen}
           />
 
-          <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
+            options={customOptions}
+          />
           <Stack.Screen name="ModifyUser" component={ModifyUser} />
-          <Stack.Screen name="SingleItem" component={SingleItem} />
-          <Stack.Screen name="Chat" component={Chat} />
-          <Stack.Screen name="ProductList" component={ProductList} />
-          <Stack.Screen name="FilteredView" component={FilteredView} />
+          <Stack.Screen
+            name="SingleItem"
+            component={SingleItem}
+            options={customOptions}
+          />
+          <Stack.Screen
+            name="Chat"
+            component={Chat}
+            options={customOptions}
+          />
+          <Stack.Screen
+            name="ProductList"
+            component={ProductList}
+            options={customOptions}
+          />
+          <Stack.Screen
+            name="FilteredView"
+            component={FilteredView}
+            options={customOptions}
+          />
         </>
       ) : (
         <>

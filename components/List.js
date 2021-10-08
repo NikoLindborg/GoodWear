@@ -9,6 +9,7 @@ const List = ({navigation, isHorizontal, data}) => {
       data={data}
       style={{alignItems: 'center'}}
       keyExtractor={(item, index) => index.toString()}
+      showsHorizontalScrollIndicator={false}
       horizontal={isHorizontal}
       renderItem={({item}) => (
         <ListItem navigation={navigation} singleMedia={item} />
