@@ -66,16 +66,6 @@ const RegisterForm = ({navigation}) => {
           handleInputEnd('email', text, inputs);
         }}
       />
-      <FormTextInput
-        autoCapitalize="none"
-        placeholder="full name"
-        onChangeText={(txt) => handleInputChange('full_name', txt)}
-        errorMessage={registerErrors.full_name}
-        onEndEditing={(event) => {
-          const text = event.nativeEvent.text;
-          handleInputEnd('full_name', text, inputs);
-        }}
-      />
       <Button raised title="Register!" onPress={doRegister} />
     </View>
   );
