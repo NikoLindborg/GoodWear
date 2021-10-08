@@ -15,11 +15,13 @@ import Messages from '../views/Messages';
 import Search from '../views/Search';
 import ProductList from '../views/ProductList';
 import FilteredView from '../views/FilteredView';
+import {Icon} from 'react-native-elements';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const TabScreen = () => {
+  const {unreadMessages} = useContext(MainContext);
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -27,6 +29,7 @@ const TabScreen = () => {
         options={{
           tabBarLabel: 'Home',
           headerShown: false,
+          tabBarIcon: () => <Icon name="home" color={'grey'} size={25} />,
         }}
         component={Home}
       />
@@ -35,6 +38,7 @@ const TabScreen = () => {
         options={{
           tabBarLabel: 'Search',
           headerShown: false,
+          tabBarIcon: () => <Icon name="search" color={'grey'} size={25} />,
         }}
         component={Search}
       />
@@ -43,21 +47,46 @@ const TabScreen = () => {
         options={{
           tabBarLabel: 'Upload',
           headerShown: false,
+          tabBarIcon: () => (
+            <Icon
+              name="add"
+              color={'white'}
+              backgroundColor={'#E07A5F'}
+              borderRadius={20}
+              size={25}
+            />
+          ),
         }}
         component={Upload}
       />
-      <Tab.Screen
-        name="Messages"
-        options={{
-          tabBarLabel: 'Messages',
-        }}
-        component={Messages}
-      />
+      {unreadMessages.length > 0 ? (
+        <Tab.Screen
+          name="Messages"
+          options={{
+            tabBarLabel: 'Messages',
+            tabBarIcon: () => <Icon name="chat" color={'grey'} size={25} />,
+            tabBarBadge: unreadMessages.length,
+            tabBarBadgeStyle: {backgroundColor: '#E07A5F', color: 'white'},
+          }}
+          component={Messages}
+        />
+      ) : (
+        <Tab.Screen
+          name="Messages"
+          options={{
+            tabBarLabel: 'Messages',
+            tabBarIcon: () => <Icon name="chat" color={'grey'} size={25} />,
+          }}
+          component={Messages}
+        />
+      )}
+
       <Tab.Screen
         name="Profile"
         options={{
           tabBarLabel: 'Profile',
           headerShown: false,
+          tabBarIcon: () => <Icon name="person" color={'grey'} size={25} />,
         }}
         component={Profile}
       />

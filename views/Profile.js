@@ -49,9 +49,6 @@ const Profile = ({navigation}) => {
         <Card.Title>
           <Text h1 style={styles.basicFont}>
             {user.username}
-            {user.full_name.filteredItems
-              ? useMedia.full_name.filteredItems
-              : null}
           </Text>
         </Card.Title>
       </Card>
