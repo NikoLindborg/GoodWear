@@ -13,18 +13,20 @@ const Home = ({navigation}) => {
   const [userFilters, setUserFilters] = useState();
   const [filteredMediaArray, setFilteredMediaArray] = useState();
   const {loadMedia} = useMedia();
+  const [extraFilters, setExtraFilters] = useState(['jackets', 'shoes', 'hats']);
+
   if (user.full_name && !userFilters) {
     const parsedUserData = JSON.parse(user.full_name);
+    console.log('pituus ', parsedUserData.items.length);
     setUserFilters(parsedUserData.items);
   }
 
   if (userFilters && !filteredMediaArray) {
-    userFilters.forEach(async (e, i) => {
+    userFilters.forEach(async (e) => {
       const array = await loadMedia(e);
       setFilteredMediaArray(await array);
     });
   }
-  console.log('filtered array ', filteredMediaArray);
 
   return (
     <ScrollView style={{paddingTop: 0, marginTop: 0}}>
@@ -40,19 +42,47 @@ const Home = ({navigation}) => {
               {'\n'}Hello {user.username}!{'\n'}
             </Text>
             <Text style={fontStyles.regularFont}>
-              Scroll to find the latest items in Goodwear or add categories that
-              you are looking for{'\n'}
+              We see you have not yet added filters, and thats okay.{'\n'}
             </Text>
             <Text style={fontStyles.regularFont}>
-              Edit or add to your watchlist{'\n'}
+              You can edit them from your profile, click the button below{'\n'}
             </Text>
+            <Button
+              title={'Watchlist'}
+              onPress={() => {
+                navigation.navigate('Settings');
+              }}
+            />
           </View>
         ) : (
-          <></>
+          <View style={styles.postBackground}>
+            <View style={styles.textBar}>
+              <Text style={styles.headerFont}>
+                Newest in your filtered categories
+              </Text>
+            </View>
+            <List
+              navigation={navigation}
+              isHorizontal={true}
+              data={filteredMediaArray}
+            />
+            <Button
+              title={'SHOP MORE'}
+              buttonStyle={styles.shopMore}
+              titleStyle={fontStyles.boldFont}
+              containerStyle={styles.shopMoreContainer}
+              onPress={() => {
+                navigation.navigate('ProductList', {category: 'accessories'});
+              }}
+            />
+          </View>
         )}
       </SafeAreaView>
-      <View style={styles.postBackground}>
-        <View style={styles.textBar}>
+
+      <View style={styles.divider} />
+
+      <View style={styles.postBackgroundEggshell}>
+        <View style={styles.textBarGreen}>
           <Text style={styles.headerFont}>Newest in clothing</Text>
         </View>
         <List navigation={navigation} isHorizontal={true} data={mediaArray} />
@@ -62,29 +92,36 @@ const Home = ({navigation}) => {
           titleStyle={fontStyles.boldFont}
           containerStyle={styles.shopMoreContainer}
           onPress={() => {
-            navigation.navigate('ProductList', {category: 'accessories'});
+            navigation.navigate('ProductList', {category: 'jackets'});
           }}
         />
       </View>
-
-      <View style={styles.divider} />
-
-      <View style={styles.postBackgroundEggshell}>
-        <View style={styles.textBarGreen}>
-          <Text style={styles.headerFont}>Newest in clothing</Text>
-        </View>
-        <List
-          navigation={navigation}
-          isHorizontal={true}
-          data={mediaArray.reverse()}
+      <View style={styles.buttonContainer}>
+        <Button
+          title={'More ' + extraFilters[0]}
+          //containerStyle={styles.shopMoreContainer}
+          buttonStyle={styles.extraButtton}
+          titleStyle={fontStyles.boldFont}
+          onPress={() => {
+            navigation.navigate('ProductList', {category: extraFilters[0]});
+          }}
         />
         <Button
-          title={'SHOP MORE'}
-          buttonStyle={styles.shopMore}
+          title={'More ' + extraFilters[1]}
+          //containerStyle={styles.shopMoreContainer}
+          buttonStyle={styles.extraButtton}
           titleStyle={fontStyles.boldFont}
-          containerStyle={styles.shopMoreContainer}
           onPress={() => {
-            navigation.navigate('ProductList', {category: 'jackets'});
+            navigation.navigate('ProductList', {category: extraFilters[1]});
+          }}
+        />
+        <Button
+          title={'More ' + extraFilters[2]}
+          //containerStyle={styles.shopMoreContainer}
+          buttonStyle={styles.extraButtton}
+          titleStyle={fontStyles.boldFont}
+          onPress={() => {
+            navigation.navigate('ProductList', {category: extraFilters[2]});
           }}
         />
       </View>
@@ -122,6 +159,8 @@ const styles = StyleSheet.create({
   postBackground: {
     backgroundColor: '#9AC1AE',
     height: 450,
+    width: '100%',
+    justifyContent: 'center',
   },
   postBackgroundEggshell: {
     backgroundColor: '#F4F1DE',
@@ -130,6 +169,20 @@ const styles = StyleSheet.create({
   shopMore: {
     height: 75,
     alignSelf: 'center',
+    backgroundColor: '#E07A5F',
+  },
+  buttonContainer: {
+    flex: 1,
+    marginTop: 80,
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+  },
+  extraButton: {
+    backgroundColor: '#E07A5F',
+    color: '#E07A5F',
+  },
+  extraButtonContainer: {
+    borderRadius: 0,
     backgroundColor: '#E07A5F',
   },
   shopMoreContainer: {

@@ -15,7 +15,6 @@ const Profile = ({navigation}) => {
 
   const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
-
     if (userToken) {
       try {
         const userInfo = await checkToken(userToken);

@@ -86,7 +86,7 @@ const UploadForm = ({
       <FormTextInput
         autoCapitalize="none"
         placeholder="price"
-        onChangeText={(txt) => handleInputChange('price', txt)}
+        onChangeText={(txt) => handleInputChange('price' + '€', txt)}
         errorMessage={uploadErrors.price}
         value={inputs.price}
       />
