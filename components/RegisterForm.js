@@ -30,6 +30,7 @@ const RegisterForm = ({navigation}) => {
         };
         setUser(userObject);
         setIsLoggedIn(true);
+        navigation.navigate('FirstLoginFilters');
       }
       Alert.alert(serverResponse.message);
     } catch (error) {

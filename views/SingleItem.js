@@ -7,11 +7,17 @@ import {Button} from 'react-native-elements';
 import fontStyles from '../utils/fontStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
-import {useFavourite, useTag} from '../hooks/ApiHooks';
+import {useFavourite, useMedia, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
-  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite} =
-    useContext(MainContext);
+  const {
+    setIsLoggedIn,
+    user,
+    updateFavourite,
+    setUpdateFavourite,
+    update,
+    setUpdate,
+  } = useContext(MainContext);
   const logout = async () => {
     await AsyncStorage.clear();
     setIsLoggedIn(false);
@@ -86,14 +92,45 @@ const SingleItem = ({route, navigation}) => {
   };
 
   const [isMyItem, setIsMyItem] = useState(false);
+  const {deleteMedia} = useMedia();
+  const [showBox, setShowBox] = useState(true);
 
-  const deleteItem = async () => {};
+  const checkIfMyItem = () => {
+    if (user.user_id === user_id) {
+      setIsMyItem(true);
+    }
+  };
 
-  const modifyItem = async () => {};
+  const deleteItem = async () => {
+    Alert.alert('Delete post?', 'Are you sure you want to delete this post?', [
+      {
+        text: 'Yes',
+        onPress: async () => {
+          setShowBox(false);
+          try {
+            const token = await AsyncStorage.getItem('userToken');
+            const response = await deleteMedia(file_id, token);
+            console.log('Delete', response);
+            if (response.message) {
+              setUpdate(update + 1);
+            }
+          } catch (e) {
+            console.log('ListItem, delete: ', e.message);
+          }
+        },
+      },
+      {
+        text: 'No',
+      },
+    ]);
+  };
+
+  const singleMedia = route.params;
 
   useEffect(() => {
     getTags();
     getFavourites();
+    checkIfMyItem();
   }, []);
 
   return (
@@ -157,14 +194,17 @@ const SingleItem = ({route, navigation}) => {
                   buttonStyle={styles.buttonRed}
                   titleStyle={fontStyles.boldFont}
                   onPress={() => {
-                    modifyItem();
+                    console.log('route', singleMedia);
+                    navigation.navigate('Modify', {singleMedia, navigation});
                   }}
                 />
                 <Button
                   title={'Delete item'}
                   buttonStyle={styles.buttonRed}
                   titleStyle={fontStyles.boldFont}
-                  onPress={() => {}}
+                  onPress={() => {
+                    deleteItem();
+                  }}
                 />
               </>
             ) : (
@@ -188,20 +228,13 @@ const SingleItem = ({route, navigation}) => {
                   buttonStyle={styles.buttonWhite}
                   titleStyle={fontStyles.boldBlackFont}
                   title={'Offer'}
-                  onPress={() => {
-                    logout();
-                    //  navigation.navigate('Home');
-                    //  TODO: navigate to chat
-                  }}
                 />
               </>
             )}
           </View>
         </>
       ) : (
-        <View style={styles.item}>
-          <Text>Moro</Text>
-        </View>
+        <View style={styles.item}></View>
       )}
     </SafeAreaView>
   );
