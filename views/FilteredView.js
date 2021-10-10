@@ -7,7 +7,9 @@ import {Platform} from 'react-native';
 import List from '../components/List';
 
 const FilteredView = ({route, navigation}) => {
-  const data = route.params.data.filteredList;
+  const data = route.params.data.filteredList
+    ? route.params.data.filteredList
+    : route.params.data;
   return (
     <ScrollView>
       <SafeAreaView style={styles.droidSafeArea}>

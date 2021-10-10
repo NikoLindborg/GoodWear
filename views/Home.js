@@ -24,14 +24,18 @@ const Home = ({navigation}) => {
 
   if (user.full_name && !userFilters) {
     const parsedUserData = JSON.parse(user.full_name);
-    console.log('pituus ', parsedUserData.items.length);
     setUserFilters(parsedUserData.items);
   }
 
   if (userFilters && !filteredMediaArray) {
     userFilters.forEach(async (e) => {
-      const array = await loadMedia(e);
-      setFilteredMediaArray(await array);
+      const conditionList = await loadMedia(e);
+      const filteredList = mediaArray.filter((el) => {
+        return conditionList.some((f) => {
+          return f.file_id === el.file_id;
+        });
+      });
+      setFilteredMediaArray(filteredList);
     });
   }
 
@@ -83,7 +87,7 @@ const Home = ({navigation}) => {
               {'\n'}Hello {user.username}!{'\n'}
             </Text>
             <Text style={fontStyles.regularFont}>
-              We see you have not added any filters yet, and that's okay.{'\n'}
+              We see you have not added any filters yet, and thats okay.{'\n'}
             </Text>
             <Text style={fontStyles.regularFont}>
               You can edit them from your profile, click the button below{'\n'}
@@ -116,7 +120,8 @@ const Home = ({navigation}) => {
               titleStyle={fontStyles.boldFont}
               containerStyle={styles.shopMoreContainer}
               onPress={() => {
-                navigation.navigate('ProductList', {category: 'accessories'});
+                console.log('sasd', filteredMediaArray)
+                navigation.navigate('FilteredView', {data: filteredMediaArray});
               }}
             />
           </View>
@@ -135,7 +140,7 @@ const Home = ({navigation}) => {
             titleStyle={fontStyles.boldFont}
             containerStyle={styles.shopMoreContainer}
             onPress={() => {
-              navigation.navigate('ProductList', {category: 'jackets'});
+              navigation.navigate('FilteredView', {data: mediaArray});
             }}
           />
         </View>
@@ -147,7 +152,6 @@ const Home = ({navigation}) => {
           <View style={styles.buttonContainer}>
             <Button
               title={'More ' + extraFilters[0]}
-              //containerStyle={styles.shopMoreContainer}
               buttonStyle={styles.extraButton}
               titleStyle={fontStyles.boldBlackFont}
               onPress={() => {
@@ -156,7 +160,6 @@ const Home = ({navigation}) => {
             />
             <Button
               title={'More ' + extraFilters[1]}
-              //containerStyle={styles.shopMoreContainer}
               buttonStyle={styles.extraButton}
               titleStyle={fontStyles.boldBlackFont}
               onPress={() => {
@@ -165,7 +168,6 @@ const Home = ({navigation}) => {
             />
             <Button
               title={'More ' + extraFilters[2]}
-              //containerStyle={styles.shopMoreContainer}
               buttonStyle={styles.extraButton}
               titleStyle={fontStyles.boldBlackFont}
               onPress={() => {
