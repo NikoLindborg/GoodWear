@@ -16,7 +16,6 @@ import Search from '../views/Search';
 import ProductList from '../views/ProductList';
 import FilteredView from '../views/FilteredView';
 import Modify from '../views/Modify';
-import FirstLoginFilters from '../views/FirstLoginFilters';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -89,10 +88,6 @@ const StackScreen = () => {
           <Stack.Screen name="ProductList" component={ProductList} />
           <Stack.Screen name="FilteredView" component={FilteredView} />
           <Stack.Screen name="Modify" component={Modify} />
-          <Stack.Screen
-            name="FirstLoginFilters"
-            component={FirstLoginFilters}
-          />
         </>
       ) : (
         <>

@@ -7,6 +7,7 @@ import MyItems from '../components/MyItems';
 import SavedItems from '../components/SavedItems';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMedia, useUser} from '../hooks/ApiHooks';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Profile = ({navigation}) => {
   const [selectedView, setSelectedView] = useState(false);
@@ -33,99 +34,98 @@ const Profile = ({navigation}) => {
   }, []);
 
   return (
-    <View style={{flex: 0}}>
-      <Card containerStyle={{flex: 0, backgroundColor: '#F4F1DE'}}>
-        <Avatar
-          icon={{
-            name: 'cog',
-            type: 'font-awesome',
-            color: 'black',
-            size: 35,
-          }}
-          onPress={() => {
-            navigation.navigate('Settings');
-          }}
-          containerStyle={{position: 'absolute', right: 0, top: 0, zIndex: 1}}
-        />
-        <Card.Title>
-          <Text h1 style={styles.basicFont}>
-            {user.username}
-            {user.full_name.filteredItems
-              ? useMedia.full_name.filteredItems
-              : null}
-          </Text>
-        </Card.Title>
-      </Card>
-      <View style={{height: 500}}>
-        {selectedView ? (
-          <>
-            <View
-              style={{
-                flex: 0,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                height: 60,
-              }}
-            >
-              <Button
-                title="My Items"
-                titleStyle={{color: '#E07A5F'}}
-                raised
-                buttonStyle={{
-                  width: 165,
-                  height: 60,
-                  backgroundColor: 'white',
-                }}
-                onPress={() => setSelectedView(!selectedView)}
-              ></Button>
-              <Button
-                title="Saved Items"
-                buttonStyle={{
-                  backgroundColor: '#E07A5F',
-                  width: 165,
+    <SafeAreaView style={styles.droidSafeArea}>
+      <View style={{flex: 0}}>
+        <Card containerStyle={{flex: 0, backgroundColor: '#F4F1DE'}}>
+          <Avatar
+            icon={{
+              name: 'cog',
+              type: 'font-awesome',
+              color: 'black',
+              size: 35,
+            }}
+            onPress={() => {
+              navigation.navigate('Settings');
+            }}
+            containerStyle={{position: 'absolute', right: 0, top: 0, zIndex: 1}}
+          />
+          <Card.Title>
+            <Text h1 style={styles.basicFont}>
+              {user.username}
+            </Text>
+          </Card.Title>
+        </Card>
+        <View style={{height: 500}}>
+          {selectedView ? (
+            <>
+              <View
+                style={{
+                  flex: 0,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
                   height: 60,
                 }}
-                raised
-              ></Button>
-            </View>
-            <SavedItems navigation={navigation} />
-          </>
-        ) : (
-          <>
-            <View
-              style={{
-                flex: 0,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                height: 60,
-              }}
-            >
-              <Button
-                title="My Items"
-                buttonStyle={{
-                  backgroundColor: '#E07A5F',
-                  width: 165,
+              >
+                <Button
+                  title="My Items"
+                  titleStyle={{color: '#E07A5F'}}
+                  raised
+                  buttonStyle={{
+                    width: 165,
+                    height: 60,
+                    backgroundColor: 'white',
+                  }}
+                  onPress={() => setSelectedView(!selectedView)}
+                ></Button>
+                <Button
+                  title="Saved Items"
+                  buttonStyle={{
+                    backgroundColor: '#E07A5F',
+                    width: 165,
+                    height: 60,
+                  }}
+                  raised
+                ></Button>
+              </View>
+              <SavedItems navigation={navigation} />
+            </>
+          ) : (
+            <>
+              <View
+                style={{
+                  flex: 0,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
                   height: 60,
                 }}
-                raised
-              ></Button>
-              <Button
-                title="Saved Items"
-                titleStyle={{color: '#E07A5F'}}
-                raised
-                buttonStyle={{
-                  width: 165,
-                  height: 60,
-                  backgroundColor: 'white',
-                }}
-                onPress={() => setSelectedView(!selectedView)}
-              ></Button>
-            </View>
-            <MyItems navigation={navigation} />
-          </>
-        )}
+              >
+                <Button
+                  title="My Items"
+                  buttonStyle={{
+                    backgroundColor: '#E07A5F',
+                    width: 165,
+                    height: 60,
+                  }}
+                  raised
+                ></Button>
+                <Button
+                  title="Saved Items"
+                  titleStyle={{color: '#E07A5F'}}
+                  raised
+                  buttonStyle={{
+                    width: 165,
+                    height: 60,
+                    backgroundColor: 'white',
+                  }}
+                  onPress={() => setSelectedView(!selectedView)}
+                ></Button>
+              </View>
+              <MyItems navigation={navigation} />
+            </>
+          )}
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

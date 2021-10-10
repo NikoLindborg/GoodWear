@@ -84,11 +84,11 @@ const Settings = ({navigation}) => {
         </ListItem>
       </View>
       <Card.Divider />
-      <View style={{height: 'auto'}}>
-        <FilterForm style={{zIndex: 2}} />
+      <View style={{height: 'auto', zIndex: 1}}>
+        <FilterForm />
       </View>
       <View style={{height: 250}}>
-        <Text h4 style={{alignSelf: 'center', marginTop: 40}}>
+        <Text h4 style={{alignSelf: 'center', marginTop: 40, zIndex: 1}}>
           Items you have selected:
         </Text>
         <FlatList
@@ -100,7 +100,7 @@ const Settings = ({navigation}) => {
               <Text style={{fontSize: 20}}>{item}</Text>
             </ListItem>
           )}
-        ></FlatList>
+        />
       </View>
       <ListItem onPress={logout}>
         <Avatar icon={{name: 'logout', color: 'black'}} />

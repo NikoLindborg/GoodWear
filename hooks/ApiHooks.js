@@ -114,7 +114,6 @@ const useUser = () => {
       username: inputs.username,
       password: inputs.password,
       email: inputs.email,
-      full_name: inputs.full_name,
     };
     const fetchOptions = {
       method: 'POST',

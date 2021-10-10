@@ -24,13 +24,11 @@ const RegisterForm = ({navigation}) => {
         await AsyncStorage.setItem('userToken', loginInfo.token);
         const userObject = {
           email: loginInfo.user.email,
-          full_name: loginInfo.user.full_name,
           user_id: loginInfo.user.user_id,
           username: loginInfo.user.username,
         };
         setUser(userObject);
         setIsLoggedIn(true);
-        navigation.navigate('FirstLoginFilters');
       }
       Alert.alert(serverResponse.message);
     } catch (error) {
@@ -82,16 +80,6 @@ const RegisterForm = ({navigation}) => {
         onEndEditing={(event) => {
           const text = event.nativeEvent.text;
           handleInputEnd('email', text, inputs);
-        }}
-      />
-      <FormTextInput
-        autoCapitalize="none"
-        placeholder="full name"
-        onChangeText={(txt) => handleInputChange('full_name', txt)}
-        errorMessage={registerErrors.full_name}
-        onEndEditing={(event) => {
-          const text = event.nativeEvent.text;
-          handleInputEnd('full_name', text, inputs);
         }}
       />
       <Button raised title="Register!" onPress={doRegister} />

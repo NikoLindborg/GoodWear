@@ -10,18 +10,8 @@ import {MainContext} from '../contexts/MainContext';
 import {useFavourite, useMedia, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
-  const {
-    setIsLoggedIn,
-    user,
-    updateFavourite,
-    setUpdateFavourite,
-    update,
-    setUpdate,
-  } = useContext(MainContext);
-  const logout = async () => {
-    await AsyncStorage.clear();
-    setIsLoggedIn(false);
-  };
+  const {user, updateFavourite, setUpdateFavourite, update, setUpdate} =
+    useContext(MainContext);
   const setChatId = (firstId, secondId) => {
     const chatId =
       Math.min(firstId, secondId) + '_' + Math.max(firstId, secondId);
@@ -68,6 +58,7 @@ const SingleItem = ({route, navigation}) => {
       const result = await deleteFavourite(file_id, userToken);
       if (result) {
         setFavourite(false);
+        setUpdateFavourite(updateFavourite + 1);
       }
       return result;
     } catch (e) {
