@@ -129,36 +129,42 @@ const SingleItem = ({route, navigation}) => {
       {isLoaded ? (
         <>
           <View style={styles.item}>
-            {favourite ? (
-              <Button
-                buttonStyle={styles.buttonWhite}
-                containerStyle={{
-                  position: 'absolute',
-                  top: 20,
-                  right: 70,
-                  zIndex: 1,
-                }}
-                titleStyle={fontStyles.boldBlackFont}
-                title={'Remove'}
-                onPress={() => {
-                  removeSavedItem();
-                }}
-              />
+            {isMyItem ? (
+              <></>
             ) : (
-              <Button
-                buttonStyle={styles.buttonWhite}
-                containerStyle={{
-                  position: 'absolute',
-                  top: 20,
-                  right: 70,
-                  zIndex: 1,
-                }}
-                titleStyle={fontStyles.boldBlackFont}
-                title={'Save'}
-                onPress={() => {
-                  saveItem();
-                }}
-              />
+              <>
+                {favourite ? (
+                  <Button
+                    buttonStyle={styles.buttonWhite}
+                    containerStyle={{
+                      position: 'absolute',
+                      top: 20,
+                      right: 70,
+                      zIndex: 1,
+                    }}
+                    titleStyle={fontStyles.boldBlackFont}
+                    title={'Remove'}
+                    onPress={() => {
+                      removeSavedItem();
+                    }}
+                  />
+                ) : (
+                  <Button
+                    buttonStyle={styles.buttonWhite}
+                    containerStyle={{
+                      position: 'absolute',
+                      top: 20,
+                      right: 70,
+                      zIndex: 1,
+                    }}
+                    titleStyle={fontStyles.boldBlackFont}
+                    title={'Save'}
+                    onPress={() => {
+                      saveItem();
+                    }}
+                  />
+                )}
+              </>
             )}
 
             <Image
@@ -201,7 +207,7 @@ const SingleItem = ({route, navigation}) => {
             ) : (
               <>
                 <Button
-                  title={'Buy item'}
+                  title={'Send message to seller'}
                   buttonStyle={styles.buttonRed}
                   titleStyle={fontStyles.boldFont}
                   onPress={() => {
@@ -209,16 +215,9 @@ const SingleItem = ({route, navigation}) => {
                       chatId: setChatId(user_id, user.user_id),
                       subject: title,
                       filename: filename,
+                      buyer: user.username,
                     });
-                    //  Toimiva
-                    //  navigation.navigate('Chat', {owner: user_id, buyer: user.user_id});
-                    //  TODO: navigate to chat
                   }}
-                />
-                <Button
-                  buttonStyle={styles.buttonWhite}
-                  titleStyle={fontStyles.boldBlackFont}
-                  title={'Offer'}
                 />
               </>
             )}
