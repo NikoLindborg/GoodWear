@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   Platform,
   StyleSheet,
   ScrollView,
+  SafeAreaView,
   View,
   ActivityIndicator,
 } from 'react-native';
@@ -29,7 +29,7 @@ const Home = ({navigation}) => {
     'hats',
   ]);
 
-  if (user.full_name && !userFilters) {
+  if (user.full_name && !userFilters && user.full_name.length > 2) {
     const parsedUserData = JSON.parse(user.full_name);
     setUserFilters(parsedUserData.items);
   }
@@ -43,7 +43,7 @@ const Home = ({navigation}) => {
         });
       });
       setFilteredMediaArray(filteredList);
-      setLoadingFilteredArray(true);
+      setLoadingFilteredArray(false);
     });
   }
 
@@ -82,7 +82,7 @@ const Home = ({navigation}) => {
   }, [isFocused]);
 
   return (
-    <SafeAreaView style={styles.droidSafeArea} edges={'top'}>
+    <SafeAreaView style={styles.droidSafeArea} >
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
           // eslint-disable-next-line no-undef

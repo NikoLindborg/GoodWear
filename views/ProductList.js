@@ -14,17 +14,17 @@ const ProductList = ({route, navigation}) => {
 
   const productIdList = [];
   const [finalProducts, setFinalProducts] = useState([]);
-  const [loaded, setLoaded] = useState();
+  const [loading, setLoading] = useState();
 
   const getMedia = async (idArray) => {
-    setLoaded(false);
+    setLoading(true);
     const emptyArray = [];
     for (const id of idArray) {
       const finalProduct = await loadSingleMedia(id);
       emptyArray.push(finalProduct);
     }
     setFinalProducts(emptyArray);
-    setLoaded(true);
+    setLoading(false);
   };
 
   useEffect(() => {

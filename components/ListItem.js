@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
 import {Text, Card} from 'react-native-elements';
+import fontStyles from '../utils/fontStyles';
 
 const ListItem = ({singleMedia, navigation, loading}) => {
   return (
@@ -20,7 +21,7 @@ const ListItem = ({singleMedia, navigation, loading}) => {
         });
       }}
     >
-      {!loading ? (
+      {loading ? (
         <ActivityIndicator />
       ) : (
         <Card wrapperStyle={styles.card}>
@@ -34,6 +35,15 @@ const ListItem = ({singleMedia, navigation, loading}) => {
           <Text style={{fontFamily: 'RobotoCondensed_400Regular'}}>
             {JSON.parse(singleMedia.description).description}
           </Text>
+          {!JSON.parse(singleMedia.description).price.endsWith('€') ? (
+            <Text style={fontStyles.regularFont}>
+              Price: {JSON.parse(singleMedia.description).price}€
+            </Text>
+          ) : (
+            <Text style={fontStyles.regularFont}>
+              Price: {JSON.parse(singleMedia.description).price}
+            </Text>
+          )}
         </Card>
       )}
 
