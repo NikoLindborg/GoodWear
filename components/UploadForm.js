@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import FormTextInput from './FormTextInput';
 import {Button} from 'react-native-elements';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {StyleSheet} from 'react-native';
 
 const UploadForm = ({
   title,
@@ -12,21 +11,31 @@ const UploadForm = ({
   loading,
   uploadErrors,
   inputs,
+  value,
+  setValue,
+  value2,
+  setValue2,
+  value3,
+  setValue3,
+  image,
 }) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
   const [items, setItems] = useState([
     {label: 'Hats', value: 'hats'},
     {label: 'Jackets', value: 'jackets'},
+    {label: 'Hoodies', value: 'hoodies'},
+    {label: 'Shirts', value: 'shirts'},
+    {label: 'Gloves', value: 'gloves'},
+    {label: 'Jeans', value: 'jeans'},
     {label: 'Pants', value: 'pants'},
     {label: 'Shoes', value: 'shoes'},
-    {label: 'Gloves', value: 'gloves'},
-    {label: 'Accessories', value: 'accessories'},
     {label: 'Dresses', value: 'dresses'},
     {label: 'Skirts', value: 'skirts'},
+    {label: 'Accessories', value: 'accessories'},
+    {label: 'Other', value: 'other'},
   ]);
+
   const [open2, setOpen2] = useState(false);
-  const [value2, setValue2] = useState(null);
   const [items2, setItems2] = useState([
     {label: 'New/Unworn', value: 'new'},
     {label: 'Good', value: 'good'},
@@ -34,13 +43,12 @@ const UploadForm = ({
     {label: 'Bad', value: 'bad'},
   ]);
   const [open3, setOpen3] = useState(false);
-  const [value3, setValue3] = useState(null);
   const [items3, setItems3] = useState([
     {label: 'Mens', value: 'male'},
     {label: 'Womens', value: 'female'},
     {label: 'Unisex', value: 'unisex'},
   ]);
-
+  console.log(image);
   return (
     <>
       <FormTextInput
@@ -57,6 +65,7 @@ const UploadForm = ({
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
+        placeholder={'Select category'}
         onChangeValue={(value) => handleInputChange('category', value)}
         zIndex={3000}
         zIndexInverse={1000}
@@ -68,6 +77,7 @@ const UploadForm = ({
         setOpen={setOpen2}
         setValue={setValue2}
         setItems={setItems2}
+        placeholder={'Select condition'}
         onChangeValue={(value) => handleInputChange('condition', value)}
         zIndex={2000}
         zIndexInverse={2000}
@@ -79,6 +89,7 @@ const UploadForm = ({
         setOpen={setOpen3}
         setValue={setValue3}
         setItems={setItems3}
+        placeholder={'Select gender'}
         onChangeValue={(value) => handleInputChange('gender', value)}
         zIndex={1000}
         zIndexInverse={3000}
@@ -117,16 +128,20 @@ const UploadForm = ({
         onPress={handleSubmit}
         loading={loading}
         disabled={
-          uploadErrors.title !== null || uploadErrors.description !== null
+          uploadErrors.title !== null ||
+          uploadErrors.description !== null ||
+          uploadErrors.price !== null ||
+          uploadErrors.size !== null ||
+          uploadErrors.shipping !== null ||
+          uploadErrors.category !== null ||
+          uploadErrors.condition !== null ||
+          uploadErrors.gender !== null ||
+          image === undefined
         }
       />
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  dropDown: {},
-});
 
 UploadForm.propTypes = {
   title: PropTypes.string.isRequired,
@@ -135,6 +150,12 @@ UploadForm.propTypes = {
   loading: PropTypes.bool,
   inputs: PropTypes.object.isRequired,
   uploadErrors: PropTypes.object,
+  value: PropTypes.string,
+  setValue: PropTypes.func,
+  value2: PropTypes.string,
+  setValue2: PropTypes.func,
+  value3: PropTypes.string,
+  setValue3: PropTypes.func,
 };
 
 export default UploadForm;

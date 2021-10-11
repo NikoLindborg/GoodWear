@@ -16,6 +16,7 @@ import Search from '../views/Search';
 import ProductList from '../views/ProductList';
 import FilteredView from '../views/FilteredView';
 import {Icon} from 'react-native-elements';
+import NotLoggedInScreen from '../views/NotLoggedInScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -99,14 +100,14 @@ const TabScreen = () => {
 };
 
 const StackScreen = () => {
-  const {isLoggedIn} = useContext(MainContext);
+  const {isLoggedIn, askLogin} = useContext(MainContext);
   const customOptions = {
     headerTintColor: '#E07A5F',
     headerTitleStyle: {color: 'black'},
   };
   return (
     <Stack.Navigator>
-      {isLoggedIn ? (
+      {isLoggedIn || askLogin ? (
         <>
           <Stack.Screen
             name="Home"
@@ -127,11 +128,7 @@ const StackScreen = () => {
             component={SingleItem}
             options={customOptions}
           />
-          <Stack.Screen
-            name="Chat"
-            component={Chat}
-            options={customOptions}
-          />
+          <Stack.Screen name="Chat" component={Chat} options={customOptions} />
           <Stack.Screen
             name="ProductList"
             component={ProductList}
@@ -140,6 +137,11 @@ const StackScreen = () => {
           <Stack.Screen
             name="FilteredView"
             component={FilteredView}
+            options={customOptions}
+          />
+          <Stack.Screen
+            name="NotLoggedInScreen"
+            component={NotLoggedInScreen}
             options={customOptions}
           />
         </>

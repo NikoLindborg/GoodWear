@@ -17,7 +17,7 @@ import {MainContext} from '../contexts/MainContext';
 import {useFavourite, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
-  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite} =
+  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite, isLoggedIn} =
     useContext(MainContext);
 
   const logout = async () => {
@@ -199,12 +199,14 @@ const SingleItem = ({route, navigation}) => {
           buttonStyle={styles.buttonRed}
           titleStyle={fontStyles.boldFont}
           onPress={() => {
-            navigation.navigate('Chat', {
-              chatId: setChatId(user_id, user.user_id),
-              subject: title,
-              filename: filename,
-              buyer: user.username,
-            });
+            !isLoggedIn
+              ? navigation.navigate('NotLoggedInScreen')
+              : navigation.navigate('Chat', {
+                  chatId: setChatId(user_id, user.user_id),
+                  subject: title,
+                  filename: filename,
+                  buyer: user.username,
+                });
           }}
         />
       </View>

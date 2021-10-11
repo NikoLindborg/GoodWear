@@ -46,7 +46,6 @@ const ListItem = ({singleMedia, navigation, loading}) => {
           )}
         </Card>
       )}
-
     </TouchableOpacity>
   );
 };

@@ -6,6 +6,7 @@ const MainContext = React.createContext({});
 
 const MainProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [askLogin, setAskLogin] = useState(false);
   const [user, setUser] = useState({});
   const [update, setUpdate] = useState(0);
   const [updateFavourite, setUpdateFavourite] = useState(0);
@@ -25,6 +26,8 @@ const MainProvider = (props) => {
         setUpdateFavourite,
         unreadMessages,
         setUnreadMessages,
+        askLogin,
+        setAskLogin,
       }}
     >
       {props.children}

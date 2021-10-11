@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import PropTypes from 'prop-types';
 import {Alert, View} from 'react-native';
 import UploadForm from '../components/UploadForm';
-import {Image, Button, Card} from 'react-native-elements';
+import {Image, Button, Card, Text} from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import useUploadForm from '../hooks/UploadHooks';
 import {useMedia, useTag} from '../hooks/ApiHooks';
@@ -15,15 +15,27 @@ import {TouchableWithoutFeedback} from 'react-native';
 import {Keyboard} from 'react-native';
 import {ScrollView} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import fontStyles from '../utils/fontStyles';
 
 const Upload = ({navigation}) => {
   const [image, setImage] = useState();
-  const {handleInputChange, inputs, handleInputEnd, uploadErrors, reset} =
-    useUploadForm();
+  const {
+    handleInputChange,
+    inputs,
+    handleInputEnd,
+    uploadErrors,
+    reset,
+    value,
+    setValue,
+    value2,
+    setValue2,
+    value3,
+    setValue3,
+  } = useUploadForm();
   const [type, setType] = useState('');
   const {uploadMedia, loading} = useMedia();
   const {addTag} = useTag();
-  const {update, setUpdate} = useContext(MainContext);
+  const {update, setUpdate, isLoggedIn, setAskLogin} = useContext(MainContext);
 
   const doReset = () => {
     setImage();
@@ -66,7 +78,6 @@ const Upload = ({navigation}) => {
           userToken
         );
       }
-      //const priceResult = await addTag(result.file_id, inputs.price, userToken);
       if (tagResult.message) {
         Alert.alert(
           'Upload',
@@ -121,24 +132,55 @@ const Upload = ({navigation}) => {
         style={styles.keyboardView}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-            <Card>
-              <Image source={image} style={styles.image} />
-              <Button title="select media" onPress={pickImage} />
-              <UploadForm
-                title="Upload"
-                handleSubmit={doUpload}
-                handleInputChange={handleInputChange}
-                loading={loading}
-                handleInputEnd={handleInputEnd}
-                uploadErrors={uploadErrors}
-                image={image}
-                inputs={inputs}
+          {!isLoggedIn ? (
+            <View style={styles.introBox}>
+              <Text style={styles.headerFont}>
+                {'\n'}Hello!{'\n'}
+              </Text>
+              <Text style={fontStyles.regularFont}>
+                As a non registered user, you can only browse listings
+              </Text>
+              <Text style={fontStyles.regularFont}>
+                You can go back to login screen by clicking the button down
+                below
+                {'\n'}
+              </Text>
+              <Button
+                buttonStyle={styles.buttonWhite}
+                raised={true}
+                titleStyle={fontStyles.boldBlackFont}
+                title={'Go back to login'}
+                onPress={() => {
+                  setAskLogin(false);
+                }}
               />
-              <Button title="Reset" onPress={doReset} />
-            </Card>
-            <View style={{flex: 1}} />
-          </View>
+            </View>
+          ) : (
+            <View style={styles.container}>
+              <Card>
+                <Image source={image} style={styles.image} />
+                <Button title="select media" onPress={pickImage} />
+                <UploadForm
+                  title="Upload"
+                  handleSubmit={doUpload}
+                  handleInputChange={handleInputChange}
+                  loading={loading}
+                  handleInputEnd={handleInputEnd}
+                  uploadErrors={uploadErrors}
+                  image={image}
+                  inputs={inputs}
+                  value={value}
+                  setValue={setValue}
+                  value2={value2}
+                  setValue2={setValue2}
+                  value3={value3}
+                  setValue3={setValue3}
+                />
+                <Button title="Reset" onPress={doReset} />
+              </Card>
+              <View style={{flex: 1}} />
+            </View>
+          )}
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </KeyboardAwareScrollView>
@@ -156,6 +198,24 @@ const styles = StyleSheet.create({
   },
   keyboardView: {
     flex: 0,
+  },
+  introBox: {
+    width: '100%',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  buttonWhite: {
+    marginTop: 5,
+    width: '100%',
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderRadius: 0,
+  },
+  headerFont: {
+    fontFamily: 'RobotoCondensed_700Bold',
+    fontSize: 24,
   },
 });
 

@@ -18,36 +18,36 @@ import firebase from 'firebase';
 import {firebaseConfig} from '../firebaseConfig';
 
 const Home = ({navigation}) => {
-  const {user, mediaArray, setUnreadMessages} = useContext(MainContext);
-  const [userFilters, setUserFilters] = useState();
+  const {user, setUnreadMessages, isLoggedIn, setAskLogin, update} =
+    useContext(MainContext);
   const [filteredMediaArray, setFilteredMediaArray] = useState();
-  const {loadMedia, loadingMedia} = useMedia();
+  const {loadMedia, loadingMedia, mediaArray} = useMedia();
   const [loadingFilteredArray, setLoadingFilteredArray] = useState();
   const [extraFilters, setExtraFilters] = useState([
     'jackets',
     'shoes',
     'hats',
   ]);
-
-  if (user.full_name && !userFilters && user.full_name.length > 2) {
-    const parsedUserData = JSON.parse(user.full_name);
-    setUserFilters(parsedUserData.items);
-  }
-
-  if (userFilters && !filteredMediaArray) {
-    userFilters.forEach(async (e) => {
-      const conditionList = await loadMedia(e);
-      const filteredList = mediaArray.filter((el) => {
-        return conditionList.some((f) => {
-          return f.file_id === el.file_id;
-        });
-      });
-      setFilteredMediaArray(filteredList);
-      setLoadingFilteredArray(false);
-    });
-  }
-
   const isFocused = useIsFocused();
+
+  useEffect(() => {
+    (async () => {
+      if (user.full_name && user.full_name.length > 2) {
+        const parsedUserData = JSON.parse(user.full_name);
+        console.log(mediaArray);
+        parsedUserData.items.forEach(async (e) => {
+          const conditionList = await loadMedia(e);
+          const filteredList = await mediaArray.filter((el) => {
+            return conditionList.some((f) => {
+              return f.file_id === el.file_id;
+            });
+          });
+          setFilteredMediaArray(filteredList);
+          setLoadingFilteredArray(false);
+        });
+      }
+    })();
+  }, [mediaArray]);
 
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
@@ -82,14 +82,36 @@ const Home = ({navigation}) => {
   }, [isFocused]);
 
   return (
-    <SafeAreaView style={styles.droidSafeArea} >
+    <SafeAreaView style={styles.droidSafeArea}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
           // eslint-disable-next-line no-undef
           source={require('../assets/GW_graphics_slogan.png')}
           style={styles.topImage}
         />
-        {!userFilters ? (
+        {!isLoggedIn ? (
+          <View style={styles.introBox}>
+            <Text style={styles.headerFont}>
+              {'\n'}Hello!{'\n'}
+            </Text>
+            <Text style={fontStyles.regularFont}>
+              As a non registered user, you can only browse listings
+            </Text>
+            <Text style={fontStyles.regularFont}>
+              You can go back to login screen by clicking the button down below
+              {'\n'}
+            </Text>
+            <Button
+              buttonStyle={styles.buttonWhite}
+              raised={true}
+              titleStyle={fontStyles.boldBlackFont}
+              title={'Go back to login'}
+              onPress={() => {
+                setAskLogin(false);
+              }}
+            />
+          </View>
+        ) : !filteredMediaArray ? (
           <View style={styles.introBox}>
             <Text style={styles.headerFont}>
               {'\n'}Hello {user.username}!{'\n'}
