@@ -24,19 +24,8 @@ const constraints = {
   confirmPassword: {
     equality: 'password',
   },
-  email: {
-    presence: {
-      message: 'cannot be empty',
-    },
-    email: {
-      message: 'is not valid',
-    },
-  },
-  full_name: {
-    length: {
-      minimum: 5,
-      message: 'min length is 5 characters',
-    },
+  from: {
+    email: true,
   },
 };
 
@@ -50,7 +39,6 @@ const useSignUpForm = () => {
   });
 
   const [registerErrors, setRegisterErrors] = useState({});
-
   const handleInputEnd = (name, text, input) => {
     if (text === '') {
       text = null;
@@ -77,11 +65,30 @@ const useSignUpForm = () => {
     });
   };
 
-  const handleInputChange = (name, text) => {
-    setInputs((inputs) => {
+  const handleInputChange = (name, text, input) => {
+    setInputs((input) => {
       return {
-        ...inputs,
+        ...input,
         [name]: text,
+      };
+    });
+    let error;
+    if (name === 'confirmPassword') {
+      error = validator(
+        name,
+        {
+          password: input.password,
+          confirmPassword: text,
+        },
+        constraints
+      );
+    } else {
+      error = validator(name, text, constraints);
+    }
+    setRegisterErrors((registerErrors) => {
+      return {
+        ...registerErrors,
+        [name]: error,
       };
     });
   };
@@ -92,6 +99,7 @@ const useSignUpForm = () => {
     }
     try {
       const result = await checkUserName(text);
+      console.log(result);
       if (!result.available) {
         setRegisterErrors((registerErrors) => {
           return {

@@ -14,12 +14,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Avatar, ListItem} from 'react-native-elements';
+import {Avatar, Button, ListItem} from 'react-native-elements';
 import {firebaseConfig} from '../firebaseConfig';
 import {useIsFocused} from '@react-navigation/native';
+import fontStyles from '../utils/fontStyles';
 
 const Messages = ({navigation}) => {
-  const {user, setUnreadMessages} = useContext(MainContext);
+  const {user, setUnreadMessages, isLoggedIn, setAskLogin} =
+    useContext(MainContext);
   const isFocused = useIsFocused();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -71,7 +73,29 @@ const Messages = ({navigation}) => {
 
   return (
     <SafeAreaView>
-      {isLoaded ? (
+      {!isLoggedIn ? (
+        <View style={styles.introBox}>
+          <Text style={styles.headerFont}>
+            {'\n'}Hello!{'\n'}
+          </Text>
+          <Text style={fontStyles.regularFont}>
+            As a non registered user, you can only browse listings
+          </Text>
+          <Text style={fontStyles.regularFont}>
+            You can go back to login screen by clicking the button down below
+            {'\n'}
+          </Text>
+          <Button
+            buttonStyle={styles.buttonWhite}
+            raised={true}
+            titleStyle={fontStyles.boldBlackFont}
+            title={'Go back to login'}
+            onPress={() => {
+              setAskLogin(false);
+            }}
+          />
+        </View>
+      ) : isLoaded ? (
         <FlatList
           data={messagesArray}
           keyExtractor={(item) => item.chatId}
@@ -143,6 +167,24 @@ const styles = StyleSheet.create({
     height: 10,
     marginLeft: 10,
     borderRadius: 50,
+  },
+  introBox: {
+    width: '100%',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  buttonWhite: {
+    marginTop: 5,
+    width: '100%',
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderRadius: 0,
+  },
+  headerFont: {
+    fontFamily: 'RobotoCondensed_700Bold',
+    fontSize: 24,
   },
 });
 

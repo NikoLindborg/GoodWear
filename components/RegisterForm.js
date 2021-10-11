@@ -21,12 +21,13 @@ const RegisterForm = ({navigation}) => {
   };
 
   const {inputs, handleInputChange} = useSignUpForm();
+  console.log('form', registerErrors);
   return (
     <View>
       <FormTextInput
         autoCapitalize="none"
         placeholder="username"
-        onChangeText={(txt) => handleInputChange('username', txt)}
+        onChangeText={(txt) => handleInputChange('username', txt, inputs)}
         onEndEditing={async (event) => {
           const text = event.nativeEvent.text;
           const availability = await checkUserAvailable(text);
@@ -37,7 +38,7 @@ const RegisterForm = ({navigation}) => {
       <FormTextInput
         autoCapitalize="none"
         placeholder="password"
-        onChangeText={(txt) => handleInputChange('password', txt)}
+        onChangeText={(txt) => handleInputChange('password', txt, inputs)}
         secureTextEntry={true}
         errorMessage={registerErrors.password}
         onEndEditing={(event) => {
@@ -48,7 +49,9 @@ const RegisterForm = ({navigation}) => {
       <FormTextInput
         autoCapitalize="none"
         placeholder="confirm password"
-        onChangeText={(txt) => handleInputChange('confirmPassword', txt)}
+        onChangeText={(txt) =>
+          handleInputChange('confirmPassword', txt, inputs)
+        }
         onEndEditing={(event) => {
           const text = event.nativeEvent.text;
           handleInputEnd('confirmPassword', text, inputs);
@@ -59,7 +62,7 @@ const RegisterForm = ({navigation}) => {
       <FormTextInput
         autoCapitalize="none"
         placeholder="email"
-        onChangeText={(txt) => handleInputChange('email', txt)}
+        onChangeText={(txt) => handleInputChange('email', txt, inputs)}
         errorMessage={registerErrors.email}
         onEndEditing={(event) => {
           const text = event.nativeEvent.text;

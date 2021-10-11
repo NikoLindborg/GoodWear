@@ -20,6 +20,44 @@ const constraints = {
       message: 'min length is 3 characters',
     },
   },
+  price: {
+    presence: {
+      message: 'Cannot be empty.',
+    },
+    format: {
+      pattern: '[0-9]+',
+      message: 'can only contain numbers',
+    },
+  },
+  size: {
+    presence: {
+      message: 'Cannot be empty.',
+    },
+  },
+  shipping: {
+    presence: {
+      message: 'Cannot be empty.',
+    },
+    length: {
+      minimum: 3,
+      message: 'min length is 3 characters',
+    },
+  },
+  category: {
+    presence: {
+      message: 'Cannot be empty.',
+    },
+  },
+  condition: {
+    presence: {
+      message: 'Cannot be empty.',
+    },
+  },
+  gender: {
+    presence: {
+      message: 'Cannot be empty.',
+    },
+  },
 };
 const useUploadForm = (callback) => {
   const [inputs, setInputs] = useState({
@@ -27,6 +65,9 @@ const useUploadForm = (callback) => {
     title: '',
   });
   const [uploadErrors, setUploadErrors] = useState({});
+  const [value, setValue] = useState(null);
+  const [value2, setValue2] = useState(null);
+  const [value3, setValue3] = useState(null);
 
   const handleInputChange = (name, text) => {
     setInputs((inputs) => {
@@ -49,12 +90,21 @@ const useUploadForm = (callback) => {
       description: '',
     });
     setUploadErrors({});
+    setValue(null);
+    setValue2(null);
+    setValue3(null);
   };
   return {
     handleInputChange,
     inputs,
     uploadErrors,
     reset,
+    value,
+    setValue,
+    value2,
+    setValue2,
+    value3,
+    setValue3,
   };
 };
 
