@@ -80,7 +80,6 @@ const Home = ({navigation}) => {
       setUnreadMessages(emptyArray);
     });
   }, [isFocused]);
-
   return (
     <SafeAreaView style={styles.droidSafeArea}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -139,22 +138,30 @@ const Home = ({navigation}) => {
                 Newest in your filtered categories
               </Text>
             </View>
-            <List
-              navigation={navigation}
-              isHorizontal={true}
-              data={filteredMediaArray}
-              loading={loadingFilteredArray}
-            />
-            <Button
-              title={'SHOP MORE'}
-              buttonStyle={styles.shopMore}
-              titleStyle={fontStyles.boldFont}
-              containerStyle={styles.shopMoreContainer}
-              onPress={() => {
-                console.log('sasd', filteredMediaArray);
-                navigation.navigate('FilteredView', {data: filteredMediaArray});
-              }}
-            />
+            {filteredMediaArray.length === 0 ? (
+              <Text> Looks like there arent any posts with your filters</Text>
+            ) : (
+              <>
+                <List
+                  navigation={navigation}
+                  isHorizontal={true}
+                  data={filteredMediaArray}
+                  loading={loadingFilteredArray}
+                />
+                <Button
+                  title={'SHOP MORE'}
+                  buttonStyle={styles.shopMore}
+                  titleStyle={fontStyles.boldFont}
+                  containerStyle={styles.shopMoreContainer}
+                  onPress={() => {
+                    console.log('sasd', filteredMediaArray);
+                    navigation.navigate('FilteredView', {
+                      data: filteredMediaArray,
+                    });
+                  }}
+                />
+              </>
+            )}
           </View>
         )}
 
