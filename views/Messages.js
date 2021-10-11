@@ -6,6 +6,7 @@ import 'firebase/firestore';
 import firebase from 'firebase';
 import 'firebase/auth';
 import {
+  ActivityIndicator,
   FlatList,
   SafeAreaView,
   StyleSheet,
@@ -20,6 +21,7 @@ import {useIsFocused} from '@react-navigation/native';
 const Messages = ({navigation}) => {
   const {user, setUnreadMessages} = useContext(MainContext);
   const isFocused = useIsFocused();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
@@ -57,6 +59,7 @@ const Messages = ({navigation}) => {
       });
       setUnreadMessages(emptyArrayTwo);
       setMessagesArray(emptyArray);
+      setIsLoaded(true);
     });
   };
 
@@ -68,55 +71,57 @@ const Messages = ({navigation}) => {
 
   return (
     <SafeAreaView>
-      <FlatList
-        data={messagesArray}
-        keyExtractor={(item) => item.chatId}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            //  onPress={() => navigation.navigate('Chat', {owner: item.user._id})}
-            onPress={() =>
-              navigation.navigate('Chat', {
-                chatId: item.chatId,
-                subject: item.subject,
-                filename: item.avatar,
-                buyer: item.buyer,
-              })
-            }
-          >
-            <ListItem style={styles.listItem}>
-              <Avatar
-                source={{uri: uploadsUrl + item.avatar}}
-                avatarStyle={{borderRadius: 50, flex: 9}}
-              />
-              {(item.read === false &&
-                item.sentBy !== user.username &&
-                item.readBy !== user.username) ||
-              (item.read === true &&
-                item.sentBy !== user.username &&
-                item.readBy !== user.username) ? (
-                <>
-                  <View style={styles.conversation}>
-                    <Text style={{fontWeight: 'bold'}}>
-                      Product: {item.subject}
-                    </Text>
-                    <Text style={{fontWeight: 'bold', fontSize: 12}}>
-                      Buyer: {item.buyer}
-                    </Text>
-                  </View>
-                  <View style={styles.notification} />
-                </>
-              ) : (
-                <>
-                  <View style={styles.conversation}>
-                    <Text>Product: {item.subject}</Text>
-                    <Text style={{fontSize: 12}}>Buyer: {item.buyer}</Text>
-                  </View>
-                </>
-              )}
-            </ListItem>
-          </TouchableOpacity>
-        )}
-      />
+      {isLoaded ? (
+        <FlatList
+          data={messagesArray}
+          keyExtractor={(item) => item.chatId}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              //  onPress={() => navigation.navigate('Chat', {owner: item.user._id})}
+              onPress={() =>
+                navigation.navigate('Chat', {
+                  chatId: item.chatId,
+                  subject: item.subject,
+                  filename: item.avatar,
+                  buyer: item.buyer,
+                })
+              }
+            >
+              <ListItem style={styles.listItem}>
+                <Avatar
+                  source={{uri: uploadsUrl + item.avatar}}
+                  avatarStyle={{borderRadius: 50, flex: 9}}
+                />
+                {(item.read === false &&
+                  item.sentBy !== user.username &&
+                  item.readBy !== user.username) ||
+                (item.read === true &&
+                  item.sentBy !== user.username &&
+                  item.readBy !== user.username) ? (
+                  <>
+                    <View style={styles.conversation}>
+                      <Text style={{fontWeight: 'bold'}}>{item.subject}</Text>
+                      <Text style={{fontWeight: 'bold', fontSize: 12}}>
+                        Buyer: {item.buyer}
+                      </Text>
+                    </View>
+                    <View style={styles.notification} />
+                  </>
+                ) : (
+                  <>
+                    <View style={styles.conversation}>
+                      <Text>{item.subject}</Text>
+                      <Text style={{fontSize: 12}}>Buyer: {item.buyer}</Text>
+                    </View>
+                  </>
+                )}
+              </ListItem>
+            </TouchableOpacity>
+          )}
+        />
+      ) : (
+        <ActivityIndicator />
+      )}
     </SafeAreaView>
   );
 };

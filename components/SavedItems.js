@@ -10,9 +10,11 @@ const SavedItems = ({navigation}) => {
   const {loadFavourites} = useFavourite();
   const {mediaArray, updateFavourite} = useContext(MainContext);
   const [savedItems, setSavedItems] = useState();
+  const [loaded, setLoaded] = useState();
   const newMediaArray = [];
 
   const loadFavs = async () => {
+    setLoaded(false)
     try {
       const userToken = await AsyncStorage.getItem('userToken');
       const favouriteArray = await loadFavourites(userToken);
@@ -28,6 +30,8 @@ const SavedItems = ({navigation}) => {
       }
     } catch (e) {
       console.log(e.message);
+    } finally {
+      setLoaded(true);
     }
   };
 
@@ -42,7 +46,7 @@ const SavedItems = ({navigation}) => {
       data={savedItems}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) => (
-        <ListItem singleMedia={item} navigation={navigation} />
+        <ListItem singleMedia={item} navigation={navigation} loading={loaded}/>
       )}
     />
   );

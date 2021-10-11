@@ -1,10 +1,10 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {ActivityIndicator, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
 import {Text, Card} from 'react-native-elements';
 
-const ListItem = ({singleMedia, navigation}) => {
+const ListItem = ({singleMedia, navigation, loading}) => {
   return (
     <TouchableOpacity
       style={{alignItems: 'center'}}
@@ -20,18 +20,23 @@ const ListItem = ({singleMedia, navigation}) => {
         });
       }}
     >
-      <Card wrapperStyle={styles.card}>
-        <Card.Title style={{fontFamily: 'RobotoCondensed_700Bold'}}>
-          {singleMedia.title}
-        </Card.Title>
-        <Card.Image
-          source={{uri: uploadsUrl + singleMedia.thumbnails?.w160}}
-          style={styles.image}
-        />
-        <Text style={{fontFamily: 'RobotoCondensed_400Regular'}}>
-          {JSON.parse(singleMedia.description).description}
-        </Text>
-      </Card>
+      {!loading ? (
+        <ActivityIndicator />
+      ) : (
+        <Card wrapperStyle={styles.card}>
+          <Card.Title style={{fontFamily: 'RobotoCondensed_700Bold'}}>
+            {singleMedia.title}
+          </Card.Title>
+          <Card.Image
+            source={{uri: uploadsUrl + singleMedia.thumbnails?.w160}}
+            style={styles.image}
+          />
+          <Text style={{fontFamily: 'RobotoCondensed_400Regular'}}>
+            {JSON.parse(singleMedia.description).description}
+          </Text>
+        </Card>
+      )}
+
     </TouchableOpacity>
   );
 };
@@ -39,6 +44,7 @@ const ListItem = ({singleMedia, navigation}) => {
 ListItem.propTypes = {
   singleMedia: PropTypes.object.isRequired,
   navigation: PropTypes.object,
+  loading: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({
