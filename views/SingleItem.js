@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Text, Image, View, StyleSheet, ScrollView} from 'react-native';
+import {Text, Image, View, StyleSheet, ScrollView, ActivityIndicator} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {uploadsUrl} from '../utils/variables';
 import {Button} from 'react-native-elements';
@@ -26,7 +26,7 @@ const SingleItem = ({route, navigation}) => {
 
   const {getPostTags} = useTag();
   const [postTags, setPostTags] = useState();
-  const [isLoaded, setIsLoaded] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
   const allData = JSON.parse(description);
 
   const getTags = async () => {
@@ -190,7 +190,7 @@ const SingleItem = ({route, navigation}) => {
           </>
         ) : (
           <View style={styles.item}>
-            <Text>Moro</Text>
+            <ActivityIndicator />
           </View>
         )}
       </ScrollView>

@@ -1,7 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Platform, StyleSheet, ScrollView, View} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  ScrollView,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 import {Button, Image, Text} from 'react-native-elements';
 import List from '../components/List';
 import fontStyles from '../utils/fontStyles';
@@ -15,7 +21,8 @@ const Home = ({navigation}) => {
   const {user, mediaArray, setUnreadMessages} = useContext(MainContext);
   const [userFilters, setUserFilters] = useState();
   const [filteredMediaArray, setFilteredMediaArray] = useState();
-  const {loadMedia} = useMedia();
+  const {loadMedia, loadingMedia} = useMedia();
+  const [loadingFilteredArray, setLoadingFilteredArray] = useState();
   const [extraFilters, setExtraFilters] = useState([
     'jackets',
     'shoes',
@@ -36,6 +43,7 @@ const Home = ({navigation}) => {
         });
       });
       setFilteredMediaArray(filteredList);
+      setLoadingFilteredArray(true);
     });
   }
 
@@ -113,6 +121,7 @@ const Home = ({navigation}) => {
               navigation={navigation}
               isHorizontal={true}
               data={filteredMediaArray}
+              loading={loadingFilteredArray}
             />
             <Button
               title={'SHOP MORE'}
@@ -120,7 +129,7 @@ const Home = ({navigation}) => {
               titleStyle={fontStyles.boldFont}
               containerStyle={styles.shopMoreContainer}
               onPress={() => {
-                console.log('sasd', filteredMediaArray)
+                console.log('sasd', filteredMediaArray);
                 navigation.navigate('FilteredView', {data: filteredMediaArray});
               }}
             />
@@ -133,7 +142,12 @@ const Home = ({navigation}) => {
           <View style={styles.textBar}>
             <Text style={styles.headerFont}>Newest in clothing</Text>
           </View>
-          <List navigation={navigation} isHorizontal={true} data={mediaArray} />
+          <List
+            navigation={navigation}
+            isHorizontal={true}
+            data={mediaArray}
+            loading={loadingMedia}
+          />
           <Button
             title={'SHOP MORE'}
             buttonStyle={styles.shopMore}
