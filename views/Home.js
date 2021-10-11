@@ -22,7 +22,7 @@ const Home = ({navigation}) => {
   const [userFilters, setUserFilters] = useState();
   const [filteredMediaArray, setFilteredMediaArray] = useState();
   const {loadMedia, loadingMedia} = useMedia();
-  const [loadingFilteredArray, setLoadingFilteredArray] = useState();
+  const [loadingFilteredArray, setLoadingFilteredArray] = useState(true);
   const [extraFilters, setExtraFilters] = useState([
     'jackets',
     'shoes',
@@ -43,7 +43,7 @@ const Home = ({navigation}) => {
         });
       });
       setFilteredMediaArray(filteredList);
-      setLoadingFilteredArray(true);
+      setLoadingFilteredArray(false);
     });
   }
 

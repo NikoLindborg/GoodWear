@@ -14,7 +14,7 @@ const SavedItems = ({navigation}) => {
   const newMediaArray = [];
 
   const loadFavs = async () => {
-    setLoaded(false)
+    setLoaded(false);
     try {
       const userToken = await AsyncStorage.getItem('userToken');
       const favouriteArray = await loadFavourites(userToken);

@@ -20,7 +20,7 @@ const ListItem = ({singleMedia, navigation, loading}) => {
         });
       }}
     >
-      {!loading ? (
+      {loading ? (
         <ActivityIndicator />
       ) : (
         <Card wrapperStyle={styles.card}>
@@ -36,7 +36,6 @@ const ListItem = ({singleMedia, navigation, loading}) => {
           </Text>
         </Card>
       )}
-
     </TouchableOpacity>
   );
 };
