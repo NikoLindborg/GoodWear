@@ -11,6 +11,7 @@ const Chat = (chatUserIds) => {
   const chatId = chatUserIds.route.params.chatId;
   const productTitle = chatUserIds.route.params.subject;
   const chatAvatar = chatUserIds.route.params.filename;
+  const buyer = chatUserIds.route.params.buyer;
   const lastMessage = new Date();
 
   if (firebase.apps.length === 0) {
@@ -71,6 +72,7 @@ const Chat = (chatUserIds) => {
       read: false,
       sentBy: user.username,
       readBy: user.username,
+      buyer: buyer,
     });
   };
 

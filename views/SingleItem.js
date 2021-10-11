@@ -87,8 +87,10 @@ const SingleItem = ({route, navigation}) => {
   const [showBox, setShowBox] = useState(true);
 
   const checkIfMyItem = () => {
-    if (user.user_id === user_id) {
-      setIsMyItem(true);
+    if (user_id) {
+      if (user.user_id === user_id) {
+        setIsMyItem(true);
+      }
     }
   };
 
@@ -104,6 +106,7 @@ const SingleItem = ({route, navigation}) => {
             console.log('Delete', response);
             if (response.message) {
               setUpdate(update + 1);
+              navigation.navigate('Profile');
             }
           } catch (e) {
             console.log('ListItem, delete: ', e.message);
@@ -191,8 +194,11 @@ const SingleItem = ({route, navigation}) => {
                   buttonStyle={styles.buttonRed}
                   titleStyle={fontStyles.boldFont}
                   onPress={() => {
-                    console.log('route', singleMedia);
-                    navigation.navigate('Modify', {singleMedia, navigation});
+                    navigation.navigate('Modify', {
+                      singleMedia,
+                      navigation,
+                      file_id,
+                    });
                   }}
                 />
                 <Button

@@ -1,36 +1,46 @@
 import React, {useContext, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {View, ActivityIndicator, Alert} from 'react-native';
-import UploadForm from '../components/UploadForm';
-import useUploadForm from '../hooks/UploadHooks';
+import useModifyForm from '../hooks/ModifyHooks';
 import {useMedia} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
+import ModifyForm from '../components/ModifyForm';
 
 const Modify = ({route}) => {
   const navigation = route.params.navigation;
-  const {handleInputChange, inputs, handleInputEnd, uploadErrors, setInputs} =
-    useUploadForm();
+  const {handleInputChange, inputs, handleInputEnd, modifyErrors, setInputs} =
+    useModifyForm();
   const {modifyMedia, loading} = useMedia();
   const {update, setUpdate} = useContext(MainContext);
+  const fileId = route.params.file_id;
+  const allData = JSON.parse(route.params.singleMedia.description);
 
   useEffect(() => {
     (() => {
       setInputs({
         title: route.params.singleMedia.title,
-        description: route.params.singleMedia.description,
+        description: allData.description,
+        shipping: allData.shipping,
       });
     })();
   }, []);
 
-  doModify();
   const doModify = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
-      const data = {description: inputs.description, shipping: inputs.shipping};
-      console.log('doModify', data);
-      /* const result = await modifyMedia(
-        inputs,
+      console.log('token: ', userToken);
+      const descriptionData = {
+        description: inputs.description,
+        shipping: inputs.shipping,
+      };
+      const modifyData = {
+        title: inputs.title,
+        description: JSON.stringify(descriptionData),
+      };
+      console.log('modifydataobject', modifyData);
+      const result = await modifyMedia(
+        modifyData,
         userToken,
         route.params.singleMedia.file_id
       );
@@ -49,7 +59,7 @@ const Modify = ({route}) => {
           ],
           {cancelable: false}
         );
-      } */
+      }
     } catch (e) {
       console.log('doModify error', e.message);
     }
@@ -57,13 +67,13 @@ const Modify = ({route}) => {
 
   return (
     <View>
-      <UploadForm
-        title="Upload"
+      <ModifyForm
+        title="Modify"
         handleSubmit={doModify}
         handleInputChange={handleInputChange}
         loading={loading}
         handleInputEnd={handleInputEnd}
-        uploadErrors={uploadErrors}
+        modifyErrors={modifyErrors}
         inputs={inputs}
       />
       {loading && <ActivityIndicator />}

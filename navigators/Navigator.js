@@ -16,49 +16,82 @@ import Search from '../views/Search';
 import ProductList from '../views/ProductList';
 import FilteredView from '../views/FilteredView';
 import Modify from '../views/Modify';
+import {Icon} from 'react-native-elements';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const TabScreen = () => {
+  const {unreadMessages} = useContext(MainContext);
   return (
     <Tab.Navigator>
       <Tab.Screen
         name="Front"
         options={{
+          tabBarActiveTintColor: '#E07A5F',
           tabBarLabel: 'Home',
           headerShown: false,
+          tabBarIcon: () => <Icon name="home" color={'grey'} size={25} />,
         }}
         component={Home}
       />
       <Tab.Screen
         name="Search"
         options={{
+          tabBarActiveTintColor: '#E07A5F',
           tabBarLabel: 'Search',
-          headerShown: false,
+          tabBarIcon: () => <Icon name="search" color={'grey'} size={25} />,
         }}
         component={Search}
       />
       <Tab.Screen
         name="Upload"
         options={{
+          tabBarActiveTintColor: '#E07A5F',
           tabBarLabel: 'Upload',
-          headerShown: false,
+          tabBarIcon: () => (
+            <Icon
+              name="add"
+              color={'white'}
+              backgroundColor={'#E07A5F'}
+              borderRadius={20}
+              size={25}
+            />
+          ),
         }}
         component={Upload}
       />
-      <Tab.Screen
-        name="Messages"
-        options={{
-          tabBarLabel: 'Messages',
-        }}
-        component={Messages}
-      />
+      {unreadMessages.length > 0 ? (
+        <Tab.Screen
+          name="Messages"
+          options={{
+            tabBarActiveTintColor: '#E07A5F',
+            tabBarLabel: 'Messages',
+            tabBarIcon: () => <Icon name="chat" color={'grey'} size={25} />,
+            tabBarBadge: unreadMessages.length,
+            tabBarBadgeStyle: {backgroundColor: '#E07A5F', color: 'white'},
+          }}
+          component={Messages}
+        />
+      ) : (
+        <Tab.Screen
+          name="Messages"
+          options={{
+            tabBarActiveTintColor: '#E07A5F',
+            tabBarLabel: 'Messages',
+            tabBarIcon: () => <Icon name="chat" color={'grey'} size={25} />,
+          }}
+          component={Messages}
+        />
+      )}
+
       <Tab.Screen
         name="Profile"
         options={{
+          tabBarActiveTintColor: '#E07A5F',
           tabBarLabel: 'Profile',
           headerShown: false,
+          tabBarIcon: () => <Icon name="person" color={'grey'} size={25} />,
         }}
         component={Profile}
       />
@@ -68,7 +101,10 @@ const TabScreen = () => {
 
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
-
+  const customOptions = {
+    headerTintColor: '#E07A5F',
+    headerTitleStyle: {color: 'black'},
+  };
   return (
     <Stack.Navigator>
       {isLoggedIn ? (
@@ -81,12 +117,28 @@ const StackScreen = () => {
             component={TabScreen}
           />
 
-          <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
+            options={customOptions}
+          />
+          <Stack.Screen
+            name="SingleItem"
+            component={SingleItem}
+            options={customOptions}
+          />
+          <Stack.Screen name="Chat" component={Chat} options={customOptions} />
+          <Stack.Screen
+            name="ProductList"
+            component={ProductList}
+            options={customOptions}
+          />
+          <Stack.Screen
+            name="FilteredView"
+            component={FilteredView}
+            options={customOptions}
+          />
           <Stack.Screen name="ModifyUser" component={ModifyUser} />
-          <Stack.Screen name="SingleItem" component={SingleItem} />
-          <Stack.Screen name="Chat" component={Chat} />
-          <Stack.Screen name="ProductList" component={ProductList} />
-          <Stack.Screen name="FilteredView" component={FilteredView} />
           <Stack.Screen name="Modify" component={Modify} />
         </>
       ) : (

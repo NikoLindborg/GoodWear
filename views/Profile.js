@@ -7,11 +7,11 @@ import MyItems from '../components/MyItems';
 import SavedItems from '../components/SavedItems';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMedia, useUser} from '../hooks/ApiHooks';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Profile = ({navigation}) => {
   const [selectedView, setSelectedView] = useState(false);
-  const {user, setUser} = useContext(MainContext);
+  const {user, setUser, update} = useContext(MainContext);
   const {checkToken} = useUser();
 
   const getToken = async () => {
@@ -30,8 +30,10 @@ const Profile = ({navigation}) => {
   };
 
   useEffect(() => {
-    getToken();
-  }, []);
+    (async () => {
+      await getToken();
+    })();
+  }, [update]);
 
   return (
     <SafeAreaView style={styles.droidSafeArea}>
@@ -130,6 +132,12 @@ const Profile = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  droidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+  },
   basicFont: {
     fontFamily: 'RobotoCondensed_400Regular',
     fontSize: 30,

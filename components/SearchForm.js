@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import FormTextInput from './FormTextInput';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Button} from 'react-native-elements';
+import {Platform, StyleSheet} from 'react-native';
+import fontStyles from '../utils/fontStyles';
 
 const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
   const [open, setOpen] = useState(false);
@@ -41,6 +43,8 @@ const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
+        style={{borderColor: 'white'}}
+        placeholder={'Select category'}
         onChangeValue={(value) => handleInputChange('category', value)}
         zIndex={3000}
         zIndexInverse={1000}
@@ -52,6 +56,8 @@ const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
         setOpen={setOpen2}
         setValue={setValue2}
         setItems={setItems2}
+        style={{borderColor: 'white'}}
+        placeholder={'Select condition'}
         onChangeValue={(value) => handleInputChange('condition', value)}
         zIndex={2000}
         zIndexInverse={2000}
@@ -63,17 +69,26 @@ const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
         setOpen={setOpen3}
         setValue={setValue3}
         setItems={setItems3}
+        placeholder={'Select gender'}
+        style={{borderColor: 'white'}}
         onChangeValue={(value) => handleInputChange('gender', value)}
         zIndex={1000}
         zIndexInverse={3000}
       />
       <FormTextInput
         autoCapitalize="none"
-        placeholder="size"
+        placeholder="Size"
         onChangeText={(txt) => handleInputChange('size', txt)}
       />
 
-      <Button raised title={title} onPress={handleSubmit} loading={loading} />
+      <Button
+        raised
+        buttonStyle={styles.buttonWhite}
+        titleStyle={fontStyles.boldBlackFont}
+        title={title}
+        onPress={handleSubmit}
+        loading={loading}
+      />
     </>
   );
 };
@@ -84,5 +99,17 @@ SearchForm.propTypes = {
   loading: PropTypes.bool,
   uploadErrors: PropTypes.object,
 };
+
+const styles = StyleSheet.create({
+  buttonWhite: {
+    marginTop: 5,
+    width: '100%',
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderRadius: 0,
+  },
+});
 
 export default SearchForm;

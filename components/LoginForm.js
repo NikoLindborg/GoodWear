@@ -16,7 +16,6 @@ const LoginForm = ({navigation}) => {
   const doLogin = async () => {
     try {
       const loginInfo = await login(JSON.stringify(inputs));
-      console.log(loginInfo);
       await AsyncStorage.setItem('userToken', loginInfo.token);
       const userObject = {
         email: loginInfo.user.email,

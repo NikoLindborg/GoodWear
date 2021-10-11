@@ -84,7 +84,7 @@ const Settings = ({navigation}) => {
         </ListItem>
       </View>
       <Card.Divider />
-      <View style={{height: 'auto', zIndex: 1}}>
+      <View containerStyle={{height: 'auto', zIndex: 2}}>
         <FilterForm />
       </View>
       <View style={{height: 250}}>
