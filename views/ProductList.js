@@ -14,14 +14,17 @@ const ProductList = ({route, navigation}) => {
 
   const productIdList = [];
   const [finalProducts, setFinalProducts] = useState([]);
+  const [loaded, setLoaded] = useState();
 
   const getMedia = async (idArray) => {
+    setLoaded(false);
     const emptyArray = [];
     for (const id of idArray) {
       const finalProduct = await loadSingleMedia(id);
       emptyArray.push(finalProduct);
     }
     setFinalProducts(emptyArray);
+    setLoaded(true);
   };
 
   useEffect(() => {
@@ -44,7 +47,7 @@ const ProductList = ({route, navigation}) => {
       style={{alignItems: 'center'}}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) => (
-        <ListItem navigation={navigation} singleMedia={item} />
+        <ListItem navigation={navigation} singleMedia={item} loading={loaded} />
       )}
     />
   );

@@ -7,11 +7,14 @@ import axios from 'axios';
 const useMedia = (ownFiles = false) => {
   const [mediaArray, setMediaArray] = useState([]);
   const {update, user} = useContext(MainContext);
+  const [loadingMedia, setLoadingMedia] = useState();
 
   useEffect(() => {
     (async () => {
+      setLoadingMedia(true);
       const array = await loadMedia(appId);
       setMediaArray(array.reverse());
+      setLoadingMedia(true);
     })();
   }, [update]);
 
@@ -105,6 +108,7 @@ const useMedia = (ownFiles = false) => {
     uploadMedia,
     deleteMedia,
     modifyMedia,
+    loadingMedia,
   };
 };
 

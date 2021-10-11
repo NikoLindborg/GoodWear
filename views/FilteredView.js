@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -13,7 +13,12 @@ const FilteredView = ({route, navigation}) => {
   return (
     <ScrollView>
       <SafeAreaView style={styles.droidSafeArea}>
-        <List navigation={navigation} isHorizontal={false} data={data} />
+        <List
+          navigation={navigation}
+          isHorizontal={false}
+          data={data}
+          loading={true}
+        />
       </SafeAreaView>
     </ScrollView>
   );

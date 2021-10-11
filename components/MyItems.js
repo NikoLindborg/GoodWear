@@ -5,7 +5,7 @@ import ListItem from '../components/ListItem';
 import PropTypes from 'prop-types';
 
 const MyItems = ({navigation}) => {
-  const {mediaArray} = useMedia(true);
+  const {mediaArray, loadingMedia} = useMedia(true);
 
   return (
     <FlatList
@@ -13,6 +13,7 @@ const MyItems = ({navigation}) => {
       renderItem={({item}) => (
         <ListItem
           singleMedia={item}
+          loading={loadingMedia}
           navigation={navigation}
           onPress={() => {
             navigation.navigate('SingleItem', {

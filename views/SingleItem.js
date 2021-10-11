@@ -1,6 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Text, Image, View, StyleSheet, Alert} from 'react-native';
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {uploadsUrl} from '../utils/variables';
 import {Button} from 'react-native-elements';
@@ -21,7 +29,7 @@ const SingleItem = ({route, navigation}) => {
 
   const {getPostTags} = useTag();
   const [postTags, setPostTags] = useState();
-  const [isLoaded, setIsLoaded] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
   const allData = JSON.parse(description);
 
   const getTags = async () => {
@@ -129,109 +137,158 @@ const SingleItem = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {isLoaded ? (
-        <>
-          <View style={styles.item}>
-            {isMyItem ? (
-              <></>
-            ) : (
-              <>
-                {favourite ? (
-                  <Button
-                    buttonStyle={styles.buttonWhite}
-                    containerStyle={{
-                      position: 'absolute',
-                      top: 20,
-                      right: 70,
-                      zIndex: 1,
-                    }}
-                    titleStyle={fontStyles.boldBlackFont}
-                    title={'Remove'}
-                    onPress={() => {
-                      removeSavedItem();
-                    }}
-                  />
-                ) : (
-                  <Button
-                    buttonStyle={styles.buttonWhite}
-                    containerStyle={{
-                      position: 'absolute',
-                      top: 20,
-                      right: 70,
-                      zIndex: 1,
-                    }}
-                    titleStyle={fontStyles.boldBlackFont}
-                    title={'Save'}
-                    onPress={() => {
-                      saveItem();
-                    }}
-                  />
-                )}
-              </>
-            )}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {isLoaded ? (
+          <>
+            <View style={styles.item}>
+              {isMyItem ? (
+                <></>
+              ) : (
+                <>
+                  {favourite ? (
+                    <Button
+                      buttonStyle={styles.buttonWhite}
+                      containerStyle={{
+                        position: 'absolute',
+                        top: 20,
+                        right: 70,
+                        zIndex: 1,
+                      }}
+                      titleStyle={fontStyles.boldBlackFont}
+                      title={'Remove'}
+                      onPress={() => {
+                        removeSavedItem();
+                      }}
+                    />
+                  ) : (
+                    <Button
+                      buttonStyle={styles.buttonWhite}
+                      containerStyle={{
+                        position: 'absolute',
+                        top: 20,
+                        right: 70,
+                        zIndex: 1,
+                      }}
+                      titleStyle={fontStyles.boldBlackFont}
+                      title={'Save'}
+                      onPress={() => {
+                        saveItem();
+                      }}
+                    />
+                  )}
+                </>
+              )}
 
-            <Image
-              source={{uri: uploadsUrl + filename}}
-              style={styles.imageSingle}
+              <Image
+                source={{uri: uploadsUrl + filename}}
+                style={styles.imageSingle}
+              />
+              <Text style={fontStyles.boldFontHeader}>{title}</Text>
+              {postTags[5].tag !== 'female' ? (
+                <>
+                  <Text style={fontStyles.regularFont}>
+                    Category: {postTags[1].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Condition: {postTags[2].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Size: {postTags[3].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Gender: {postTags[4].tag}
+                  </Text>
+                  {!postTags[5].tag.endsWith('€') ? (
+                    <Text style={fontStyles.regularFont}>
+                      Price: {postTags[5].tag}€
+                    </Text>
+                  ) : (
+                    <Text style={fontStyles.regularFont}>
+                      Price: {postTags[5].tag}
+                    </Text>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Text style={fontStyles.regularFont}>
+                    Category: {postTags[1].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Condition: {postTags[2].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Size: {postTags[3].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>Gender: Unisex</Text>
+                  {!postTags[6].tag.endsWith('€') ? (
+                    <Text style={fontStyles.regularFont}>
+                      Price: {postTags[6].tag}€
+                    </Text>
+                  ) : (
+                    <Text style={fontStyles.regularFont}>
+                      Price: {postTags[6].tag}
+                    </Text>
+                  )}
+                </>
+              )}
+              <Text style={fontStyles.boldFont}>Description:</Text>
+              <Text style={fontStyles.regularFont}>{allData.description}</Text>
+              <Text style={fontStyles.regularFont}>
+                Shipping: {allData.shipping}
+              </Text>
+            </View>
+          </>
+        ) : (
+          <>
+            <View style={styles.item}>
+              <ActivityIndicator />
+            </View>
+          </>
+        )}
+      </ScrollView>
+      <View style={styles.buttonContainer}>
+        {isMyItem ? (
+          <>
+            <Button
+              title={'Modify item'}
+              buttonStyle={styles.buttonRed}
+              titleStyle={fontStyles.boldFont}
+              onPress={() => {
+                navigation.navigate('Modify', {
+                  singleMedia,
+                  navigation,
+                  file_id,
+                });
+              }}
             />
-            <Text style={fontStyles.boldFont}>{title}</Text>
-            <Text style={fontStyles.regularFont}>
-              Category: {postTags[1].tag}
-            </Text>
-            <Text style={fontStyles.regularFont}>
-              Condition: {postTags[2].tag}
-            </Text>
-            <Text style={fontStyles.regularFont}>Size: {postTags[3].tag}</Text>
-            <Text style={fontStyles.regularFont}>Price: {postTags[4].tag}</Text>
-            <Text style={fontStyles.regularFont}>{allData.description}</Text>
-            <Text style={fontStyles.regularFont}>{allData.shipping}</Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            {isMyItem ? (
-              <>
-                <Button
-                  title={'Modify item'}
-                  buttonStyle={styles.buttonRed}
-                  titleStyle={fontStyles.boldFont}
-                  onPress={() => {
-                    navigation.navigate('Modify', {
-                      singleMedia,
-                      navigation,
-                      file_id,
-                    });
-                  }}
-                />
-                <Button
-                  title={'Delete item'}
-                  buttonStyle={styles.buttonRed}
-                  titleStyle={fontStyles.boldFont}
-                  onPress={() => {
-                    deleteItem();
-                  }}
-                />
-              </>
-            ) : (
-              <>
-                <Button
-                  title={'Send message to seller'}
-                  buttonStyle={styles.buttonRed}
-                  titleStyle={fontStyles.boldFont}
-                  onPress={() => {
-                    navigation.navigate('Chat', {
-                      chatId: setChatId(user_id, user.user_id),
-                      subject: title,
-                      filename: filename,
-                      buyer: user.username,
-                    });
-                  }}
-                />
-              </>
-            )}
-          </View>
-        </>
-      ) : (
-        <View style={styles.item}></View>
-      )}
+            <Button
+              title={'Delete item'}
+              buttonStyle={styles.buttonRed}
+              titleStyle={fontStyles.boldFont}
+              onPress={() => {
+                deleteItem();
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <Button
+              title={'Send message to seller'}
+              buttonStyle={styles.buttonRed}
+              titleStyle={fontStyles.boldFont}
+              onPress={() => {
+                navigation.navigate('Chat', {
+                  chatId: setChatId(user_id, user.user_id),
+                  subject: title,
+                  filename: filename,
+                  buyer: user.username,
+                });
+              }}
+            />
+          </>
+        )}
+        <View style={styles.space} />
+      </View>
     </SafeAreaView>
   );
 };
@@ -240,6 +297,9 @@ const styles = StyleSheet.create({
   imageSingle: {
     width: 200,
     height: 300,
+  },
+  space: {
+    height: 10,
   },
   item: {
     flex: 1,
@@ -257,7 +317,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   buttonRed: {
-    width: 100,
+    width: 250,
     backgroundColor: '#E07A5F',
   },
   buttonWhite: {
