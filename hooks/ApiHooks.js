@@ -14,7 +14,7 @@ const useMedia = (ownFiles = false) => {
       setLoadingMedia(true);
       const array = await loadMedia(appId);
       setMediaArray(array.reverse());
-      setLoadingMedia(true);
+      setLoadingMedia(false);
     })();
   }, [update]);
 

@@ -1,6 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Text, Image, View, StyleSheet, ScrollView, ActivityIndicator} from 'react-native';
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {uploadsUrl} from '../utils/variables';
 import {Button} from 'react-native-elements';
@@ -25,7 +32,7 @@ const SingleItem = ({route, navigation}) => {
   const {filename, title, description, user_id, file_id} = route.params;
 
   const {getPostTags} = useTag();
-  const [postTags, setPostTags] = useState();
+  const [postTags, setPostTags] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const allData = JSON.parse(description);
 
@@ -133,7 +140,7 @@ const SingleItem = ({route, navigation}) => {
                 style={styles.imageSingle}
               />
               <Text style={fontStyles.boldFontHeader}>{title}</Text>
-              {postTags[5].tag !== 'female' ? (
+              {postTags.length < 6 ? (
                 <>
                   <Text style={fontStyles.regularFont}>
                     Category: {postTags[1].tag}
@@ -147,15 +154,6 @@ const SingleItem = ({route, navigation}) => {
                   <Text style={fontStyles.regularFont}>
                     Gender: {postTags[4].tag}
                   </Text>
-                  {!postTags[5].tag.endsWith('€') ? (
-                    <Text style={fontStyles.regularFont}>
-                      Price: {postTags[5].tag}€
-                    </Text>
-                  ) : (
-                    <Text style={fontStyles.regularFont}>
-                      Price: {postTags[5].tag}
-                    </Text>
-                  )}
                 </>
               ) : (
                 <>
@@ -169,15 +167,6 @@ const SingleItem = ({route, navigation}) => {
                     Size: {postTags[3].tag}
                   </Text>
                   <Text style={fontStyles.regularFont}>Gender: Unisex</Text>
-                  {!postTags[6].tag.endsWith('€') ? (
-                    <Text style={fontStyles.regularFont}>
-                      Price: {postTags[6].tag}€
-                    </Text>
-                  ) : (
-                    <Text style={fontStyles.regularFont}>
-                      Price: {postTags[6].tag}
-                    </Text>
-                  )}
                 </>
               )}
               <View style={styles.space} />
@@ -186,6 +175,16 @@ const SingleItem = ({route, navigation}) => {
               <Text style={fontStyles.regularFont}>
                 Shipping: {allData.shipping}
               </Text>
+              <View style={styles.space} />
+              {!JSON.parse(description).price.endsWith('€') ? (
+                <Text style={fontStyles.boldFont}>
+                  Price: {JSON.parse(description).price}€
+                </Text>
+              ) : (
+                <Text style={fontStyles.boldFont}>
+                  Price: {JSON.parse(description).price}
+                </Text>
+              )}
             </View>
           </>
         ) : (
