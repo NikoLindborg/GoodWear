@@ -133,20 +133,65 @@ const SingleItem = ({route, navigation}) => {
                 style={styles.imageSingle}
               />
               <Text style={fontStyles.boldFontHeader}>{title}</Text>
-              <Text style={fontStyles.regularFont}>
-                Category: {postTags[1].tag}
-              </Text>
-              <Text style={fontStyles.regularFont}>
-                Condition: {postTags[2].tag}
-              </Text>
-              <Text style={fontStyles.regularFont}>
-                Size: {postTags[3].tag}
-              </Text>
-              <Text style={fontStyles.regularFont}>
-                Price: {postTags[4].tag}
-              </Text>
+              {postTags[5].tag !== 'female' ? (
+                <>
+                  <Text style={fontStyles.regularFont}>
+                    Category: {postTags[1].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Condition: {postTags[2].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Size: {postTags[3].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Gender: {postTags[4].tag}
+                  </Text>
+                  {!postTags[5].tag.endsWith('€') ? (
+                    <Text style={fontStyles.regularFont}>
+                      Price: {postTags[5].tag}€
+                    </Text>
+                  ) : (
+                    <Text style={fontStyles.regularFont}>
+                      Price: {postTags[5].tag}
+                    </Text>
+                  )}
+                  <Text style={fontStyles.regularFont}>
+                    {allData.description}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Shipping: {allData.shipping}
+                  </Text>
+                </>
+              ) : (
+                <>
+                  <Text style={fontStyles.regularFont}>
+                    Category: {postTags[1].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Condition: {postTags[2].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>
+                    Size: {postTags[3].tag}
+                  </Text>
+                  <Text style={fontStyles.regularFont}>Gender: Unisex</Text>
+                  {!postTags[6].tag.endsWith('€') ? (
+                    <Text style={fontStyles.regularFont}>
+                      Price: {postTags[6].tag}€
+                    </Text>
+                  ) : (
+                    <Text style={fontStyles.regularFont}>
+                      Price: {postTags[6].tag}
+                    </Text>
+                  )}
+                </>
+              )}
+              <View style={styles.space} />
+              <Text style={fontStyles.boldFont}>Description:</Text>
               <Text style={fontStyles.regularFont}>{allData.description}</Text>
-              <Text style={fontStyles.regularFont}>{allData.shipping}</Text>
+              <Text style={fontStyles.regularFont}>
+                Shipping: {allData.shipping}
+              </Text>
             </View>
           </>
         ) : (
@@ -178,6 +223,9 @@ const styles = StyleSheet.create({
   imageSingle: {
     width: 200,
     height: 300,
+  },
+  space: {
+    height: 10,
   },
   item: {
     flex: 1,
