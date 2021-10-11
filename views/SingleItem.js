@@ -156,12 +156,6 @@ const SingleItem = ({route, navigation}) => {
                       Price: {postTags[5].tag}
                     </Text>
                   )}
-                  <Text style={fontStyles.regularFont}>
-                    {allData.description}
-                  </Text>
-                  <Text style={fontStyles.regularFont}>
-                    Shipping: {allData.shipping}
-                  </Text>
                 </>
               ) : (
                 <>
