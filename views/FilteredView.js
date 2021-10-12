@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StyleSheet} from 'react-native';
 import {Platform} from 'react-native';
 import List from '../components/List';
+import {Text} from 'react-native';
 
 const FilteredView = ({route, navigation}) => {
   const data = route.params.data.filteredList
@@ -11,12 +12,16 @@ const FilteredView = ({route, navigation}) => {
     : route.params.data;
   return (
     <SafeAreaView style={styles.droidSafeArea}>
-      <List
-        navigation={navigation}
-        isHorizontal={false}
-        data={data}
-        loading={false}
-      />
+      {data ? (
+        <List
+          navigation={navigation}
+          isHorizontal={false}
+          data={data}
+          loading={false}
+        />
+      ) : (
+        <Text> Looks like there arent any posts with your filters</Text>
+      )}
     </SafeAreaView>
   );
 };

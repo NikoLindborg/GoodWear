@@ -14,6 +14,8 @@ const MainProvider = (props) => {
   const [unreadMessages, setUnreadMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [chatSubject, setChatSubject] = useState('');
+  const [newWatchlist, setNewWatchlist] = useState(false);
+  const [checkedItems, setCheckedItems] = useState(false);
   const {mediaArray} = useMedia();
   return (
     <MainContext.Provider
@@ -37,6 +39,10 @@ const MainProvider = (props) => {
         setLoading,
         chatSubject,
         setChatSubject,
+        newWatchlist,
+        setNewWatchlist,
+        checkedItems,
+        setCheckedItems,
       }}
     >
       {props.children}

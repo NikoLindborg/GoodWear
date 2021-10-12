@@ -5,7 +5,7 @@ import {MainContext} from '../contexts/MainContext';
 
 const useMedia = (ownFiles = false) => {
   const [mediaArray, setMediaArray] = useState([]);
-  const {update, user, setLoading} = useContext(MainContext);
+  const {update, user, setLoading, setNewWatchlist} = useContext(MainContext);
   const [loadingMedia, setLoadingMedia] = useState();
 
   useEffect(() => {
@@ -16,6 +16,7 @@ const useMedia = (ownFiles = false) => {
       setMediaArray(array.reverse());
       setLoading(false);
       setLoadingMedia(false);
+      setNewWatchlist(true);
     })();
   }, [update]);
 
