@@ -17,7 +17,7 @@ const FilteredView = ({route, navigation}) => {
           navigation={navigation}
           isHorizontal={false}
           data={data}
-          loading={true}
+          loading={false}
         />
       </SafeAreaView>
     </ScrollView>
