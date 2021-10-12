@@ -12,12 +12,16 @@ const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
   const [items, setItems] = useState([
     {label: 'Hats', value: 'hats'},
     {label: 'Jackets', value: 'jackets'},
+    {label: 'Hoodies', value: 'hoodies'},
+    {label: 'Shirts', value: 'shirts'},
+    {label: 'Gloves', value: 'gloves'},
+    {label: 'Jeans', value: 'jeans'},
     {label: 'Pants', value: 'pants'},
     {label: 'Shoes', value: 'shoes'},
-    {label: 'Gloves', value: 'gloves'},
-    {label: 'Accessories', value: 'accessories'},
     {label: 'Dresses', value: 'dresses'},
     {label: 'Skirts', value: 'skirts'},
+    {label: 'Accessories', value: 'accessories'},
+    {label: 'Other', value: 'other'},
   ]);
   const [open2, setOpen2] = useState(false);
   const [value2, setValue2] = useState(null);

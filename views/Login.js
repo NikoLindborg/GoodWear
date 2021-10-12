@@ -18,9 +18,13 @@ import {ImageBackground} from 'react-native';
 import {Image} from 'react-native';
 
 const Login = ({navigation}) => {
-  const {setIsLoggedIn, setUser, user} = useContext(MainContext);
+  const {setIsLoggedIn, setUser, setAskLogin} = useContext(MainContext);
   const {checkToken} = useUser();
   const [formToggle, setFormToggle] = useState(true);
+
+  const continueWithoutLogging = async () => {
+    setAskLogin(true);
+  };
 
   const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -84,7 +88,13 @@ const Login = ({navigation}) => {
                   }
                   onPress={() => setFormToggle(!formToggle)}
                   style={styles.button}
-                ></Button>
+                />
+                <Button
+                  raised
+                  title={'Continue without logging in'}
+                  onPress={() => continueWithoutLogging()}
+                  style={styles.button}
+                />
               </Card>
             </View>
           </ImageBackground>
@@ -119,7 +129,6 @@ const styles = StyleSheet.create({
     width: 294,
     height: 'auto',
     justifyContent: 'center',
-
   },
 });
 Login.propTypes = {

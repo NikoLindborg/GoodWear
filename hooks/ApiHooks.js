@@ -57,7 +57,6 @@ const useMedia = (ownFiles = false) => {
         data: formData,
       };
       const result = await axios(baseUrl + 'media/', options);
-      console.log('axios', result.data);
       return result.data;
     } catch (e) {
       console.log('uploadmedia', e);
@@ -222,9 +221,7 @@ const useTag = () => {
       body: JSON.stringify({file_id, tag}),
     };
     try {
-      console.log('adding tag');
       const tagResult = await doFetch(baseUrl + 'tags/', options);
-      console.log('tagResult', tagResult);
       return tagResult;
     } catch (e) {
       console.log('add tag error ', e.message);

@@ -17,6 +17,7 @@ import ProductList from '../views/ProductList';
 import FilteredView from '../views/FilteredView';
 import Modify from '../views/Modify';
 import {Icon} from 'react-native-elements';
+import NotLoggedInScreen from '../views/NotLoggedInScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -100,14 +101,14 @@ const TabScreen = () => {
 };
 
 const StackScreen = () => {
-  const {isLoggedIn} = useContext(MainContext);
+  const {isLoggedIn, askLogin} = useContext(MainContext);
   const customOptions = {
     headerTintColor: '#E07A5F',
     headerTitleStyle: {color: 'black'},
   };
   return (
     <Stack.Navigator>
-      {isLoggedIn ? (
+      {isLoggedIn || askLogin ? (
         <>
           <Stack.Screen
             name="Home"
@@ -140,6 +141,11 @@ const StackScreen = () => {
           />
           <Stack.Screen name="ModifyUser" component={ModifyUser} />
           <Stack.Screen name="Modify" component={Modify} />
+          <Stack.Screen
+            name="NotLoggedInScreen"
+            component={NotLoggedInScreen}
+            options={customOptions}
+          />
         </>
       ) : (
         <>

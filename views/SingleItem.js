@@ -18,7 +18,7 @@ import {MainContext} from '../contexts/MainContext';
 import {useFavourite, useMedia, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
-  const {user, updateFavourite, setUpdateFavourite, update, setUpdate} =
+  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite, isLoggedIn, update, setUpdate} =
     useContext(MainContext);
   const setChatId = (firstId, secondId) => {
     const chatId =
@@ -263,12 +263,14 @@ const SingleItem = ({route, navigation}) => {
           </>
         ) : (
           <>
-            <Button
-              title={'Send message to seller'}
-              buttonStyle={styles.buttonRed}
-              titleStyle={fontStyles.boldFont}
-              onPress={() => {
-                navigation.navigate('Chat', {
+        <Button
+          title={'Send message to seller'}
+          buttonStyle={styles.buttonRed}
+          titleStyle={fontStyles.boldFont}
+          onPress={() => {
+            !isLoggedIn
+              ? navigation.navigate('NotLoggedInScreen')
+              : navigation.navigate('Chat', {
                   chatId: setChatId(user_id, user.user_id),
                   subject: title,
                   filename: filename,
