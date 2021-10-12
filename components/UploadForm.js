@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import FormTextInput from './FormTextInput';
 import {Button} from 'react-native-elements';
 import DropDownPicker from 'react-native-dropdown-picker';
+import fontStyles from '../utils/fontStyles';
 
 const UploadForm = ({
   title,
@@ -48,7 +49,6 @@ const UploadForm = ({
     {label: 'Womens', value: 'female'},
     {label: 'Unisex', value: 'unisex'},
   ]);
-  console.log(image);
   return (
     <>
       <FormTextInput
@@ -65,6 +65,8 @@ const UploadForm = ({
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
+        style={{borderColor: 'white'}}
+        textStyle={fontStyles.regularFont}
         placeholder={'Select category'}
         onChangeValue={(value) => handleInputChange('category', value)}
         zIndex={3000}
@@ -77,6 +79,8 @@ const UploadForm = ({
         setOpen={setOpen2}
         setValue={setValue2}
         setItems={setItems2}
+        style={{borderColor: 'white'}}
+        textStyle={fontStyles.regularFont}
         placeholder={'Select condition'}
         onChangeValue={(value) => handleInputChange('condition', value)}
         zIndex={2000}
@@ -89,6 +93,8 @@ const UploadForm = ({
         setOpen={setOpen3}
         setValue={setValue3}
         setItems={setItems3}
+        style={{borderColor: 'white'}}
+        textStyle={fontStyles.regularFont}
         placeholder={'Select gender'}
         onChangeValue={(value) => handleInputChange('gender', value)}
         zIndex={1000}
@@ -123,7 +129,8 @@ const UploadForm = ({
         value={inputs.shipping}
       />
       <Button
-        raised
+        buttonStyle={{backgroundColor: '#E07A5F'}}
+        titleStyle={fontStyles.boldFont}
         title={title}
         onPress={handleSubmit}
         loading={loading}

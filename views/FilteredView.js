@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StyleSheet} from 'react-native';
 import {Platform} from 'react-native';
@@ -11,16 +10,14 @@ const FilteredView = ({route, navigation}) => {
     ? route.params.data.filteredList
     : route.params.data;
   return (
-    <ScrollView>
-      <SafeAreaView style={styles.droidSafeArea}>
-        <List
-          navigation={navigation}
-          isHorizontal={false}
-          data={data}
-          loading={false}
-        />
-      </SafeAreaView>
-    </ScrollView>
+    <SafeAreaView style={styles.droidSafeArea}>
+      <List
+        navigation={navigation}
+        isHorizontal={false}
+        data={data}
+        loading={false}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -29,7 +26,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 25 : 0,
     backgroundColor: '#FFF',
-    alignItems: 'center',
   },
 });
 

@@ -49,6 +49,7 @@ const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
         setItems={setItems}
         style={{borderColor: 'white'}}
         placeholder={'Select category'}
+        textStyle={fontStyles.regularFont}
         onChangeValue={(value) => handleInputChange('category', value)}
         zIndex={3000}
         zIndexInverse={1000}
@@ -60,6 +61,7 @@ const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
         setOpen={setOpen2}
         setValue={setValue2}
         setItems={setItems2}
+        textStyle={fontStyles.regularFont}
         style={{borderColor: 'white'}}
         placeholder={'Select condition'}
         onChangeValue={(value) => handleInputChange('condition', value)}
@@ -75,6 +77,7 @@ const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
         setItems={setItems3}
         placeholder={'Select gender'}
         style={{borderColor: 'white'}}
+        textStyle={fontStyles.regularFont}
         onChangeValue={(value) => handleInputChange('gender', value)}
         zIndex={1000}
         zIndexInverse={3000}
@@ -86,9 +89,8 @@ const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
       />
 
       <Button
-        raised
-        buttonStyle={styles.buttonWhite}
-        titleStyle={fontStyles.boldBlackFont}
+        buttonStyle={styles.redButton}
+        titleStyle={fontStyles.boldFont}
         title={title}
         onPress={handleSubmit}
         loading={loading}
@@ -113,6 +115,10 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderStyle: 'solid',
     borderRadius: 0,
+  },
+  redButton: {
+    marginTop: 5,
+    backgroundColor: '#E07A5F',
   },
 });
 
