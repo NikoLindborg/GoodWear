@@ -66,11 +66,47 @@ const useMedia = (ownFiles = false) => {
     }
   };
 
+  const deleteMedia = async (id, token) => {
+    try {
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'x-access-token': token,
+        },
+      };
+      const result = await doFetch(baseUrl + 'media/' + id, options);
+      return result;
+    } catch (e) {
+      console.log('deleteMedia error', e);
+      throw new Error(e.message);
+    }
+  };
+
+  const modifyMedia = async (data, token, id) => {
+    try {
+      const options = {
+        method: 'PUT',
+        headers: {
+          'x-access-token': token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      };
+      const result = await doFetch(baseUrl + 'media/' + id, options);
+      return result;
+    } catch (e) {
+      console.log('modifyMedia error', e);
+      throw new Error(e.message);
+    }
+  };
+
   return {
     mediaArray,
     loadSingleMedia,
     loadMedia,
     uploadMedia,
+    deleteMedia,
+    modifyMedia,
     loadingMedia,
   };
 };
@@ -81,7 +117,6 @@ const useUser = () => {
       username: inputs.username,
       password: inputs.password,
       email: inputs.email,
-      full_name: inputs.full_name,
     };
     const fetchOptions = {
       method: 'POST',

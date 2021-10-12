@@ -1,8 +1,6 @@
 import React, {useContext, useState} from 'react';
-import PropTypes from 'prop-types';
 import {Button} from 'react-native-elements';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {StyleSheet} from 'react-native';
 import useFilterForm from '../hooks/FilterHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/ApiHooks';
@@ -15,6 +13,8 @@ const FilterForm = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
+    {label: 'Gender - Male', value: 'male'},
+    {label: 'Gender - Female', value: 'female'},
     {label: 'Hats', value: 'hats'},
     {label: 'Jackets', value: 'jackets'},
     {label: 'Pants', value: 'pants'},

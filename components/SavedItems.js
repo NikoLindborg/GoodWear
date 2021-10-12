@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {FlatList} from 'react-native';
-import {useFavourite, useMedia} from '../hooks/ApiHooks';
+import {useFavourite} from '../hooks/ApiHooks';
 import ListItem from '../components/ListItem';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -46,7 +46,11 @@ const SavedItems = ({navigation}) => {
       data={savedItems}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) => (
-        <ListItem singleMedia={item} navigation={navigation} loading={loading}/>
+        <ListItem
+          singleMedia={item}
+          navigation={navigation}
+          loading={loading}
+        />
       )}
     />
   );

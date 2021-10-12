@@ -15,6 +15,7 @@ import Messages from '../views/Messages';
 import Search from '../views/Search';
 import ProductList from '../views/ProductList';
 import FilteredView from '../views/FilteredView';
+import Modify from '../views/Modify';
 import {Icon} from 'react-native-elements';
 import NotLoggedInScreen from '../views/NotLoggedInScreen';
 
@@ -122,7 +123,6 @@ const StackScreen = () => {
             component={Settings}
             options={customOptions}
           />
-          <Stack.Screen name="ModifyUser" component={ModifyUser} />
           <Stack.Screen
             name="SingleItem"
             component={SingleItem}
@@ -139,6 +139,8 @@ const StackScreen = () => {
             component={FilteredView}
             options={customOptions}
           />
+          <Stack.Screen name="ModifyUser" component={ModifyUser} />
+          <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen
             name="NotLoggedInScreen"
             component={NotLoggedInScreen}
