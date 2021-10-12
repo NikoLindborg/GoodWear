@@ -48,7 +48,6 @@ const UploadForm = ({
     {label: 'Womens', value: 'female'},
     {label: 'Unisex', value: 'unisex'},
   ]);
-  console.log(image);
   return (
     <>
       <FormTextInput

@@ -2,18 +2,19 @@ import {useEffect, useState, useContext} from 'react';
 import {doFetch} from '../utils/http';
 import {appId, baseUrl} from '../utils/variables';
 import {MainContext} from '../contexts/MainContext';
-import axios from 'axios';
 
 const useMedia = (ownFiles = false) => {
   const [mediaArray, setMediaArray] = useState([]);
-  const {update, user} = useContext(MainContext);
+  const {update, user, setLoading} = useContext(MainContext);
   const [loadingMedia, setLoadingMedia] = useState();
 
   useEffect(() => {
     (async () => {
       setLoadingMedia(true);
+      setLoading(true);
       const array = await loadMedia(appId);
       setMediaArray(array.reverse());
+      setLoading(false);
       setLoadingMedia(false);
     })();
   }, [update]);
@@ -54,10 +55,10 @@ const useMedia = (ownFiles = false) => {
         headers: {
           'x-access-token': token,
         },
-        data: formData,
+        body: formData,
       };
-      const result = await axios(baseUrl + 'media/', options);
-      return result.data;
+      const result = await doFetch(baseUrl + 'media/', options);
+      return result;
     } catch (e) {
       console.log('uploadmedia', e);
       throw new Error(e.message);
@@ -92,7 +93,6 @@ const useUser = () => {
     };
     try {
       const response = await doFetch(baseUrl + 'users', fetchOptions);
-      console.log(response);
       return response;
     } catch (e) {
       console.log('ApiHooks register', e.message);
@@ -126,7 +126,6 @@ const useUser = () => {
   };
 
   const editUser = async (userInfo, token) => {
-    console.log('Apihooks - editUser', userInfo);
     const options = {
       method: 'PUT',
       headers: {'x-access-token': token, 'Content-Type': 'application/json'},
@@ -134,7 +133,6 @@ const useUser = () => {
     };
     try {
       const response = await doFetch(baseUrl + 'users', options);
-      console.log('edituser response', response);
       return response;
     } catch (e) {
       console.log('ApiHooks - editUser', e.message);

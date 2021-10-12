@@ -21,7 +21,6 @@ const RegisterForm = ({navigation}) => {
   };
 
   const {inputs, handleInputChange} = useSignUpForm();
-  console.log('form', registerErrors);
   return (
     <View>
       <FormTextInput

@@ -7,7 +7,7 @@ const constraints = {
       message: 'Cannot be empty.',
     },
     length: {
-      minimum: 3,
+      minimum: 2,
       message: 'min length is 3 characters',
     },
   },
@@ -39,8 +39,8 @@ const constraints = {
       message: 'Cannot be empty.',
     },
     length: {
-      minimum: 3,
-      message: 'min length is 3 characters',
+      minimum: 2,
+      message: 'min length is 2 characters',
     },
   },
   category: {

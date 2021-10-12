@@ -34,7 +34,6 @@ const Home = ({navigation}) => {
     (async () => {
       if (user.full_name && user.full_name.length > 2) {
         const parsedUserData = JSON.parse(user.full_name);
-        console.log(mediaArray);
         parsedUserData.items.forEach(async (e) => {
           const conditionList = await loadMedia(e);
           const filteredList = await mediaArray.filter((el) => {
@@ -154,7 +153,6 @@ const Home = ({navigation}) => {
                   titleStyle={fontStyles.boldFont}
                   containerStyle={styles.shopMoreContainer}
                   onPress={() => {
-                    console.log('sasd', filteredMediaArray);
                     navigation.navigate('FilteredView', {
                       data: filteredMediaArray,
                     });
