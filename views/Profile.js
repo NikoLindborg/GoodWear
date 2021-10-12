@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Platform, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Avatar, Button, Card} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
 import MyItems from '../components/MyItems';
@@ -16,6 +16,7 @@ const Profile = ({navigation}) => {
 
   const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
+
     if (userToken) {
       try {
         const userInfo = await checkToken(userToken);
@@ -29,8 +30,10 @@ const Profile = ({navigation}) => {
   };
 
   useEffect(() => {
-    getToken();
-  }, []);
+    (async () => {
+      await getToken();
+    })();
+  }, [update]);
 
   return (
     <SafeAreaView style={styles.droidSafeArea}>

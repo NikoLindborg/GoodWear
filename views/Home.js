@@ -152,7 +152,6 @@ const Home = ({navigation}) => {
                   titleStyle={fontStyles.boldFont}
                   containerStyle={styles.shopMoreContainer}
                   onPress={() => {
-                    console.log('sasd', filteredMediaArray);
                     navigation.navigate('FilteredView', {
                       data: filteredMediaArray,
                     });

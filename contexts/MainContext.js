@@ -10,6 +10,7 @@ const MainProvider = (props) => {
   const [user, setUser] = useState({});
   const [update, setUpdate] = useState(0);
   const [updateFavourite, setUpdateFavourite] = useState(0);
+  const [updateFilter, setUpdateFilter] = useState(0);
   const [unreadMessages, setUnreadMessages] = useState([]);
   const [chatSubject, setChatSubject] = useState('');
   const {mediaArray} = useMedia();
@@ -27,6 +28,8 @@ const MainProvider = (props) => {
         setUpdateFavourite,
         unreadMessages,
         setUnreadMessages,
+        updateFilter,
+        setUpdateFilter,
         askLogin,
         setAskLogin,
         chatSubject,

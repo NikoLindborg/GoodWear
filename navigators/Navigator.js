@@ -16,6 +16,7 @@ import Search from '../views/Search';
 import ProductList from '../views/ProductList';
 import FilteredView from '../views/FilteredView';
 import {Button, Icon} from 'react-native-elements';
+import Modify from '../views/Modify';
 import NotLoggedInScreen from '../views/NotLoggedInScreen';
 import PropTypes from 'prop-types';
 
@@ -165,6 +166,8 @@ const StackScreen = () => {
             component={FilteredView}
             options={{title: 'Products'}}
           />
+          <Stack.Screen name="ModifyUser" component={ModifyUser} />
+          <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen
             name="NotLoggedInScreen"
             component={NotLoggedInScreen}

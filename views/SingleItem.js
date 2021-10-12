@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {uploadsUrl} from '../utils/variables';
@@ -14,16 +15,11 @@ import {Button} from 'react-native-elements';
 import fontStyles from '../utils/fontStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
-import {useFavourite, useTag} from '../hooks/ApiHooks';
+import {useFavourite, useMedia, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
-  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite, isLoggedIn} =
+  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite, isLoggedIn, update, setUpdate} =
     useContext(MainContext);
-
-  const logout = async () => {
-    await AsyncStorage.clear();
-    setIsLoggedIn(false);
-  };
   const setChatId = (firstId, secondId) => {
     const chatId =
       Math.min(firstId, secondId) + '_' + Math.max(firstId, secondId);
@@ -64,12 +60,13 @@ const SingleItem = ({route, navigation}) => {
     }
   };
 
-  const removeItem = async () => {
+  const removeSavedItem = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
       const result = await deleteFavourite(file_id, userToken);
       if (result) {
         setFavourite(false);
+        setUpdateFavourite(updateFavourite + 1);
       }
       return result;
     } catch (e) {
@@ -93,9 +90,49 @@ const SingleItem = ({route, navigation}) => {
     }
   };
 
+  const [isMyItem, setIsMyItem] = useState(false);
+  const {deleteMedia} = useMedia();
+  const [showBox, setShowBox] = useState(true);
+
+  const checkIfMyItem = () => {
+    if (user_id) {
+      if (user.user_id === user_id) {
+        setIsMyItem(true);
+      }
+    }
+  };
+
+  const deleteItem = async () => {
+    Alert.alert('Delete post?', 'Are you sure you want to delete this post?', [
+      {
+        text: 'Yes',
+        onPress: async () => {
+          setShowBox(false);
+          try {
+            const token = await AsyncStorage.getItem('userToken');
+            const response = await deleteMedia(file_id, token);
+            console.log('Delete', response);
+            if (response.message) {
+              setUpdate(update + 1);
+              navigation.navigate('Profile');
+            }
+          } catch (e) {
+            console.log('ListItem, delete: ', e.message);
+          }
+        },
+      },
+      {
+        text: 'No',
+      },
+    ]);
+  };
+
+  const singleMedia = route.params;
+
   useEffect(() => {
     getTags();
     getFavourites();
+    checkIfMyItem();
   }, []);
 
   return (
@@ -104,37 +141,44 @@ const SingleItem = ({route, navigation}) => {
         {isLoaded ? (
           <>
             <View style={styles.item}>
-              {favourite ? (
-                <Button
-                  buttonStyle={styles.buttonWhite}
-                  containerStyle={{
-                    position: 'absolute',
-                    top: 20,
-                    right: 70,
-                    zIndex: 1,
-                  }}
-                  titleStyle={fontStyles.boldBlackFont}
-                  title={'Remove'}
-                  onPress={() => {
-                    removeItem();
-                  }}
-                />
+              {isMyItem ? (
+                <></>
               ) : (
-                <Button
-                  buttonStyle={styles.buttonWhite}
-                  containerStyle={{
-                    position: 'absolute',
-                    top: 20,
-                    right: 70,
-                    zIndex: 1,
-                  }}
-                  titleStyle={fontStyles.boldBlackFont}
-                  title={'Save'}
-                  onPress={() => {
-                    saveItem();
-                  }}
-                />
+                <>
+                  {favourite ? (
+                    <Button
+                      buttonStyle={styles.buttonWhite}
+                      containerStyle={{
+                        position: 'absolute',
+                        top: 20,
+                        right: 70,
+                        zIndex: 1,
+                      }}
+                      titleStyle={fontStyles.boldBlackFont}
+                      title={'Remove'}
+                      onPress={() => {
+                        removeSavedItem();
+                      }}
+                    />
+                  ) : (
+                    <Button
+                      buttonStyle={styles.buttonWhite}
+                      containerStyle={{
+                        position: 'absolute',
+                        top: 20,
+                        right: 70,
+                        zIndex: 1,
+                      }}
+                      titleStyle={fontStyles.boldBlackFont}
+                      title={'Save'}
+                      onPress={() => {
+                        saveItem();
+                      }}
+                    />
+                  )}
+                </>
               )}
+
               <Image
                 source={{uri: uploadsUrl + filename}}
                 style={styles.imageSingle}
@@ -169,7 +213,6 @@ const SingleItem = ({route, navigation}) => {
                   <Text style={fontStyles.regularFont}>Gender: Unisex</Text>
                 </>
               )}
-              <View style={styles.space} />
               <Text style={fontStyles.boldFont}>Description:</Text>
               <Text style={fontStyles.regularFont}>{allData.description}</Text>
               <Text style={fontStyles.regularFont}>
@@ -188,12 +231,38 @@ const SingleItem = ({route, navigation}) => {
             </View>
           </>
         ) : (
-          <View style={styles.item}>
-            <ActivityIndicator />
-          </View>
+          <>
+            <View style={styles.item}>
+              <ActivityIndicator />
+            </View>
+          </>
         )}
       </ScrollView>
       <View style={styles.buttonContainer}>
+        {isMyItem ? (
+          <>
+            <Button
+              title={'Modify item'}
+              buttonStyle={styles.buttonRed}
+              titleStyle={fontStyles.boldFont}
+              onPress={() => {
+                navigation.navigate('Modify', {
+                  singleMedia,
+                  navigation,
+                });
+              }}
+            />
+            <Button
+              title={'Delete item'}
+              buttonStyle={styles.buttonRed}
+              titleStyle={fontStyles.boldFont}
+              onPress={() => {
+                deleteItem();
+              }}
+            />
+          </>
+        ) : (
+          <>
         <Button
           title={'Send message to seller'}
           buttonStyle={styles.buttonRed}
@@ -207,8 +276,11 @@ const SingleItem = ({route, navigation}) => {
                   filename: filename,
                   buyer: user.username,
                 });
-          }}
-        />
+              }}
+            />
+          </>
+        )}
+        <View style={styles.space} />
       </View>
     </SafeAreaView>
   );
