@@ -249,7 +249,6 @@ const SingleItem = ({route, navigation}) => {
                 navigation.navigate('Modify', {
                   singleMedia,
                   navigation,
-                  file_id,
                 });
               }}
             />

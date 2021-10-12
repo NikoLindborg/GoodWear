@@ -15,7 +15,6 @@ const FilterForm = () => {
   const [items, setItems] = useState([
     {label: 'Gender - Male', value: 'male'},
     {label: 'Gender - Female', value: 'female'},
-    {label: 'Gender - Unisex', value: 'unisex'},
     {label: 'Hats', value: 'hats'},
     {label: 'Jackets', value: 'jackets'},
     {label: 'Pants', value: 'pants'},

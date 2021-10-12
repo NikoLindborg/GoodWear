@@ -9,19 +9,39 @@ const ModifyForm = ({
   title,
   handleSubmit,
   handleInputChange,
+  handleInputEnd,
   loading,
   modifyErrors,
   inputs,
 }) => {
+  modifyErrors.title = null;
+  modifyErrors.price = null;
+  modifyErrors.description = null;
+  modifyErrors.shipping = null;
   return (
     <>
-    <Text>Title</Text>
+      <Text>Title</Text>
       <FormTextInput
         autoCapitalize="none"
         placeholder="title"
         onChangeText={(txt) => handleInputChange('title', txt)}
         errorMessage={modifyErrors.title}
         value={inputs.title}
+        onEndEditing={(event) => {
+          const text = event.nativeEvent.text;
+          handleInputEnd('title', text, inputs);
+        }}
+      />
+      <FormTextInput
+        autoCapitalize="none"
+        placeholder="price"
+        onChangeText={(txt) => handleInputChange('price', txt)}
+        errorMessage={modifyErrors.price}
+        value={inputs.price}
+        onEndEditing={(event) => {
+          const text = event.nativeEvent.text;
+          handleInputEnd('price', text, inputs);
+        }}
       />
       <Text>Description</Text>
       <FormTextInput
@@ -30,6 +50,10 @@ const ModifyForm = ({
         onChangeText={(txt) => handleInputChange('description', txt)}
         errorMessage={modifyErrors.description}
         value={inputs.description}
+        onEndEditing={(event) => {
+          const text = event.nativeEvent.text;
+          handleInputEnd('description', text, inputs);
+        }}
       />
       <Text>Shipping</Text>
       <FormTextInput
@@ -38,6 +62,10 @@ const ModifyForm = ({
         onChangeText={(txt) => handleInputChange('shipping', txt)}
         errorMessage={modifyErrors.shipping}
         value={inputs.shipping}
+        onEndEditing={(event) => {
+          const text = event.nativeEvent.text;
+          handleInputEnd('shipping', text, inputs);
+        }}
       />
       <Button
         raised
@@ -56,6 +84,7 @@ ModifyForm.propTypes = {
   title: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleInputChange: PropTypes.func.isRequired,
+  handleInputEnd: PropTypes.func,
   loading: PropTypes.bool,
   inputs: PropTypes.object.isRequired,
   modifyErrors: PropTypes.object,

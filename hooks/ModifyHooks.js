@@ -20,6 +20,24 @@ const constraints = {
       message: 'min length is 3 characters',
     },
   },
+  price: {
+    presence: {
+      message: 'Cannot be empty.',
+    },
+    format: {
+      pattern: '[0-9]+',
+      message: 'can only contain numbers',
+    },
+  },
+  shipping: {
+    presence: {
+      message: 'Cannot be empty.',
+    },
+    length: {
+      minimum: 3,
+      message: 'min length is 3 characters',
+    },
+  },
 };
 const useModifyForm = (callback) => {
   const [inputs, setInputs] = useState({
@@ -43,19 +61,28 @@ const useModifyForm = (callback) => {
       };
     });
   };
-  const reset = () => {
-    setInputs({
-      title: '',
-      description: '',
+
+  const handleInputEnd = (name, text, input) => {
+    if (text === '') {
+      text = null;
+      return;
+    }
+    let error;
+    error = validator(name, text, constraints);
+    setModifyErrors((modifyErrors) => {
+      return {
+        ...modifyErrors,
+        [name]: error,
+      };
     });
-    setModifyErrors({});
   };
+
   return {
     handleInputChange,
     inputs,
     setInputs,
     modifyErrors,
-    reset,
+    handleInputEnd,
   };
 };
 

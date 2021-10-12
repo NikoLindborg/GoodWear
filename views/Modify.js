@@ -13,7 +13,6 @@ const Modify = ({route}) => {
     useModifyForm();
   const {modifyMedia, loading} = useMedia();
   const {update, setUpdate} = useContext(MainContext);
-  const fileId = route.params.file_id;
   const allData = JSON.parse(route.params.singleMedia.description);
 
   useEffect(() => {
@@ -21,6 +20,7 @@ const Modify = ({route}) => {
       setInputs({
         title: route.params.singleMedia.title,
         description: allData.description,
+        price: allData.price,
         shipping: allData.shipping,
       });
     })();
@@ -33,6 +33,7 @@ const Modify = ({route}) => {
       const descriptionData = {
         description: inputs.description,
         shipping: inputs.shipping,
+        price: inputs.price,
       };
       const modifyData = {
         title: inputs.title,
