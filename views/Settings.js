@@ -1,15 +1,17 @@
-import React, {useContext, useEffect} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {Alert, FlatList, Platform, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
-import {Avatar, Card, ListItem, Text} from 'react-native-elements';
+import {Avatar, Card, Icon, ListItem, Text} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FilterForm from '../components/FilterForm';
 import {useUser} from '../hooks/ApiHooks';
 
 const Settings = ({navigation}) => {
-  const {setIsLoggedIn, user, setUser} = useContext(MainContext);
-  const {checkToken} = useUser();
+  const {setIsLoggedIn, user, setUser, updateFilter, setUpdateFilter} =
+    useContext(MainContext);
+  const {checkToken, editUser} = useUser();
+  const [showBox, setShowBox] = useState(true);
 
   const logout = async () => {
     await AsyncStorage.clear();
@@ -40,9 +42,52 @@ const Settings = ({navigation}) => {
     }
   };
 
+  const removeSelectedItem = async (item) => {
+    const filteredItems = selectedFilters();
+    const newFilteredItems = [];
+    filteredItems.forEach((e) => {
+      if (e !== item) {
+        newFilteredItems.push(e);
+      }
+    });
+    const newData = {
+      items: newFilteredItems,
+    };
+    const data = {full_name: JSON.stringify(newData)};
+    Alert.alert(
+      'Delete filtered item?',
+      'Are you sure you want to delete this filter?',
+      [
+        {
+          text: 'Yes',
+          onPress: async () => {
+            setShowBox(false);
+            try {
+              const userToken = await AsyncStorage.getItem('userToken');
+              if (userToken) {
+                const result = await editUser(data, userToken);
+                if (result) {
+                  setUser(data);
+                  setUpdateFilter(updateFilter + 1);
+                } else {
+                  console.log('Add filters failed');
+                }
+              }
+            } catch (e) {
+              console.log(e.message);
+            }
+          },
+        },
+        {
+          text: 'No',
+        },
+      ]
+    );
+  };
+
   useEffect(() => {
     getToken();
-  }, []);
+  }, [updateFilter]);
 
   return (
     <Card
@@ -75,7 +120,7 @@ const Settings = ({navigation}) => {
         />
       </ListItem>
 
-      <View style={{height: 150}}>
+      <View style={{height: 'auto'}}>
         <ListItem>
           <Text style={styles.basicFont}>Username: {user.username}</Text>
         </ListItem>
@@ -84,9 +129,15 @@ const Settings = ({navigation}) => {
         </ListItem>
       </View>
       <Card.Divider />
-      <View style={{height: 'auto', zIndex: 1}}>
-        <FilterForm />
-      </View>
+      {Platform.OS === 'ios' ? (
+        <View style={{height: 'auto', zIndex: 2}}>
+          <FilterForm />
+        </View>
+      ) : (
+        <View containerStyle={{height: 'auto', zIndex: 2}}>
+          <FilterForm />
+        </View>
+      )}
       <View style={{height: 250}}>
         <Text h4 style={{alignSelf: 'center', marginTop: 40, zIndex: 1}}>
           Items you have selected:
@@ -96,8 +147,13 @@ const Settings = ({navigation}) => {
           keyExtractor={(item, index) => index.toString()}
           style={{alignItems: 'center'}}
           renderItem={({item}) => (
-            <ListItem>
+            <ListItem style={styles.listStyle}>
               <Text style={{fontSize: 20}}>{item}</Text>
+              <Icon
+                name="trash-outline"
+                type="ionicon"
+                onPress={() => removeSelectedItem(item)}
+              ></Icon>
             </ListItem>
           )}
         />
@@ -114,9 +170,11 @@ const Settings = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  basicFont: {
-    fontFamily: 'RobotoCondensed_400Regular',
-    fontSize: 16,
+  listStyle: {
+    flex: 0,
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-around',
   },
 });
 

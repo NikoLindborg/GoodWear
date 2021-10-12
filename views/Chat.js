@@ -7,7 +7,7 @@ import firebase from 'firebase';
 import {firebaseConfig} from '../firebaseConfig';
 
 const Chat = (chatUserIds) => {
-  const {user} = useContext(MainContext);
+  const {user, chatSubject, setChatSubject} = useContext(MainContext);
   const chatId = chatUserIds.route.params.chatId;
   const productTitle = chatUserIds.route.params.subject;
   const chatAvatar = chatUserIds.route.params.filename;
@@ -33,6 +33,7 @@ const Chat = (chatUserIds) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    setChatSubject(productTitle);
     setChatUser({
       _id: user.user_id,
       name: user.username,

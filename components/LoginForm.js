@@ -1,12 +1,14 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements';
 import FormTextInput from './FormTextInput';
 import useLoginForm from '../hooks/LoginHooks';
 import {useLogin} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import fontStyles from '../utils/fontStyles';
+import {placeholderTextColor} from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedTextInputPropTypes';
 
 const LoginForm = ({navigation}) => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -43,10 +45,22 @@ const LoginForm = ({navigation}) => {
         onChangeText={(txt) => handleInputChange('password', txt)}
         secureTextEntry={true}
       />
-      <Button raised title="Login!" onPress={doLogin} />
+      <Button
+        raised
+        title="Login!"
+        onPress={doLogin}
+        titleStyle={fontStyles.boldFont}
+        buttonStyle={styles.redButton}
+      />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  redButton: {
+    backgroundColor: '#E07A5F',
+  },
+});
 
 LoginForm.propTypes = {
   navigation: PropTypes.object,

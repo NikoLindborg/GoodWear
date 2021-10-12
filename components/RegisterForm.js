@@ -1,19 +1,35 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {Alert, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import FormTextInput from './FormTextInput';
 import useSignUpForm from '../hooks/RegisterHooks';
-
 import {Button} from 'react-native-elements';
-import {useUser} from '../hooks/ApiHooks';
+import fontStyles from '../utils/fontStyles';
+import {useLogin, useUser} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterForm = ({navigation}) => {
   const {register} = useUser();
   const {checkUserAvailable, registerErrors, handleInputEnd} = useSignUpForm();
+  const {setIsLoggedIn, setUser} = useContext(MainContext);
+  const {login} = useLogin();
 
   const doRegister = async () => {
     try {
       const serverResponse = await register(inputs);
+      if (serverResponse) {
+        const loginInfo = await login(JSON.stringify(inputs));
+        console.log(loginInfo);
+        await AsyncStorage.setItem('userToken', loginInfo.token);
+        const userObject = {
+          email: loginInfo.user.email,
+          user_id: loginInfo.user.user_id,
+          username: loginInfo.user.username,
+        };
+        setUser(userObject);
+        setIsLoggedIn(true);
+      }
       Alert.alert(serverResponse.message);
     } catch (error) {
       Alert.alert(error.message);
@@ -68,10 +84,22 @@ const RegisterForm = ({navigation}) => {
           handleInputEnd('email', text, inputs);
         }}
       />
-      <Button raised title="Register!" onPress={doRegister} />
+      <Button
+        raised
+        title="Register!"
+        onPress={doRegister}
+        titleStyle={fontStyles.boldFont}
+        buttonStyle={styles.redButton}
+      />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  redButton: {
+    backgroundColor: '#E07A5F',
+  },
+});
 
 RegisterForm.propTypes = {
   navigation: PropTypes.object,

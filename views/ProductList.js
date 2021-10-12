@@ -1,9 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet} from 'react-native';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import ListItem from '../components/ListItem';
 import {MainContext} from '../contexts/MainContext';
+import List from '../components/List';
 
 const ProductList = ({route, navigation}) => {
   const {loadSingleMedia} = useMedia();
@@ -42,18 +43,22 @@ const ProductList = ({route, navigation}) => {
   }, []);
 
   return (
-    <FlatList
-      data={finalProducts}
-      style={{alignItems: 'center'}}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({item}) => (
-        <ListItem navigation={navigation} singleMedia={item} loading={loaded} />
-      )}
-    />
+    <SafeAreaView style={styles.container}>
+      <List
+        navigation={navigation}
+        isHorizontal={false}
+        data={finalProducts}
+        loading={false}
+      />
+    </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+  },
+});
 
 ProductList.propTypes = {
   route: PropTypes.object,

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
+import {MainContext} from '../contexts/MainContext';
 
 const List = ({navigation, isHorizontal, data, loading}) => {
   return (
@@ -12,7 +13,11 @@ const List = ({navigation, isHorizontal, data, loading}) => {
       showsHorizontalScrollIndicator={false}
       horizontal={isHorizontal}
       renderItem={({item}) => (
-        <ListItem navigation={navigation} singleMedia={item} loading={loading} />
+        <ListItem
+          navigation={navigation}
+          singleMedia={item}
+          loading={loading}
+        />
       )}
     />
   );

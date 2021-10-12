@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView} from 'react-native';
+import {ScrollView, Text} from 'react-native';
 import {KeyboardAvoidingView} from 'react-native';
 import {Platform} from 'react-native';
 import {StyleSheet} from 'react-native';
@@ -11,6 +11,7 @@ import SearchForm from '../components/SearchForm';
 import useSearchForm from '../hooks/SearchHooks';
 import {useMedia} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
+import fontStyles from '../utils/fontStyles';
 
 const Search = ({navigation}) => {
   const {handleInputChange, filters} = useSearchForm();
@@ -88,31 +89,42 @@ const Search = ({navigation}) => {
     });
   };
   return (
-    <ScrollView>
-      <KeyboardAvoidingView
-        behavior={Platform.os === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardView}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-            <SearchForm
-              title={'Search'}
-              handleInputChange={handleInputChange}
-              handleSubmit={doSearch}
-            />
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </ScrollView>
+    <KeyboardAvoidingView
+      behavior={Platform.os === 'ios' ? 'padding' : 'height'}
+      style={styles.keyboardView}
+    >
+      <View style={styles.textContainer}>
+        <Text style={fontStyles.bigBoldFont}>Search to find your GoodWear</Text>
+      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <SearchForm
+            title={'Search'}
+            handleInputChange={handleInputChange}
+            handleSubmit={doSearch}
+          />
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 const styles = StyleSheet.create({
   keyboardView: {
     flex: 1,
+    backgroundColor: 'white',
   },
   container: {
+    flex: 8,
+    width: '90%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  textContainer: {
     flex: 1,
-    marginTop: 200,
+    width: '100%',
+    paddingTop: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 Search.propTypes = {

@@ -7,7 +7,7 @@ const constraints = {
       message: 'Cannot be empty.',
     },
     length: {
-      minimum: 2,
+      minimum: 3,
       message: 'min length is 3 characters',
     },
   },
@@ -29,45 +29,22 @@ const constraints = {
       message: 'can only contain numbers',
     },
   },
-  size: {
-    presence: {
-      message: 'Cannot be empty.',
-    },
-  },
   shipping: {
     presence: {
       message: 'Cannot be empty.',
     },
     length: {
-      minimum: 2,
-      message: 'min length is 2 characters',
-    },
-  },
-  category: {
-    presence: {
-      message: 'Cannot be empty.',
-    },
-  },
-  condition: {
-    presence: {
-      message: 'Cannot be empty.',
-    },
-  },
-  gender: {
-    presence: {
-      message: 'Cannot be empty.',
+      minimum: 3,
+      message: 'min length is 3 characters',
     },
   },
 };
-const useUploadForm = (callback) => {
+const useModifyForm = (callback) => {
   const [inputs, setInputs] = useState({
     description: '',
     title: '',
   });
-  const [uploadErrors, setUploadErrors] = useState({});
-  const [value, setValue] = useState(null);
-  const [value2, setValue2] = useState(null);
-  const [value3, setValue3] = useState(null);
+  const [modifyErrors, setModifyErrors] = useState({});
 
   const handleInputChange = (name, text) => {
     setInputs((inputs) => {
@@ -77,36 +54,36 @@ const useUploadForm = (callback) => {
       };
     });
     const error = validator(name, text, constraints);
-    setUploadErrors((uploadErrors) => {
+    setModifyErrors((modifyErrors) => {
       return {
-        ...uploadErrors,
+        ...modifyErrors,
         [name]: error,
       };
     });
   };
-  const reset = () => {
-    setInputs({
-      title: '',
-      description: '',
+
+  const handleInputEnd = (name, text, input) => {
+    if (text === '') {
+      text = null;
+      return;
+    }
+    let error;
+    error = validator(name, text, constraints);
+    setModifyErrors((modifyErrors) => {
+      return {
+        ...modifyErrors,
+        [name]: error,
+      };
     });
-    setUploadErrors({});
-    setValue(null);
-    setValue2(null);
-    setValue3(null);
   };
+
   return {
     handleInputChange,
     inputs,
     setInputs,
-    uploadErrors,
-    reset,
-    value,
-    setValue,
-    value2,
-    setValue2,
-    value3,
-    setValue3,
+    modifyErrors,
+    handleInputEnd,
   };
 };
 
-export default useUploadForm;
+export default useModifyForm;

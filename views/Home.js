@@ -89,7 +89,7 @@ const Home = ({navigation}) => {
         />
         {!isLoggedIn ? (
           <View style={styles.introBox}>
-            <Text style={styles.headerFont}>
+            <Text style={fontStyles.bigBoldFont24}>
               {'\n'}Hello!{'\n'}
             </Text>
             <Text style={fontStyles.regularFont}>
@@ -101,7 +101,6 @@ const Home = ({navigation}) => {
             </Text>
             <Button
               buttonStyle={styles.buttonWhite}
-              raised={true}
               titleStyle={fontStyles.boldBlackFont}
               title={'Go back to login'}
               onPress={() => {
@@ -111,7 +110,7 @@ const Home = ({navigation}) => {
           </View>
         ) : !filteredMediaArray ? (
           <View style={styles.introBox}>
-            <Text style={styles.headerFont}>
+            <Text style={fontStyles.bigBoldFont24}>
               {'\n'}Hello {user.username}!{'\n'}
             </Text>
             <Text style={fontStyles.regularFont}>
@@ -133,7 +132,7 @@ const Home = ({navigation}) => {
         ) : (
           <View style={styles.postBackground}>
             <View style={styles.textBar}>
-              <Text style={styles.headerFont}>
+              <Text style={fontStyles.bigBoldFont24}>
                 Newest in your filtered categories
               </Text>
             </View>
@@ -167,7 +166,7 @@ const Home = ({navigation}) => {
 
         <View style={styles.postBackground}>
           <View style={styles.textBar}>
-            <Text style={styles.headerFont}>Newest in clothing</Text>
+            <Text style={fontStyles.bigBoldFont24}>Newest in clothing</Text>
           </View>
           <List
             navigation={navigation}
@@ -188,7 +187,7 @@ const Home = ({navigation}) => {
 
         <View style={styles.buttonBackground}>
           <View style={styles.textBarTwo}>
-            <Text style={styles.headerFont}>Top categories</Text>
+            <Text style={fontStyles.bigBoldFont24}>Top categories</Text>
           </View>
           <View style={styles.buttonContainer}>
             <Button
@@ -322,12 +321,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
-  headerFont: {
-    fontFamily: 'RobotoCondensed_700Bold',
-    fontSize: 24,
-  },
   divider: {
-    margin: 50,
+    margin: 30,
   },
   buttonWhite: {
     marginTop: 5,
