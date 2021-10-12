@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, SafeAreaView, Text, View} from 'react-native';
 import {Avatar, Button, Card} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
 import MyItems from '../components/MyItems';
@@ -11,7 +11,7 @@ import fontStyles from '../utils/fontStyles';
 
 const Profile = ({navigation}) => {
   const [selectedView, setSelectedView] = useState(false);
-  const {user, setUser, isLoggedIn, setAskLogin} = useContext(MainContext);
+  const {user, setUser, isLoggedIn, setAskLogin, update} = useContext(MainContext);
   const {checkToken} = useUser();
 
   const getToken = async () => {

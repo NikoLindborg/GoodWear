@@ -166,7 +166,6 @@ const StackScreen = () => {
             component={FilteredView}
             options={{title: 'Products'}}
           />
-          <Stack.Screen name="ModifyUser" component={ModifyUser} />
           <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen
             name="NotLoggedInScreen"
