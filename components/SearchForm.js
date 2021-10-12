@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FormTextInput from './FormTextInput';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Button} from 'react-native-elements';
-import {Platform, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import fontStyles from '../utils/fontStyles';
 
 const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
