@@ -7,7 +7,7 @@ import {useUser} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 
 const FilterForm = () => {
-  const {setUser} = useContext(MainContext);
+  const {setUser, updateFilter, setUpdateFilter} = useContext(MainContext);
   const {inputs, handleInputChange} = useFilterForm();
   const {editUser} = useUser();
   const [open, setOpen] = useState(false);
@@ -54,6 +54,7 @@ const FilterForm = () => {
         if (result) {
           setUser(data);
           getToken();
+          setUpdateFilter(updateFilter + 1);
         } else {
           console.log('Add filters failed');
         }

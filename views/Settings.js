@@ -8,8 +8,14 @@ import FilterForm from '../components/FilterForm';
 import {useUser} from '../hooks/ApiHooks';
 
 const Settings = ({navigation}) => {
-  const {setIsLoggedIn, user, setUser, updateFilter, setUpdateFilter} =
-    useContext(MainContext);
+  const {
+    setIsLoggedIn,
+    user,
+    setUser,
+    updateFilter,
+    setUpdateFilter,
+    updateUser,
+  } = useContext(MainContext);
   const {checkToken, editUser} = useUser();
   const [showBox, setShowBox] = useState(true);
 
@@ -33,9 +39,7 @@ const Settings = ({navigation}) => {
     if (userToken) {
       try {
         const userInfo = await checkToken(userToken);
-        if (userInfo.user_id) {
-          setUser(userInfo);
-        }
+        return userInfo;
       } catch (e) {
         console.log('getToken settings', e);
       }
@@ -87,7 +91,7 @@ const Settings = ({navigation}) => {
 
   useEffect(() => {
     getToken();
-  }, [updateFilter]);
+  }, [updateFilter, updateUser]);
 
   return (
     <Card

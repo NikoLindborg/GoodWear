@@ -14,6 +14,7 @@ const MainProvider = (props) => {
   const [unreadMessages, setUnreadMessages] = useState([]);
   const [chatSubject, setChatSubject] = useState('');
   const {mediaArray} = useMedia();
+  const [updateUser, setUpdateUser] = useState(0);
   return (
     <MainContext.Provider
       value={{
@@ -34,6 +35,8 @@ const MainProvider = (props) => {
         setAskLogin,
         chatSubject,
         setChatSubject,
+        updateUser,
+        setUpdateUser,
       }}
     >
       {props.children}
