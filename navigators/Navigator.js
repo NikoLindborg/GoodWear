@@ -170,6 +170,7 @@ const StackScreen = () => {
           <Stack.Screen
             name="NotLoggedInScreen"
             component={NotLoggedInScreen}
+            options={{title: ''}}
           />
         </>
       ) : (

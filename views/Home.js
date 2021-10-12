@@ -115,10 +115,10 @@ const Home = ({navigation}) => {
             <Text style={fontStyles.bigBoldFont24}>
               {'\n'}Hello!{'\n'}
             </Text>
-            <Text style={fontStyles.regularFont}>
-              As a non registered user, you can only browse listings
+            <Text style={fontStyles.regularFontCenter}>
+              As a non registered user, you can only browse items{'\n'}
             </Text>
-            <Text style={fontStyles.regularFont}>
+            <Text style={fontStyles.regularFontCenter}>
               You can go back to login screen by clicking the button down below
               {'\n'}
             </Text>
@@ -136,15 +136,14 @@ const Home = ({navigation}) => {
             <Text style={fontStyles.bigBoldFont24}>
               {'\n'}Hello {user.username}!{'\n'}
             </Text>
-            <Text style={fontStyles.regularFont}>
+            <Text style={fontStyles.regularFontCenter}>
               We see you have not added any filters yet, and thats okay.{'\n'}
             </Text>
-            <Text style={fontStyles.regularFont}>
+            <Text style={fontStyles.regularFontCenter}>
               You can edit them from your profile, click the button below{'\n'}
             </Text>
             <Button
               buttonStyle={styles.buttonWhite}
-              raised={true}
               titleStyle={fontStyles.boldBlackFont}
               title={'Watchlist'}
               onPress={() => {
@@ -343,6 +342,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     alignSelf: 'center',
+    padding: 8,
   },
   divider: {
     margin: 30,

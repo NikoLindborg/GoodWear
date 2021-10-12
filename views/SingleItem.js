@@ -8,18 +8,25 @@ import {
   ScrollView,
   ActivityIndicator,
   Alert,
+  SafeAreaView,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {uploadsUrl} from '../utils/variables';
-import {Button} from 'react-native-elements';
+import {Button, Icon} from 'react-native-elements';
 import fontStyles from '../utils/fontStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 import {useFavourite, useMedia, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
-  const {setIsLoggedIn, user, updateFavourite, setUpdateFavourite, isLoggedIn, update, setUpdate} =
-    useContext(MainContext);
+  const {
+    setIsLoggedIn,
+    user,
+    updateFavourite,
+    setUpdateFavourite,
+    isLoggedIn,
+    update,
+    setUpdate,
+  } = useContext(MainContext);
   const setChatId = (firstId, secondId) => {
     const chatId =
       Math.min(firstId, secondId) + '_' + Math.max(firstId, secondId);
@@ -179,55 +186,136 @@ const SingleItem = ({route, navigation}) => {
                 </>
               )}
 
-              <Image
-                source={{uri: uploadsUrl + filename}}
-                style={styles.imageSingle}
-              />
-              <Text style={fontStyles.boldFont}>{title}</Text>
-              {postTags.length < 6 ? (
-                <>
-                  <Text style={fontStyles.regularFont}>
-                    Category: {postTags[1].tag}
-                  </Text>
-                  <Text style={fontStyles.regularFont}>
-                    Condition: {postTags[2].tag}
-                  </Text>
-                  <Text style={fontStyles.regularFont}>
-                    Size: {postTags[3].tag}
-                  </Text>
-                  <Text style={fontStyles.regularFont}>
-                    Gender: {postTags[4].tag}
-                  </Text>
-                </>
-              ) : (
-                <>
-                  <Text style={fontStyles.regularFont}>
-                    Category: {postTags[1].tag}
-                  </Text>
-                  <Text style={fontStyles.regularFont}>
-                    Condition: {postTags[2].tag}
-                  </Text>
-                  <Text style={fontStyles.regularFont}>
-                    Size: {postTags[3].tag}
-                  </Text>
-                  <Text style={fontStyles.regularFont}>Gender: Unisex</Text>
-                </>
-              )}
-              <Text style={fontStyles.boldFont}>Description:</Text>
-              <Text style={fontStyles.regularFont}>{allData.description}</Text>
-              <Text style={fontStyles.regularFont}>
-                Shipping: {allData.shipping}
-              </Text>
-              <View style={styles.space} />
-              {!JSON.parse(description).price.endsWith('€') ? (
-                <Text style={fontStyles.boldFont}>
-                  {JSON.parse(description).price}€
+              <View style={styles.imageContainer}>
+                <Image
+                  source={{uri: uploadsUrl + filename}}
+                  style={styles.imageSingle}
+                />
+                <View style={styles.imageContainerBottom}>
+                  <Text style={fontStyles.bigBoldFont24}>{title}</Text>
+                  {favourite ? (
+                    <Button
+                      buttonStyle={{backgroundColor: 'white'}}
+                      onPress={() => {
+                        removeSavedItem();
+                      }}
+                      icon={
+                        <Icon
+                          name="heart"
+                          type="font-awesome"
+                          size={20}
+                          color={'red'}
+                        />
+                      }
+                    />
+                  ) : (
+                    <Button
+                      buttonStyle={{backgroundColor: 'white'}}
+                      onPress={() => {
+                        saveItem();
+                      }}
+                      icon={
+                        <Icon
+                          name="heart-o"
+                          type="font-awesome"
+                          size={20}
+                          color={'black'}
+                        />
+                      }
+                    />
+                  )}
+                </View>
+              </View>
+
+              <View style={styles.productInfo}>
+                {postTags.length < 6 ? (
+                  <>
+                    <View style={styles.row}>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        Category
+                      </Text>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        {postTags[1].tag}
+                      </Text>
+                    </View>
+                    <View style={styles.row}>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        Condition
+                      </Text>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        {postTags[2].tag}
+                      </Text>
+                    </View>
+                    <View style={styles.row}>
+                      <Text style={fontStyles.regularFontSingleItem}>Size</Text>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        {postTags[3].tag}
+                      </Text>
+                    </View>
+                    <View style={styles.row}>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        Gender
+                      </Text>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        {postTags[4].tag}
+                      </Text>
+                    </View>
+                  </>
+                ) : (
+                  <>
+                    <View style={styles.row}>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        Category
+                      </Text>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        {postTags[1].tag}
+                      </Text>
+                    </View>
+                    <View style={styles.row}>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        Condition
+                      </Text>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        {postTags[2].tag}
+                      </Text>
+                    </View>
+                    <View style={styles.row}>
+                      <Text style={fontStyles.regularFontSingleItem}>Size</Text>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        {postTags[3].tag}
+                      </Text>
+                    </View>
+                    <View style={styles.row}>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        Gender
+                      </Text>
+                      <Text style={fontStyles.regularFontSingleItem}>
+                        Unisex
+                      </Text>
+                    </View>
+                  </>
+                )}
+                <View style={styles.space} />
+                <View style={styles.space} />
+                <Text style={fontStyles.regularFontSingleItem}>
+                  {allData.description}
                 </Text>
-              ) : (
-                <Text style={fontStyles.boldFont}>
-                  {JSON.parse(description).price}
+                <View style={styles.space} />
+                <Text style={fontStyles.regularFontSingleItem}>
+                  Shipping: {allData.shipping}
                 </Text>
-              )}
+                <View style={styles.space} />
+                {!JSON.parse(description).price.endsWith('€') ? (
+                  <Text style={fontStyles.bigBoldFont24}>
+                    {JSON.parse(description).price}€
+                  </Text>
+                ) : (
+                  <Text style={fontStyles.bigBoldFont24}>
+                    {JSON.parse(description).price}
+                  </Text>
+                )}
+                <View style={styles.space} />
+              </View>
             </View>
           </>
         ) : (
@@ -237,6 +325,7 @@ const SingleItem = ({route, navigation}) => {
             </View>
           </>
         )}
+        <View style={styles.empty} />
       </ScrollView>
       <View style={styles.buttonContainer}>
         {isMyItem ? (
@@ -262,23 +351,23 @@ const SingleItem = ({route, navigation}) => {
             />
           </>
         ) : (
-          <>
-        <Button
-          title={'Send message to seller'}
-          buttonStyle={styles.buttonRed}
-          titleStyle={fontStyles.boldFont}
-          onPress={() => {
-            !isLoggedIn
-              ? navigation.navigate('NotLoggedInScreen')
-              : navigation.navigate('Chat', {
-                  chatId: setChatId(user_id, user.user_id),
-                  subject: title,
-                  filename: filename,
-                  buyer: user.username,
-                });
+          <View style={styles.buttonContainer}>
+            <Button
+              title={'Send message to seller'}
+              buttonStyle={styles.buttonRed}
+              titleStyle={fontStyles.boldFont}
+              onPress={() => {
+                !isLoggedIn
+                  ? navigation.navigate('NotLoggedInScreen')
+                  : navigation.navigate('Chat', {
+                      chatId: setChatId(user_id, user.user_id),
+                      subject: title,
+                      filename: filename,
+                      buyer: user.username,
+                    });
               }}
             />
-          </>
+          </View>
         )}
         <View style={styles.space} />
       </View>
@@ -292,8 +381,32 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'contain',
   },
+  imageContainer: {
+    width: '90%',
+    height: '100%',
+    resizeMode: 'contain',
+    backgroundColor: '#F0F0F0',
+  },
+  imageContainerBottom: {
+    width: '100%',
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   space: {
-    height: 10,
+    height: 15,
+  },
+  empty: {
+    height: 300,
+  },
+  productInfo: {
+    width: '90%',
+    marginTop: 40,
   },
   item: {
     flex: 1,
@@ -301,12 +414,14 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   container: {
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#fff',
   },
   buttonContainer: {
     flex: 0,
+    marginBottom: 20,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -322,6 +437,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderStyle: 'solid',
     borderRadius: 0,
+    display: 'none',
   },
 });
 
