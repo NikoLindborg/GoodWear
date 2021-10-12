@@ -43,10 +43,10 @@ const Profile = ({navigation}) => {
             <Text style={styles.headerFont}>
               {'\n'}Hello!{'\n'}
             </Text>
-            <Text style={fontStyles.regularFont}>
-              As a non registered user, you can only browse listings
+            <Text style={fontStyles.regularFontCenter}>
+              As a non registered user, you can only browse items{'\n'}
             </Text>
-            <Text style={fontStyles.regularFont}>
+            <Text style={fontStyles.regularFontCenter}>
               You can go back to login screen by clicking the button down below
               {'\n'}
             </Text>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   droidSafeArea: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 25 : 0,
-    backgroundColor: '#F4F1DE',
+    backgroundColor: '#fff',
     alignItems: 'center',
   },
   basicFont: {
