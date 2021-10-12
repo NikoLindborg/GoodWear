@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Alert, FlatList, StyleSheet, View} from 'react-native';
+import {Alert, FlatList, Platform, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {Avatar, Card, Icon, ListItem, Text} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
@@ -129,9 +129,15 @@ const Settings = ({navigation}) => {
         </ListItem>
       </View>
       <Card.Divider />
-      <View containerStyle={{height: 'auto', zIndex: 2}}>
-        <FilterForm />
-      </View>
+      {Platform.OS === 'ios' ? (
+        <View style={{height: 'auto', zIndex: 2}}>
+          <FilterForm />
+        </View>
+      ) : (
+        <View containerStyle={{height: 'auto', zIndex: 2}}>
+          <FilterForm />
+        </View>
+      )}
       <View style={{height: 250}}>
         <Text h4 style={{alignSelf: 'center', marginTop: 40, zIndex: 1}}>
           Items you have selected:
