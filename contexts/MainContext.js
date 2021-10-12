@@ -12,7 +12,10 @@ const MainProvider = (props) => {
   const [updateFavourite, setUpdateFavourite] = useState(0);
   const [updateFilter, setUpdateFilter] = useState(0);
   const [unreadMessages, setUnreadMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [chatSubject, setChatSubject] = useState('');
+  const [newWatchlist, setNewWatchlist] = useState(false);
+  const [checkedItems, setCheckedItems] = useState(false);
   const {mediaArray} = useMedia();
   return (
     <MainContext.Provider
@@ -32,8 +35,14 @@ const MainProvider = (props) => {
         setUpdateFilter,
         askLogin,
         setAskLogin,
+        loading,
+        setLoading,
         chatSubject,
         setChatSubject,
+        newWatchlist,
+        setNewWatchlist,
+        checkedItems,
+        setCheckedItems,
       }}
     >
       {props.children}

@@ -34,10 +34,10 @@ const Upload = ({navigation}) => {
     value3,
     setValue3,
   } = useUploadForm();
-  const [type, setType] = useState('');
-  const {uploadMedia, loading} = useMedia();
+  const {uploadMedia, loadingMedia} = useMedia();
   const {addTag} = useTag();
-  const {update, setUpdate, isLoggedIn, setAskLogin} = useContext(MainContext);
+  const {update, setUpdate, isLoggedIn, setAskLogin, loading} =
+    useContext(MainContext);
 
   const doReset = () => {
     setImage();
@@ -46,6 +46,9 @@ const Upload = ({navigation}) => {
 
   const doUpload = async () => {
     const filename = image.uri.split('/').pop();
+    const match = /\.(\w+)$/.exec(filename);
+    let type = match ? `image/${match[1]}` : `image`;
+    if (type === 'image/jpg') type = 'image/jpeg';
     const formData = new FormData();
     const fullData = {
       description: inputs.description,
@@ -80,7 +83,8 @@ const Upload = ({navigation}) => {
           userToken
         );
       }
-      if (tagResult.message) {
+      setUpdate(update + 1);
+      if (tagResult.message && !loading) {
         Alert.alert(
           'Upload',
           result.message,
@@ -89,7 +93,6 @@ const Upload = ({navigation}) => {
               text: 'Ok',
               onPress: () => {
                 doReset();
-                setUpdate(update + 1);
                 navigation.navigate('Front');
               },
             },
@@ -124,7 +127,6 @@ const Upload = ({navigation}) => {
 
     if (!result.cancelled) {
       setImage({uri: result.uri});
-      setType(result.type);
     }
   };
   return (
@@ -183,7 +185,12 @@ const Upload = ({navigation}) => {
                 value3={value3}
                 setValue3={setValue3}
               />
-              <Button title="Reset" buttonStyle={styles.buttonWhite} titleStyle={fontStyles.boldBlackFont} onPress={doReset} />
+              <Button
+                title="Reset"
+                buttonStyle={styles.buttonWhite}
+                titleStyle={fontStyles.boldBlackFont}
+                onPress={doReset}
+              />
             </Card>
             <View style={{flex: 1}} />
           </View>

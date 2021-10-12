@@ -7,8 +7,8 @@ const constraints = {
       message: 'Cannot be empty.',
     },
     length: {
-      minimum: 3,
-      message: 'min length is 3 characters',
+      minimum: 2,
+      message: 'min length is 2 characters',
     },
   },
   description: {
@@ -34,8 +34,8 @@ const constraints = {
       message: 'Cannot be empty.',
     },
     length: {
-      minimum: 3,
-      message: 'min length is 3 characters',
+      minimum: 2,
+      message: 'min length is 2 characters',
     },
   },
 };
@@ -67,8 +67,7 @@ const useModifyForm = (callback) => {
       text = null;
       return;
     }
-    let error;
-    error = validator(name, text, constraints);
+    const error = validator(name, text, constraints);
     setModifyErrors((modifyErrors) => {
       return {
         ...modifyErrors,

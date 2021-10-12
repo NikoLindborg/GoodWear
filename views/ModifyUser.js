@@ -26,7 +26,6 @@ const ModifyUser = ({navigation}) => {
       if (result.message) {
         try {
           const userDetails = await checkToken(userToken);
-          console.log(userDetails);
           if (userDetails) {
             setUser(userDetails);
             navigation.navigate('Settings');

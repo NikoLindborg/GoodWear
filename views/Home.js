@@ -18,8 +18,14 @@ import firebase from 'firebase';
 import {firebaseConfig} from '../firebaseConfig';
 
 const Home = ({navigation}) => {
-  const {user, setUnreadMessages, isLoggedIn, setAskLogin, update} =
-    useContext(MainContext);
+  const {
+    user,
+    setUnreadMessages,
+    isLoggedIn,
+    setAskLogin,
+    newWatchlist,
+    setNewWatchlist,
+  } = useContext(MainContext);
   const [filteredMediaArray, setFilteredMediaArray] = useState();
   const {loadMedia, loadingMedia, mediaArray} = useMedia();
   const [loadingFilteredArray, setLoadingFilteredArray] = useState();
@@ -30,28 +36,44 @@ const Home = ({navigation}) => {
   ]);
   const isFocused = useIsFocused();
 
+  const handleFlteredMediaArray = (filteredList) => {
+    const list = [];
+    filteredList.forEach((e) => list.push(e));
+    const anotherList = [...new Set(list)];
+    anotherList.sort((e) => e.file_id);
+    setFilteredMediaArray(anotherList);
+  };
+
+  const setFilteredArray = async () => {
+    if (user.full_name && user.full_name.length > 2) {
+      const parsedUserData = JSON.parse(user.full_name);
+      const list = [];
+      for (let i = 0; i < parsedUserData.items.length; i++) {
+        const conditionList = await loadMedia(parsedUserData.items[i]);
+        const filteredList = mediaArray.filter((e) => {
+          return conditionList.some((el) => {
+            return el.file_id === e.file_id;
+          });
+        });
+        filteredList.forEach((e) => list.push(e));
+      }
+      handleFlteredMediaArray(list);
+    }
+  };
+
   useEffect(() => {
     (async () => {
-      if (user.full_name && user.full_name.length > 2) {
-        const parsedUserData = JSON.parse(user.full_name);
-        parsedUserData.items.forEach(async (e) => {
-          const conditionList = await loadMedia(e);
-          const filteredList = await mediaArray.filter((el) => {
-            return conditionList.some((f) => {
-              return f.file_id === el.file_id;
-            });
-          });
-          setFilteredMediaArray(filteredList);
-          setLoadingFilteredArray(false);
-        });
-      }
+      setFilteredMediaArray();
+      setLoadingFilteredArray(true);
+      await setFilteredArray();
+      setNewWatchlist(false);
+      setLoadingFilteredArray(false);
     })();
-  }, [mediaArray]);
+  }, [newWatchlist]);
 
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
-
   const db = firebase.firestore();
   const chatsRef = db.collection('chats');
   const emptyArray = [];
@@ -79,6 +101,7 @@ const Home = ({navigation}) => {
       setUnreadMessages(emptyArray);
     });
   }, [isFocused]);
+
   return (
     <SafeAreaView style={styles.droidSafeArea}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -108,7 +131,7 @@ const Home = ({navigation}) => {
               }}
             />
           </View>
-        ) : !filteredMediaArray ? (
+        ) : !JSON.parse(user.full_name).items ? (
           <View style={styles.introBox}>
             <Text style={fontStyles.bigBoldFont24}>
               {'\n'}Hello {user.username}!{'\n'}
@@ -135,7 +158,7 @@ const Home = ({navigation}) => {
                 Newest in your filtered categories
               </Text>
             </View>
-            {filteredMediaArray.length === 0 ? (
+            {!filteredMediaArray && !loadingFilteredArray ? (
               <Text> Looks like there arent any posts with your filters</Text>
             ) : (
               <>

@@ -99,7 +99,6 @@ const useSignUpForm = () => {
     }
     try {
       const result = await checkUserName(text);
-      console.log(result);
       if (!result.available) {
         setRegisterErrors((registerErrors) => {
           return {
