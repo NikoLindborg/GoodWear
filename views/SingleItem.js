@@ -100,7 +100,7 @@ const SingleItem = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         {isLoaded ? (
           <>
             <View style={styles.item}>
@@ -139,7 +139,7 @@ const SingleItem = ({route, navigation}) => {
                 source={{uri: uploadsUrl + filename}}
                 style={styles.imageSingle}
               />
-              <Text style={fontStyles.boldFontHeader}>{title}</Text>
+              <Text style={fontStyles.boldFont}>{title}</Text>
               {postTags.length < 6 ? (
                 <>
                   <Text style={fontStyles.regularFont}>
@@ -178,11 +178,11 @@ const SingleItem = ({route, navigation}) => {
               <View style={styles.space} />
               {!JSON.parse(description).price.endsWith('€') ? (
                 <Text style={fontStyles.boldFont}>
-                  Price: {JSON.parse(description).price}€
+                  {JSON.parse(description).price}€
                 </Text>
               ) : (
                 <Text style={fontStyles.boldFont}>
-                  Price: {JSON.parse(description).price}
+                  {JSON.parse(description).price}
                 </Text>
               )}
             </View>
@@ -216,8 +216,9 @@ const SingleItem = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
   imageSingle: {
-    width: 200,
-    height: 300,
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   space: {
     height: 10,
@@ -230,6 +231,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   buttonContainer: {
     flex: 0,

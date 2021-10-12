@@ -15,14 +15,15 @@ import Messages from '../views/Messages';
 import Search from '../views/Search';
 import ProductList from '../views/ProductList';
 import FilteredView from '../views/FilteredView';
-import {Icon} from 'react-native-elements';
+import {Button, Icon} from 'react-native-elements';
 import NotLoggedInScreen from '../views/NotLoggedInScreen';
+import PropTypes from 'prop-types';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const TabScreen = () => {
-  const {unreadMessages} = useContext(MainContext);
+const TabScreen = ({navigation}) => {
+  const {unreadMessages, isLoggedIn, user} = useContext(MainContext);
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -84,29 +85,54 @@ const TabScreen = () => {
           component={Messages}
         />
       )}
-
-      <Tab.Screen
-        name="Profile"
-        options={{
-          tabBarActiveTintColor: '#E07A5F',
-          tabBarLabel: 'Profile',
-          headerShown: false,
-          tabBarIcon: () => <Icon name="person" color={'grey'} size={25} />,
-        }}
-        component={Profile}
-      />
+      {isLoggedIn ? (
+        <Tab.Screen
+          name="Profile"
+          options={{
+            tabBarActiveTintColor: '#E07A5F',
+            tabBarLabel: 'Profile',
+            title: user.username,
+            headerRight: () => (
+              <Button
+                buttonStyle={{backgroundColor: 'white'}}
+                onPress={() => navigation.navigate('Settings')}
+                icon={
+                  <Icon
+                    name="cog"
+                    type="font-awesome"
+                    size={20}
+                    color="black"
+                  />
+                }
+              />
+            ),
+            tabBarIcon: () => <Icon name="person" color={'grey'} size={25} />,
+          }}
+          component={Profile}
+        />
+      ) : (
+        <Tab.Screen
+          name="Profile"
+          options={{
+            tabBarActiveTintColor: '#E07A5F',
+            tabBarLabel: 'Profile',
+            tabBarIcon: () => <Icon name="person" color={'grey'} size={25} />,
+          }}
+          component={Profile}
+        />
+      )}
     </Tab.Navigator>
   );
 };
 
 const StackScreen = () => {
-  const {isLoggedIn, askLogin} = useContext(MainContext);
+  const {isLoggedIn, askLogin, chatSubject} = useContext(MainContext);
   const customOptions = {
     headerTintColor: '#E07A5F',
     headerTitleStyle: {color: 'black'},
   };
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={customOptions}>
       {isLoggedIn || askLogin ? (
         <>
           <Stack.Screen
@@ -117,32 +143,31 @@ const StackScreen = () => {
             component={TabScreen}
           />
 
-          <Stack.Screen
-            name="Settings"
-            component={Settings}
-            options={customOptions}
-          />
+          <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="ModifyUser" component={ModifyUser} />
           <Stack.Screen
             name="SingleItem"
             component={SingleItem}
-            options={customOptions}
+            options={{title: 'Product'}}
           />
-          <Stack.Screen name="Chat" component={Chat} options={customOptions} />
+          <Stack.Screen
+            name="Chat"
+            component={Chat}
+            options={{title: chatSubject}}
+          />
           <Stack.Screen
             name="ProductList"
             component={ProductList}
-            options={customOptions}
+            options={{title: 'Products'}}
           />
           <Stack.Screen
             name="FilteredView"
             component={FilteredView}
-            options={customOptions}
+            options={{title: 'Products'}}
           />
           <Stack.Screen
             name="NotLoggedInScreen"
             component={NotLoggedInScreen}
-            options={customOptions}
           />
         </>
       ) : (
@@ -166,6 +191,10 @@ const Navigator = () => {
       <StackScreen />
     </NavigationContainer>
   );
+};
+
+Navigator.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default Navigator;

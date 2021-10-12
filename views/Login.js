@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/ApiHooks';
 import {ImageBackground} from 'react-native';
 import {Image} from 'react-native';
+import fontStyles from '../utils/fontStyles';
 
 const Login = ({navigation}) => {
   const {setIsLoggedIn, setUser, setAskLogin} = useContext(MainContext);
@@ -64,36 +65,38 @@ const Login = ({navigation}) => {
                   uri: 'https://cdn.discordapp.com/attachments/821748272934289458/890674197804748810/GW_graphic.png',
                 }}
                 style={styles.logo}
-              ></Image>
+              />
               <Card style={styles.card}>
                 {formToggle ? (
                   <>
-                    <Card.Title h3 style={styles.text}>
+                    <Card.Title h3 style={fontStyles.boldFont}>
                       Login
                     </Card.Title>
                     <LoginForm navigation={navigation} />
                   </>
                 ) : (
                   <>
-                    <Card.Title h3 style={styles.text}>
+                    <Card.Title h3 style={fontStyles.boldFont}>
                       Register
                     </Card.Title>
                     <RegisterForm navigation={navigation} />
                   </>
                 )}
                 <Button
-                  raised
                   title={
-                    formToggle ? 'New user? register' : 'Already an user? Login'
+                    formToggle ? 'New user? Register' : 'Already an user? Login'
                   }
                   onPress={() => setFormToggle(!formToggle)}
                   style={styles.button}
+                  buttonStyle={styles.whiteButton}
+                  titleStyle={fontStyles.regularBlackFont}
                 />
                 <Button
-                  raised
-                  title={'Continue without logging in'}
+                  title={'Or continue without logging in'}
                   onPress={() => continueWithoutLogging()}
                   style={styles.button}
+                  buttonStyle={styles.textButton}
+                  titleStyle={fontStyles.regularBlackFont}
                 />
               </Card>
             </View>
@@ -114,6 +117,19 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 5,
+  },
+  redButton: {
+    backgroundColor: '#E07A5F',
+  },
+  whiteButton: {
+    marginTop: 5,
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderColor: 'black',
+    borderStyle: 'solid',
+  },
+  textButton: {
+    backgroundColor: '#fff',
   },
   card: {
     flex: 7,

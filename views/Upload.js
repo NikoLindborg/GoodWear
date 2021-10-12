@@ -18,7 +18,9 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import fontStyles from '../utils/fontStyles';
 
 const Upload = ({navigation}) => {
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(
+    require('../assets/GW_graphics_slogan.png')
+  );
   const {
     handleInputChange,
     inputs,
@@ -126,75 +128,80 @@ const Upload = ({navigation}) => {
     }
   };
   return (
-    <KeyboardAwareScrollView>
-      <KeyboardAvoidingView
-        behavior={Platform.os === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardView}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          {!isLoggedIn ? (
-            <View style={styles.introBox}>
-              <Text style={styles.headerFont}>
-                {'\n'}Hello!{'\n'}
-              </Text>
-              <Text style={fontStyles.regularFont}>
-                As a non registered user, you can only browse listings
-              </Text>
-              <Text style={fontStyles.regularFont}>
-                You can go back to login screen by clicking the button down
-                below
-                {'\n'}
-              </Text>
+    <KeyboardAwareScrollView
+      behavior={Platform.os === 'ios' ? 'padding' : 'height'}
+      style={styles.keyboardView}
+      extraScrollHeight={100}
+      enableOnAndroid={true}
+      keyboardShouldPersistTaps="handled"
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        {!isLoggedIn ? (
+          <View style={styles.introBox}>
+            <Text style={styles.headerFont}>
+              {'\n'}Hello!{'\n'}
+            </Text>
+            <Text style={fontStyles.regularFont}>
+              As a non registered user, you can only browse listings
+            </Text>
+            <Text style={fontStyles.regularFont}>
+              You can go back to login screen by clicking the button down below
+              {'\n'}
+            </Text>
+            <Button
+              buttonStyle={styles.buttonWhite}
+              titleStyle={fontStyles.boldBlackFont}
+              title={'Go back to login'}
+              onPress={() => {
+                setAskLogin(false);
+              }}
+            />
+          </View>
+        ) : (
+          <View style={styles.container}>
+            <Card>
+              <Image source={image} style={styles.image} />
               <Button
-                buttonStyle={styles.buttonWhite}
-                raised={true}
-                titleStyle={fontStyles.boldBlackFont}
-                title={'Go back to login'}
-                onPress={() => {
-                  setAskLogin(false);
-                }}
+                title="Select media"
+                buttonStyle={styles.redButton}
+                titleStyle={fontStyles.boldFont}
+                onPress={pickImage}
               />
-            </View>
-          ) : (
-            <View style={styles.container}>
-              <Card>
-                <Image source={image} style={styles.image} />
-                <Button title="select media" onPress={pickImage} />
-                <UploadForm
-                  title="Upload"
-                  handleSubmit={doUpload}
-                  handleInputChange={handleInputChange}
-                  loading={loading}
-                  handleInputEnd={handleInputEnd}
-                  uploadErrors={uploadErrors}
-                  image={image}
-                  inputs={inputs}
-                  value={value}
-                  setValue={setValue}
-                  value2={value2}
-                  setValue2={setValue2}
-                  value3={value3}
-                  setValue3={setValue3}
-                />
-                <Button title="Reset" onPress={doReset} />
-              </Card>
-              <View style={{flex: 1}} />
-            </View>
-          )}
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+              <UploadForm
+                title="Upload"
+                handleSubmit={doUpload}
+                handleInputChange={handleInputChange}
+                loading={loading}
+                handleInputEnd={handleInputEnd}
+                uploadErrors={uploadErrors}
+                image={image}
+                inputs={inputs}
+                value={value}
+                setValue={setValue}
+                value2={value2}
+                setValue2={setValue2}
+                value3={value3}
+                setValue3={setValue3}
+              />
+              <Button title="Reset" buttonStyle={styles.buttonWhite} titleStyle={fontStyles.boldBlackFont} onPress={doReset} />
+            </Card>
+            <View style={{flex: 1}} />
+          </View>
+        )}
+      </TouchableWithoutFeedback>
     </KeyboardAwareScrollView>
   );
 };
 const styles = StyleSheet.create({
   image: {
-    height: 300,
+    height: 150,
     width: 'auto',
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   container: {
     flex: 1,
     justifyContent: 'flex-end',
+    backgroundColor: '#fff',
   },
   keyboardView: {
     flex: 0,
@@ -206,12 +213,16 @@ const styles = StyleSheet.create({
   },
   buttonWhite: {
     marginTop: 5,
+    marginBottom: 5,
     width: '100%',
     backgroundColor: 'white',
     borderWidth: 2,
     borderColor: 'black',
     borderStyle: 'solid',
     borderRadius: 0,
+  },
+  redButton: {
+    backgroundColor: '#E07A5F',
   },
   headerFont: {
     fontFamily: 'RobotoCondensed_700Bold',

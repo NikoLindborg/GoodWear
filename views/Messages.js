@@ -87,7 +87,6 @@ const Messages = ({navigation}) => {
           </Text>
           <Button
             buttonStyle={styles.buttonWhite}
-            raised={true}
             titleStyle={fontStyles.boldBlackFont}
             title={'Go back to login'}
             onPress={() => {
@@ -157,6 +156,9 @@ Messages.propTypes = {
 const styles = StyleSheet.create({
   listItem: {
     flex: 1,
+    borderBottomWidth: 3,
+    borderColor: 'grey',
+    borderStyle: 'dashed',
   },
   conversation: {
     flexDirection: 'column',

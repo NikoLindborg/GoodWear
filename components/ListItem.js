@@ -1,9 +1,15 @@
-import {ActivityIndicator, StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
 import {Text, Card} from 'react-native-elements';
 import fontStyles from '../utils/fontStyles';
+import {MainContext} from '../contexts/MainContext';
 
 const ListItem = ({singleMedia, navigation, loading}) => {
   return (
@@ -25,25 +31,25 @@ const ListItem = ({singleMedia, navigation, loading}) => {
         <ActivityIndicator />
       ) : (
         <Card wrapperStyle={styles.card}>
-          <Card.Title style={{fontFamily: 'RobotoCondensed_700Bold'}}>
-            {singleMedia.title}
-          </Card.Title>
+          <Text style={fontStyles.boldFont}>{singleMedia.title}</Text>
           <Card.Image
             source={{uri: uploadsUrl + singleMedia.thumbnails?.w160}}
             style={styles.image}
           />
-          <Text style={{fontFamily: 'RobotoCondensed_400Regular'}}>
-            {JSON.parse(singleMedia.description).description}
-          </Text>
-          {!JSON.parse(singleMedia.description).price.endsWith('€') ? (
-            <Text style={fontStyles.regularFont}>
-              Price: {JSON.parse(singleMedia.description).price}€
+          <View style={styles.textContainer}>
+            <Text numberOfLines={1} style={fontStyles.regularFont}>
+              {JSON.parse(singleMedia.description).description}
             </Text>
-          ) : (
-            <Text style={fontStyles.regularFont}>
-              Price: {JSON.parse(singleMedia.description).price}
-            </Text>
-          )}
+            {!JSON.parse(singleMedia.description).price.endsWith('€') ? (
+              <Text style={fontStyles.regularFont}>
+                {JSON.parse(singleMedia.description).price}€
+              </Text>
+            ) : (
+              <Text style={fontStyles.regularFont}>
+                {JSON.parse(singleMedia.description).price}
+              </Text>
+            )}
+          </View>
         </Card>
       )}
     </TouchableOpacity>
@@ -58,12 +64,20 @@ ListItem.propTypes = {
 
 const styles = StyleSheet.create({
   image: {
+    flexDirection: 'row',
     width: 180,
-    height: undefined,
-    aspectRatio: 1,
+    height: 'auto',
+    alignSelf: 'center',
+    resizeMode: 'contain',
+    aspectRatio: 4 / 3,
   },
   card: {
-    height: 240,
+    alignItems: 'center',
+    height: 250,
+    width: 200,
+    justifyContent: 'space-between',
+  },
+  textContainer: {
     alignItems: 'center',
   },
 });

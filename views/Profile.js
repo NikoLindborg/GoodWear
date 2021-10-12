@@ -49,7 +49,6 @@ const Profile = ({navigation}) => {
             </Text>
             <Button
               buttonStyle={styles.buttonWhite}
-              raised={true}
               titleStyle={fontStyles.boldBlackFont}
               title={'Go back to login'}
               onPress={() => {
@@ -59,32 +58,12 @@ const Profile = ({navigation}) => {
           </View>
         </View>
       ) : (
-        <View style={{flex: 0}}>
-          <Card containerStyle={{flex: 0, backgroundColor: '#F4F1DE'}}>
-            <Avatar
-              icon={{
-                name: 'cog',
-                type: 'font-awesome',
-                color: 'black',
-                size: 35,
-              }}
-              onPress={() => {
-                navigation.navigate('Settings');
-              }}
-              containerStyle={{
-                position: 'absolute',
-                right: 0,
-                top: 0,
-                zIndex: 1,
-              }}
-            />
-            <Card.Title>
-              <Text h1 style={styles.basicFont}>
-                {user.username}
-              </Text>
-            </Card.Title>
-          </Card>
-          <View style={{height: 500}}>
+        <View style={{flex: 0, width: '100%'}}>
+          <View
+            style={{
+              width: '100%',
+            }}
+          >
             {selectedView ? (
               <>
                 <View
@@ -92,29 +71,30 @@ const Profile = ({navigation}) => {
                     flex: 0,
                     flexDirection: 'row',
                     justifyContent: 'center',
-                    height: 60,
+                    height: 50,
                   }}
                 >
                   <Button
                     title="My Items"
-                    titleStyle={{color: '#E07A5F'}}
-                    raised
+                    titleStyle={fontStyles.regularBlackFont}
                     buttonStyle={{
-                      width: 165,
-                      height: 60,
+                      width: '100%',
                       backgroundColor: 'white',
+                      alignItems: 'center',
                     }}
                     onPress={() => setSelectedView(!selectedView)}
-                  ></Button>
+                  />
                   <Button
                     title="Saved Items"
+                    titleStyle={fontStyles.regularBlackFont}
                     buttonStyle={{
-                      backgroundColor: '#E07A5F',
-                      width: 165,
-                      height: 60,
+                      backgroundColor: '#fff',
+                      borderBottomWidth: 1,
+                      borderStyle: 'solid',
+                      borderBottomColor: 'black',
+                      width: '100%',
                     }}
-                    raised
-                  ></Button>
+                  />
                 </View>
                 <SavedItems navigation={navigation} />
               </>
@@ -125,29 +105,28 @@ const Profile = ({navigation}) => {
                     flex: 0,
                     flexDirection: 'row',
                     justifyContent: 'center',
-                    height: 60,
                   }}
                 >
                   <Button
                     title="My Items"
+                    titleStyle={fontStyles.regularBlackFont}
                     buttonStyle={{
-                      backgroundColor: '#E07A5F',
-                      width: 165,
-                      height: 60,
+                      backgroundColor: '#fff',
+                      borderBottomWidth: 1,
+                      borderStyle: 'solid',
+                      borderBottomColor: 'black',
+                      width: '100%',
                     }}
-                    raised
-                  ></Button>
+                  />
                   <Button
                     title="Saved Items"
-                    titleStyle={{color: '#E07A5F'}}
-                    raised
+                    titleStyle={fontStyles.regularBlackFont}
                     buttonStyle={{
-                      width: 165,
-                      height: 60,
+                      width: '100%',
                       backgroundColor: 'white',
                     }}
                     onPress={() => setSelectedView(!selectedView)}
-                  ></Button>
+                  />
                 </View>
                 <MyItems navigation={navigation} />
               </>
@@ -163,7 +142,7 @@ const styles = StyleSheet.create({
   droidSafeArea: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 25 : 0,
-    backgroundColor: '#fff',
+    backgroundColor: '#F4F1DE',
     alignItems: 'center',
   },
   basicFont: {

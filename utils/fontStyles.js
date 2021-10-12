@@ -4,9 +4,11 @@ const fontStyles = StyleSheet.create({
   // FONTS
   regularFont: {
     fontFamily: 'RobotoCondensed_400Regular',
+    fontSize: 16,
   },
   boldFont: {
     fontFamily: 'RobotoCondensed_700Bold',
+    fontSize: 18,
   },
   boldFontHeader: {
     fontFamily: 'RobotoCondensed_700Bold',
@@ -19,6 +21,14 @@ const fontStyles = StyleSheet.create({
   regularBlackFont: {
     color: 'black',
     fontFamily: 'RobotoCondensed_400Regular',
+  },
+  bigBoldFont: {
+    fontFamily: 'RobotoCondensed_700Bold',
+    fontSize: 22,
+  },
+  bigBoldFont24: {
+    fontFamily: 'RobotoCondensed_700Bold',
+    fontSize: 24,
   },
 });
 
