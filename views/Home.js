@@ -220,7 +220,10 @@ const Home = ({navigation}) => {
               buttonStyle={styles.extraButton}
               titleStyle={fontStyles.boldBlackFont}
               onPress={() => {
-                navigation.navigate('ProductList', {category: extraFilters[0]});
+                navigation.navigate('ProductList', {
+                  category: extraFilters[0],
+                  data: mediaArray,
+                });
               }}
             />
             <Button
@@ -228,7 +231,10 @@ const Home = ({navigation}) => {
               buttonStyle={styles.extraButton}
               titleStyle={fontStyles.boldBlackFont}
               onPress={() => {
-                navigation.navigate('ProductList', {category: extraFilters[1]});
+                navigation.navigate('ProductList', {
+                  category: extraFilters[1],
+                  data: mediaArray,
+                });
               }}
             />
             <Button
@@ -236,7 +242,10 @@ const Home = ({navigation}) => {
               buttonStyle={styles.extraButton}
               titleStyle={fontStyles.boldBlackFont}
               onPress={() => {
-                navigation.navigate('ProductList', {category: extraFilters[2]});
+                navigation.navigate('ProductList', {
+                  category: extraFilters[2],
+                  data: mediaArray,
+                });
               }}
             />
           </View>

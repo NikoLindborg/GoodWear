@@ -1,17 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, SafeAreaView, Text, View} from 'react-native';
-import {Avatar, Button, Card} from 'react-native-elements';
+import {StyleSheet, SafeAreaView, Text, View, Platform} from 'react-native';
+import {Button} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
 import MyItems from '../components/MyItems';
 import SavedItems from '../components/SavedItems';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useMedia, useUser} from '../hooks/ApiHooks';
+import {useUser} from '../hooks/ApiHooks';
 import fontStyles from '../utils/fontStyles';
 
 const Profile = ({navigation}) => {
   const [selectedView, setSelectedView] = useState(false);
-  const {user, setUser, isLoggedIn, setAskLogin, update} = useContext(MainContext);
+  const {user, setUser, isLoggedIn, setAskLogin, update, updateUser} =
+    useContext(MainContext);
   const {checkToken} = useUser();
 
   const getToken = async () => {
@@ -33,7 +34,7 @@ const Profile = ({navigation}) => {
     (async () => {
       await getToken();
     })();
-  }, [update]);
+  }, [update, updateUser]);
 
   return (
     <SafeAreaView style={styles.droidSafeArea}>

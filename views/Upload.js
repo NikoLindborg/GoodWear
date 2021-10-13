@@ -230,6 +230,7 @@ const styles = StyleSheet.create({
   },
   redButton: {
     backgroundColor: '#E07A5F',
+    marginBottom: 10,
   },
   headerFont: {
     fontFamily: 'RobotoCondensed_700Bold',
