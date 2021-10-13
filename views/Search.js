@@ -1,6 +1,13 @@
+/**
+ * Js-file for search screen.
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView, Text} from 'react-native';
+import {Text} from 'react-native';
 import {KeyboardAvoidingView} from 'react-native';
 import {Platform} from 'react-native';
 import {StyleSheet} from 'react-native';
@@ -21,11 +28,13 @@ const Search = ({navigation}) => {
   const doSearch = async () => {
     setUpdate(update + 1);
 
+    // here we just make a list and iterate over each one
     let filteredList;
     if (filters.category) {
       const categoryList = await loadMedia(filters.category);
 
       const listGettingFiltered = mediaArray.filter((el) => {
+        // here we make sure theres only objects that are related to the appId, because of a shared backend
         return categoryList.some((f) => {
           return f.file_id === el.file_id;
         });
@@ -35,7 +44,7 @@ const Search = ({navigation}) => {
 
     if (filters.condition) {
       const conditionList = await loadMedia(filters.condition);
-
+      // here we make sure theres only objects that are related to the appId, because of a shared backend
       const listGettingFiltered = mediaArray.filter((el) => {
         return conditionList.some((f) => {
           return f.file_id === el.file_id;
@@ -44,6 +53,7 @@ const Search = ({navigation}) => {
       if (filters.category) {
         for (let i = 0; i < filteredList.length; i++) {
           if (!listGettingFiltered.includes(filteredList[i]))
+            // here we remove any duplicates
             filteredList.splice(listGettingFiltered[i], 1);
         }
       } else {
@@ -54,6 +64,7 @@ const Search = ({navigation}) => {
     if (filters.gender) {
       const categoryList = await loadMedia(filters.gender);
       const listGettingFiltered = mediaArray.filter((el) => {
+        // here we make sure theres only objects that are related to the appId, because of a shared backend
         return categoryList.some((f) => {
           return f.file_id === el.file_id;
         });
@@ -61,6 +72,7 @@ const Search = ({navigation}) => {
       if (filters.category || filters.condition) {
         for (let i = 0; i < filteredList.length; i++) {
           if (!listGettingFiltered.includes(filteredList[i]))
+            // here we remove any duplicates
             filteredList.splice(listGettingFiltered[i], 1);
         }
       } else {
@@ -71,6 +83,7 @@ const Search = ({navigation}) => {
     if (filters.size) {
       const sizeList = await loadMedia(filters.size);
       const listGettingFiltered = mediaArray.filter((el) => {
+        // here we make sure theres only objects that are related to the appId, because of a shared backend
         return sizeList.some((f) => {
           return f.file_id === el.file_id;
         });
@@ -78,12 +91,14 @@ const Search = ({navigation}) => {
       if (filters.category || filters.condition || filters.gender) {
         for (let i = 0; i < filteredList.length; i++) {
           if (!listGettingFiltered.includes(filteredList[i]))
+            // here we remove any duplicates
             filteredList.splice(listGettingFiltered[i], 1);
         }
       } else {
         filteredList = listGettingFiltered;
       }
     }
+    // and finally, when the list is done, we pass it into filteredView
     navigation.navigate('FilteredView', {
       data: {filteredList},
     });

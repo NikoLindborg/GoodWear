@@ -1,8 +1,16 @@
+/**
+ * Form component used for creating watchlist in profile
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import PropTypes from 'prop-types';
 
 const FilterForm = ({handleInputChange, value, setValue}) => {
+  // states needed for the dropdown picker
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     {label: 'Hats', value: 'hats'},

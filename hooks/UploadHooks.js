@@ -1,6 +1,14 @@
+/**
+ * Js-file for hooks used in upload.
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import {useState} from 'react';
 import {validator} from '../utils/validator';
 
+// constraints for validator
 const constraints = {
   title: {
     presence: {
