@@ -105,79 +105,124 @@ const Settings = ({navigation}) => {
           </View>
         </View>
       ) : (
-        <Card
-          containerStyle={{
-            height: '95%',
-            flex: 0,
-          }}
-        >
-          <ListItem
+        <>
+          <Card
             containerStyle={{
-              height: 50,
-              width: 50,
-              justifyContent: 'center',
-              position: 'absolute',
-              right: 0,
-              top: 0,
-              zIndex: 1,
+              height: '80%',
+              flex: 0,
+              flexDirection: 'column',
+              justifyContent: 'space-between',
             }}
           >
-            <Avatar
-              icon={{
-                name: 'edit',
-                type: 'font-awesome',
-                color: 'black',
-                size: 35,
-              }}
-              onPress={() => {
-                navigation.navigate('ModifyUser');
-              }}
-            />
-          </ListItem>
+            {Platform.OS === 'ios' ? (
+              <ListItem
+                style={{
+                  height: 50,
+                  width: 50,
+                  justifyContent: 'center',
+                  position: 'absolute',
+                  right: 0,
+                  top: 0,
+                  zIndex: 1,
+                }}
+              >
+                <Avatar
+                  icon={{
+                    name: 'edit',
+                    type: 'font-awesome',
+                    color: 'black',
+                    size: 35,
+                  }}
+                  onPress={() => {
+                    navigation.navigate('ModifyUser');
+                  }}
+                />
+              </ListItem>
+            ) : (
+              <ListItem
+                containerStyle={{
+                  height: 50,
+                  width: 50,
+                  justifyContent: 'center',
+                  position: 'absolute',
+                  right: 0,
+                  top: 0,
+                  zIndex: 1,
+                }}
+              >
+                <Avatar
+                  icon={{
+                    name: 'edit',
+                    type: 'font-awesome',
+                    color: 'black',
+                    size: 35,
+                  }}
+                  onPress={() => {
+                    navigation.navigate('ModifyUser');
+                  }}
+                />
+              </ListItem>
+            )}
 
-          <View style={{height: 'auto'}}>
-            <ListItem>
-              <Text style={styles.basicFont}>Username: {user.username}</Text>
-            </ListItem>
-            <ListItem>
-              <Text style={styles.basicFont}>Email: {user.email}</Text>
-            </ListItem>
-          </View>
-          <Card.Divider />
-          {Platform.OS === 'ios' ? (
-            <View style={{height: 'auto', zIndex: 2}}>
-              <Text>Please set your watchlist from below</Text>
-              <FilterForm
-                inputs={inputs}
-                handleInputChange={handleInputChange}
-                value={value}
-                setValue={setValue}
-              />
+            <View style={{height: 'auto'}}>
+              <ListItem>
+                <Text style={styles.basicFont}>Username: {user.username}</Text>
+              </ListItem>
+              <ListItem>
+                <Text style={styles.basicFont}>Email: {user.email}</Text>
+              </ListItem>
             </View>
-          ) : (
-            <View containerStyle={{height: 'auto', zIndex: 2}}>
-              <FilterForm
-                inputs={inputs}
-                handleInputChange={handleInputChange}
-                value={value}
-                setValue={setValue}
-              />
-            </View>
-          )}
-          <Button
-            title={'Update filters'}
-            buttonStyle={styles.buttonWhite}
-            titleStyle={fontStyles.boldBlackFont}
-            onPress={addFilteredItems}
-          />
-          <ListItem containerStyle={{top: '130%'}} onPress={logout}>
-            <Avatar icon={{name: 'logout', color: 'black'}} />
-            <ListItem.Content>
-              <ListItem.Title>Logout</ListItem.Title>
-            </ListItem.Content>
-            <ListItem.Chevron />
-          </ListItem>
-        </Card>
+            <Card.Divider />
+            {Platform.OS === 'ios' ? (
+              <View style={{height: 'auto', zIndex: 2}}>
+                <Text style={styles.filterText}>
+                  Please set your watchlist from below
+                </Text>
+                <FilterForm
+                  inputs={inputs}
+                  handleInputChange={handleInputChange}
+                  value={value}
+                  setValue={setValue}
+                />
+              </View>
+            ) : (
+              <View containerStyle={{height: 'auto', zIndex: 2}}>
+                <ListItem style={styles.filterTextBox}>
+                  <Text style={styles.filterText}>
+                    Please set your watchlist from below
+                  </Text>
+                </ListItem>
+
+                <FilterForm
+                  inputs={inputs}
+                  handleInputChange={handleInputChange}
+                  value={value}
+                  setValue={setValue}
+                />
+              </View>
+            )}
+            <Button
+              title={'Update filters'}
+              buttonStyle={styles.updateButton}
+              titleStyle={fontStyles.boldFont}
+              onPress={addFilteredItems}
+            />
+          </Card>
+          <Card
+            containerStyle={{
+              height: 'auto',
+              alignContent: 'center',
+            }}
+          >
+            <ListItem containerStyle={styles.logout} onPress={logout}>
+              <Avatar icon={{name: 'logout', color: 'black'}} />
+              <ListItem.Content>
+                <ListItem.Title>Logout</ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+          </Card>
+        </>
       )}
     </>
   );
@@ -201,9 +246,20 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderRadius: 0,
   },
+  updateButton: {
+    marginTop: 5,
+    backgroundColor: '#E07A5F',
+  },
   headerFont: {
     fontFamily: 'RobotoCondensed_700Bold',
     fontSize: 24,
+  },
+  logout: {
+    width: '100%',
+    height: 'auto',
+  },
+  filterTextBox: {
+    height: 50,
   },
 });
 
