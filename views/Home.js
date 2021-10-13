@@ -51,14 +51,20 @@ const Home = ({navigation}) => {
       setUserFilters(parsedUserData.items);
       const list = [];
       for (let i = 0; i < parsedUserData.items.length; i++) {
+        // iterate over every tag that has been found from the users watchlist
         const conditionList = await loadMedia(parsedUserData.items[i]);
+        // get a list of posts that match the tag from the backend
         const filteredList = mediaArray.filter((e) => {
+          // here we filter the list of posts related to the tags, over the whole list of posts,
+          // incase there are posts that have the corresponding tags, but are related to different appID
           return conditionList.some((el) => {
             return el.file_id === e.file_id;
           });
         });
+        // then we push the filtered list into an empty array
         filteredList.forEach((e) => list.push(e));
       }
+      // once the iterations are done, we give the filled list to the filteredMediaArray state handler
       handleFlteredMediaArray(list);
     }
   };

@@ -1,3 +1,10 @@
+/**
+ * Form component used in login.js for logging in
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {View, StyleSheet} from 'react-native';
@@ -8,7 +15,6 @@ import {useLogin} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import fontStyles from '../utils/fontStyles';
-import {placeholderTextColor} from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedTextInputPropTypes';
 
 const LoginForm = ({navigation}) => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -19,6 +25,7 @@ const LoginForm = ({navigation}) => {
     try {
       const loginInfo = await login(JSON.stringify(inputs));
       await AsyncStorage.setItem('userToken', loginInfo.token);
+      // here we are create userObject that we add to main context for use in other views
       const userObject = {
         email: loginInfo.user.email,
         full_name: loginInfo.user.full_name,
@@ -26,6 +33,7 @@ const LoginForm = ({navigation}) => {
         username: loginInfo.user.username,
       };
       setUser(userObject);
+      // once api-call is done, token added to AsyncStorage and userObject created, we change the value of loggedIn context to true
       setIsLoggedIn(true);
     } catch (error) {
       console.log(error);

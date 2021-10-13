@@ -1,3 +1,10 @@
+/**
+ * Component file used in NotLoggedInScreen
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useContext} from 'react';
 import {Text, View} from 'react-native';
 import {Button} from 'react-native-elements';
@@ -6,6 +13,7 @@ import {MainContext} from '../contexts/MainContext';
 import {StyleSheet} from 'react-native';
 
 const NotLogged = () => {
+  // context that, when false, redirects into the login screen
   const {setAskLogin} = useContext(MainContext);
 
   return (

@@ -1,3 +1,10 @@
+/**
+ * Js-file Login screen.
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -23,10 +30,11 @@ const Login = ({navigation}) => {
   const {checkToken} = useUser();
   const [formToggle, setFormToggle] = useState(true);
 
-  const continueWithoutLogging = async () => {
+  const continueWithoutLogging = () => {
     setAskLogin(true);
   };
 
+  // function ran when login screen is opened, to see if the device has token in asyncStorage for automatic login
   const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     console.log(userToken);
