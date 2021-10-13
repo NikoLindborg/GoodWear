@@ -1,3 +1,10 @@
+/**
+ * A ready fetch function use for fetching in apiHooks
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 const doFetch = async (url, options) => {
   const response = await fetch(url, options);
   const json = await response.json();

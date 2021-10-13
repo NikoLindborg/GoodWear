@@ -1,3 +1,10 @@
+/**
+ * Just some global variables used in apihooks
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 const uploadsUrl = 'https://media.mw.metropolia.fi/wbma/uploads/';
 const baseUrl = 'https://media.mw.metropolia.fi/wbma/';
 const appId =

@@ -1,3 +1,10 @@
+/**
+ * File for useContext
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useMedia} from '../hooks/ApiHooks';
