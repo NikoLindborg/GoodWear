@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Alert,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import {uploadsUrl} from '../utils/variables';
 import {Button, Icon} from 'react-native-elements';
@@ -19,7 +20,6 @@ import {useFavourite, useMedia, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
   const {
-    setIsLoggedIn,
     user,
     updateFavourite,
     setUpdateFavourite,
@@ -38,6 +38,7 @@ const SingleItem = ({route, navigation}) => {
   const [postTags, setPostTags] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const allData = JSON.parse(description);
+  const singleItemFont = fontStyles.regularFont;
 
   const getTags = async () => {
     try {
@@ -226,84 +227,52 @@ const SingleItem = ({route, navigation}) => {
                   )}
                 </View>
               </View>
+              <View style={styles.space} />
 
               <View style={styles.productInfo}>
                 {postTags.length < 6 ? (
                   <>
                     <View style={styles.row}>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        Category
-                      </Text>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        {postTags[1].tag}
-                      </Text>
+                      <Text style={singleItemFont}>Category</Text>
+                      <Text style={singleItemFont}>{postTags[1].tag}</Text>
                     </View>
                     <View style={styles.row}>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        Condition
-                      </Text>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        {postTags[2].tag}
-                      </Text>
+                      <Text style={singleItemFont}>Condition</Text>
+                      <Text style={singleItemFont}>{postTags[2].tag}</Text>
                     </View>
                     <View style={styles.row}>
-                      <Text style={fontStyles.regularFontSingleItem}>Size</Text>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        {postTags[3].tag}
-                      </Text>
+                      <Text style={singleItemFont}>Size</Text>
+                      <Text style={singleItemFont}>{postTags[3].tag}</Text>
                     </View>
                     <View style={styles.row}>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        Gender
-                      </Text>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        {postTags[4].tag}
-                      </Text>
+                      <Text style={singleItemFont}>Gender</Text>
+                      <Text style={singleItemFont}>{postTags[4].tag}</Text>
                     </View>
                   </>
                 ) : (
                   <>
                     <View style={styles.row}>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        Category
-                      </Text>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        {postTags[1].tag}
-                      </Text>
+                      <Text style={singleItemFont}>Category</Text>
+                      <Text style={singleItemFont}>{postTags[1].tag}</Text>
                     </View>
                     <View style={styles.row}>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        Condition
-                      </Text>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        {postTags[2].tag}
-                      </Text>
+                      <Text style={singleItemFont}>Condition</Text>
+                      <Text style={singleItemFont}>{postTags[2].tag}</Text>
                     </View>
                     <View style={styles.row}>
-                      <Text style={fontStyles.regularFontSingleItem}>Size</Text>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        {postTags[3].tag}
-                      </Text>
+                      <Text style={singleItemFont}>Size</Text>
+                      <Text style={singleItemFont}>{postTags[3].tag}</Text>
                     </View>
                     <View style={styles.row}>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        Gender
-                      </Text>
-                      <Text style={fontStyles.regularFontSingleItem}>
-                        Unisex
-                      </Text>
+                      <Text style={singleItemFont}>Gender</Text>
+                      <Text style={singleItemFont}>Unisex</Text>
                     </View>
                   </>
                 )}
                 <View style={styles.space} />
+                <Text style={singleItemFont}>{allData.description}</Text>
                 <View style={styles.space} />
-                <Text style={fontStyles.regularFontSingleItem}>
-                  {allData.description}
-                </Text>
-                <View style={styles.space} />
-                <Text style={fontStyles.regularFontSingleItem}>
-                  Shipping: {allData.shipping}
-                </Text>
+                <Text style={singleItemFont}>Shipping: {allData.shipping}</Text>
                 <View style={styles.space} />
                 {!JSON.parse(description).price.endsWith('€') ? (
                   <Text style={fontStyles.bigBoldFont24}>

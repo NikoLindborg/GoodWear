@@ -18,8 +18,14 @@ import firebase from 'firebase';
 import {firebaseConfig} from '../firebaseConfig';
 
 const Home = ({navigation}) => {
-  const {user, setUnreadMessages, isLoggedIn, setAskLogin, update} =
-    useContext(MainContext);
+  const {
+    user,
+    setUnreadMessages,
+    isLoggedIn,
+    setAskLogin,
+    newWatchlist,
+    setNewWatchlist,
+  } = useContext(MainContext);
   const [filteredMediaArray, setFilteredMediaArray] = useState();
   const {loadMedia, loadingMedia, mediaArray} = useMedia();
   const [loadingFilteredArray, setLoadingFilteredArray] = useState();
@@ -30,28 +36,44 @@ const Home = ({navigation}) => {
   ]);
   const isFocused = useIsFocused();
 
+  const handleFlteredMediaArray = (filteredList) => {
+    const list = [];
+    filteredList.forEach((e) => list.push(e));
+    const anotherList = [...new Set(list)];
+    anotherList.sort((e) => e.file_id);
+    setFilteredMediaArray(anotherList);
+  };
+
+  const setFilteredArray = async () => {
+    if (user.full_name && user.full_name.length > 2) {
+      const parsedUserData = JSON.parse(user.full_name);
+      const list = [];
+      for (let i = 0; i < parsedUserData.items.length; i++) {
+        const conditionList = await loadMedia(parsedUserData.items[i]);
+        const filteredList = mediaArray.filter((e) => {
+          return conditionList.some((el) => {
+            return el.file_id === e.file_id;
+          });
+        });
+        filteredList.forEach((e) => list.push(e));
+      }
+      handleFlteredMediaArray(list);
+    }
+  };
+
   useEffect(() => {
     (async () => {
-      if (user.full_name && user.full_name.length > 2) {
-        const parsedUserData = JSON.parse(user.full_name);
-        parsedUserData.items.forEach(async (e) => {
-          const conditionList = await loadMedia(e);
-          const filteredList = await mediaArray.filter((el) => {
-            return conditionList.some((f) => {
-              return f.file_id === el.file_id;
-            });
-          });
-          setFilteredMediaArray(filteredList);
-          setLoadingFilteredArray(false);
-        });
-      }
+      setFilteredMediaArray();
+      setLoadingFilteredArray(true);
+      await setFilteredArray();
+      setNewWatchlist(false);
+      setLoadingFilteredArray(false);
     })();
-  }, [mediaArray]);
+  }, [newWatchlist]);
 
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
-
   const db = firebase.firestore();
   const chatsRef = db.collection('chats');
   const emptyArray = [];
@@ -79,6 +101,7 @@ const Home = ({navigation}) => {
       setUnreadMessages(emptyArray);
     });
   }, [isFocused]);
+
   return (
     <SafeAreaView style={styles.droidSafeArea}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -92,10 +115,10 @@ const Home = ({navigation}) => {
             <Text style={fontStyles.bigBoldFont24}>
               {'\n'}Hello!{'\n'}
             </Text>
-            <Text style={fontStyles.regularFont}>
-              As a non registered user, you can only browse listings
+            <Text style={fontStyles.regularFontCenter}>
+              As a non registered user, you can only browse items{'\n'}
             </Text>
-            <Text style={fontStyles.regularFont}>
+            <Text style={fontStyles.regularFontCenter}>
               You can go back to login screen by clicking the button down below
               {'\n'}
             </Text>
@@ -108,20 +131,19 @@ const Home = ({navigation}) => {
               }}
             />
           </View>
-        ) : !filteredMediaArray ? (
+        ) : !JSON.parse(user.full_name).items ? (
           <View style={styles.introBox}>
             <Text style={fontStyles.bigBoldFont24}>
               {'\n'}Hello {user.username}!{'\n'}
             </Text>
-            <Text style={fontStyles.regularFont}>
+            <Text style={fontStyles.regularFontCenter}>
               We see you have not added any filters yet, and thats okay.{'\n'}
             </Text>
-            <Text style={fontStyles.regularFont}>
+            <Text style={fontStyles.regularFontCenter}>
               You can edit them from your profile, click the button below{'\n'}
             </Text>
             <Button
               buttonStyle={styles.buttonWhite}
-              raised={true}
               titleStyle={fontStyles.boldBlackFont}
               title={'Watchlist'}
               onPress={() => {
@@ -136,7 +158,7 @@ const Home = ({navigation}) => {
                 Newest in your filtered categories
               </Text>
             </View>
-            {filteredMediaArray.length === 0 ? (
+            {!filteredMediaArray && !loadingFilteredArray ? (
               <Text> Looks like there arent any posts with your filters</Text>
             ) : (
               <>
@@ -195,7 +217,10 @@ const Home = ({navigation}) => {
               buttonStyle={styles.extraButton}
               titleStyle={fontStyles.boldBlackFont}
               onPress={() => {
-                navigation.navigate('ProductList', {category: extraFilters[0]});
+                navigation.navigate('ProductList', {
+                  category: extraFilters[0],
+                  data: mediaArray,
+                });
               }}
             />
             <Button
@@ -203,7 +228,10 @@ const Home = ({navigation}) => {
               buttonStyle={styles.extraButton}
               titleStyle={fontStyles.boldBlackFont}
               onPress={() => {
-                navigation.navigate('ProductList', {category: extraFilters[1]});
+                navigation.navigate('ProductList', {
+                  category: extraFilters[1],
+                  data: mediaArray,
+                });
               }}
             />
             <Button
@@ -211,7 +239,10 @@ const Home = ({navigation}) => {
               buttonStyle={styles.extraButton}
               titleStyle={fontStyles.boldBlackFont}
               onPress={() => {
-                navigation.navigate('ProductList', {category: extraFilters[2]});
+                navigation.navigate('ProductList', {
+                  category: extraFilters[2],
+                  data: mediaArray,
+                });
               }}
             />
           </View>
@@ -320,6 +351,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     alignSelf: 'center',
+    padding: 8,
   },
   divider: {
     margin: 30,

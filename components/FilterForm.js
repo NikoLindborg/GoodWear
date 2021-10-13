@@ -1,68 +1,23 @@
-import React, {useContext, useState} from 'react';
-import {Button} from 'react-native-elements';
+import React, {useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
-import useFilterForm from '../hooks/FilterHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useUser} from '../hooks/ApiHooks';
-import {MainContext} from '../contexts/MainContext';
+import PropTypes from 'prop-types';
 
-const FilterForm = () => {
-  const {setUser, updateFilter, setUpdateFilter} = useContext(MainContext);
-  const {inputs, handleInputChange} = useFilterForm();
-  const {editUser} = useUser();
+const FilterForm = ({handleInputChange, inputs, value, setValue}) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    {label: 'Gender - Male', value: 'male'},
-    {label: 'Gender - Female', value: 'female'},
     {label: 'Hats', value: 'hats'},
     {label: 'Jackets', value: 'jackets'},
+    {label: 'Hoodies', value: 'hoodies'},
+    {label: 'Shirts', value: 'shirts'},
+    {label: 'Gloves', value: 'gloves'},
+    {label: 'Jeans', value: 'jeans'},
     {label: 'Pants', value: 'pants'},
     {label: 'Shoes', value: 'shoes'},
-    {label: 'Gloves', value: 'gloves'},
-    {label: 'Accessories', value: 'accessories'},
     {label: 'Dresses', value: 'dresses'},
     {label: 'Skirts', value: 'skirts'},
+    {label: 'Accessories', value: 'accessories'},
+    {label: 'Other', value: 'other'},
   ]);
-
-  const {checkToken} = useUser();
-
-  const getToken = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-
-    if (userToken) {
-      try {
-        const userInfo = await checkToken(userToken);
-        if (userInfo.user_id) {
-          setUser(userInfo);
-        }
-      } catch (e) {
-        console.log('getToken filterform', e);
-      }
-    }
-  };
-
-  const addFilteredItems = async (inputs) => {
-    const filteredItems = {
-      items: inputs.category,
-    };
-    const data = {full_name: JSON.stringify(filteredItems)};
-    try {
-      const userToken = await AsyncStorage.getItem('userToken');
-      if (userToken) {
-        const result = await editUser(data, userToken);
-        if (result) {
-          setUser(data);
-          getToken();
-          setUpdateFilter(updateFilter + 1);
-        } else {
-          console.log('Add filters failed');
-        }
-      }
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
 
   return (
     <>
@@ -76,22 +31,20 @@ const FilterForm = () => {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
+        onChangeValue={(value) => handleInputChange('category', value)}
         selectedItemContainerStyle={{
           backgroundColor: '#E07A5F',
-        }}
-        onChangeValue={(value) => handleInputChange('category', value)}
-      />
-
-      <Button
-        title="Set filters"
-        onPress={() => {
-          addFilteredItems(inputs);
         }}
       />
     </>
   );
 };
 
-FilterForm.propTypes = {};
+FilterForm.propTypes = {
+  handleInputChange: PropTypes.func,
+  inputs: PropTypes.object,
+  value: PropTypes.array,
+  setValue: PropTypes.func,
+};
 
 export default FilterForm;

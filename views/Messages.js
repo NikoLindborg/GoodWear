@@ -41,7 +41,6 @@ const Messages = ({navigation}) => {
     chatsRef.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (doc.id.includes(user.user_id)) {
-          //  emptyArray.push(doc.get("chatId"));
           emptyArray.push(doc.data());
           emptyArray.sort((a, b) => b.lastMessage - a.lastMessage);
           const item = doc.data();
@@ -78,10 +77,10 @@ const Messages = ({navigation}) => {
           <Text style={styles.headerFont}>
             {'\n'}Hello!{'\n'}
           </Text>
-          <Text style={fontStyles.regularFont}>
-            As a non registered user, you can only browse listings
+          <Text style={fontStyles.regularFontCenter}>
+            As a non registered user, you can only browse items{'\n'}
           </Text>
-          <Text style={fontStyles.regularFont}>
+          <Text style={fontStyles.regularFontCenter}>
             You can go back to login screen by clicking the button down below
             {'\n'}
           </Text>
@@ -100,7 +99,6 @@ const Messages = ({navigation}) => {
           keyExtractor={(item) => item.chatId}
           renderItem={({item}) => (
             <TouchableOpacity
-              //  onPress={() => navigation.navigate('Chat', {owner: item.user._id})}
               onPress={() =>
                 navigation.navigate('Chat', {
                   chatId: item.chatId,
@@ -123,8 +121,10 @@ const Messages = ({navigation}) => {
                   item.readBy !== user.username) ? (
                   <>
                     <View style={styles.conversation}>
-                      <Text style={{fontWeight: 'bold'}}>{item.subject}</Text>
-                      <Text style={{fontWeight: 'bold', fontSize: 12}}>
+                      <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                        {item.subject}
+                      </Text>
+                      <Text style={{fontWeight: 'bold', fontSize: 14}}>
                         Buyer: {item.buyer}
                       </Text>
                     </View>
@@ -133,8 +133,8 @@ const Messages = ({navigation}) => {
                 ) : (
                   <>
                     <View style={styles.conversation}>
-                      <Text>{item.subject}</Text>
-                      <Text style={{fontSize: 12}}>Buyer: {item.buyer}</Text>
+                      <Text style={{fontSize: 16}}>{item.subject}</Text>
+                      <Text style={{fontSize: 14}}>Buyer: {item.buyer}</Text>
                     </View>
                   </>
                 )}

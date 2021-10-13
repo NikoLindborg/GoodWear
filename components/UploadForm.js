@@ -52,6 +52,7 @@ const UploadForm = ({
   return (
     <>
       <FormTextInput
+        label={'Product title'}
         autoCapitalize="none"
         placeholder="title"
         onChangeText={(txt) => handleInputChange('title', txt)}
@@ -93,7 +94,7 @@ const UploadForm = ({
         setOpen={setOpen3}
         setValue={setValue3}
         setItems={setItems3}
-        style={{borderColor: 'white'}}
+        style={{borderColor: 'white', marginBottom: 10}}
         textStyle={fontStyles.regularFont}
         placeholder={'Select gender'}
         onChangeValue={(value) => handleInputChange('gender', value)}
@@ -101,29 +102,33 @@ const UploadForm = ({
         zIndexInverse={3000}
       />
       <FormTextInput
+        label={'Price'}
         autoCapitalize="none"
-        placeholder="price"
+        placeholder="€"
         onChangeText={(txt) => handleInputChange('price', txt)}
         errorMessage={uploadErrors.price}
         value={inputs.price}
       />
       <FormTextInput
+        label={'Product size'}
         autoCapitalize="none"
-        placeholder="size"
+        placeholder="L"
         onChangeText={(txt) => handleInputChange('size', txt)}
         errorMessage={uploadErrors.size}
         value={inputs.size}
       />
       <FormTextInput
+        label={'Description'}
         autoCapitalize="none"
-        placeholder="description"
+        placeholder="Old new"
         onChangeText={(txt) => handleInputChange('description', txt)}
         errorMessage={uploadErrors.description}
         value={inputs.description}
       />
       <FormTextInput
+        label={'Able to ship?'}
         autoCapitalize="none"
-        placeholder="shipping"
+        placeholder="No, only pickup"
         onChangeText={(txt) => handleInputChange('shipping', txt)}
         errorMessage={uploadErrors.shipping}
         value={inputs.shipping}
@@ -163,6 +168,7 @@ UploadForm.propTypes = {
   setValue2: PropTypes.func,
   value3: PropTypes.string,
   setValue3: PropTypes.func,
+  image: PropTypes.number,
 };
 
 export default UploadForm;

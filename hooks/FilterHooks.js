@@ -2,6 +2,7 @@ import {useState} from 'react';
 
 const useFilterForm = (callback) => {
   const [inputs, setInputs] = useState({});
+  const [value, setValue] = useState(null);
 
   const handleInputChange = (name, text) => {
     setInputs((inputs) => {
@@ -15,6 +16,8 @@ const useFilterForm = (callback) => {
   return {
     handleInputChange,
     inputs,
+    value,
+    setValue,
   };
 };
 
