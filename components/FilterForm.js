@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import PropTypes from 'prop-types';
 
-const FilterForm = ({handleInputChange, inputs, value, setValue}) => {
+const FilterForm = ({handleInputChange, value, setValue}) => {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     {label: 'Hats', value: 'hats'},

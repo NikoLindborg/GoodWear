@@ -29,6 +29,7 @@ const Home = ({navigation}) => {
   const [filteredMediaArray, setFilteredMediaArray] = useState();
   const {loadMedia, loadingMedia, mediaArray} = useMedia();
   const [loadingFilteredArray, setLoadingFilteredArray] = useState();
+  const [userFilters, setUserFilters] = useState();
   const [extraFilters, setExtraFilters] = useState([
     'jackets',
     'shoes',
@@ -47,6 +48,7 @@ const Home = ({navigation}) => {
   const setFilteredArray = async () => {
     if (user.full_name && user.full_name.length > 2) {
       const parsedUserData = JSON.parse(user.full_name);
+      setUserFilters(parsedUserData.items);
       const list = [];
       for (let i = 0; i < parsedUserData.items.length; i++) {
         const conditionList = await loadMedia(parsedUserData.items[i]);
@@ -65,6 +67,7 @@ const Home = ({navigation}) => {
     (async () => {
       setFilteredMediaArray();
       setLoadingFilteredArray(true);
+      setUserFilters();
       await setFilteredArray();
       setNewWatchlist(false);
       setLoadingFilteredArray(false);
@@ -131,7 +134,7 @@ const Home = ({navigation}) => {
               }}
             />
           </View>
-        ) : !JSON.parse(user.full_name).items ? (
+        ) : !userFilters ? (
           <View style={styles.introBox}>
             <Text style={fontStyles.bigBoldFont24}>
               {'\n'}Hello {user.username}!{'\n'}
