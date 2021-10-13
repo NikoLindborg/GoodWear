@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Alert,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import {uploadsUrl} from '../utils/variables';
 import {Button, Icon} from 'react-native-elements';
@@ -19,7 +20,6 @@ import {useFavourite, useMedia, useTag} from '../hooks/ApiHooks';
 
 const SingleItem = ({route, navigation}) => {
   const {
-    setIsLoggedIn,
     user,
     updateFavourite,
     setUpdateFavourite,
@@ -252,45 +252,27 @@ const SingleItem = ({route, navigation}) => {
                 ) : (
                   <>
                     <View style={styles.row}>
-                      <Text style={singleItemFont}>
-                        Category
-                      </Text>
-                      <Text style={singleItemFont}>
-                        {postTags[1].tag}
-                      </Text>
+                      <Text style={singleItemFont}>Category</Text>
+                      <Text style={singleItemFont}>{postTags[1].tag}</Text>
                     </View>
                     <View style={styles.row}>
-                      <Text style={singleItemFont}>
-                        Condition
-                      </Text>
-                      <Text style={singleItemFont}>
-                        {postTags[2].tag}
-                      </Text>
+                      <Text style={singleItemFont}>Condition</Text>
+                      <Text style={singleItemFont}>{postTags[2].tag}</Text>
                     </View>
                     <View style={styles.row}>
                       <Text style={singleItemFont}>Size</Text>
-                      <Text style={singleItemFont}>
-                        {postTags[3].tag}
-                      </Text>
+                      <Text style={singleItemFont}>{postTags[3].tag}</Text>
                     </View>
                     <View style={styles.row}>
-                      <Text style={singleItemFont}>
-                        Gender
-                      </Text>
-                      <Text style={singleItemFont}>
-                        Unisex
-                      </Text>
+                      <Text style={singleItemFont}>Gender</Text>
+                      <Text style={singleItemFont}>Unisex</Text>
                     </View>
                   </>
                 )}
                 <View style={styles.space} />
-                <Text style={singleItemFont}>
-                  {allData.description}
-                </Text>
+                <Text style={singleItemFont}>{allData.description}</Text>
                 <View style={styles.space} />
-                <Text style={singleItemFont}>
-                  Shipping: {allData.shipping}
-                </Text>
+                <Text style={singleItemFont}>Shipping: {allData.shipping}</Text>
                 <View style={styles.space} />
                 {!JSON.parse(description).price.endsWith('€') ? (
                   <Text style={fontStyles.bigBoldFont24}>

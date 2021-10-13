@@ -1,15 +1,23 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {FlatList} from 'react-native';
 import {useMedia} from '../hooks/ApiHooks';
 import ListItem from '../components/ListItem';
 import PropTypes from 'prop-types';
 
 const MyItems = ({navigation}) => {
-  const {mediaArray, loadingMedia} = useMedia(true);
+  const {loadingMedia} = useMedia();
+  const [myMedia, setMyMedia] = useState([]);
+  const {mediaArray} = useMedia(true);
+
+  useEffect(() => {
+    (() => {
+      setMyMedia(mediaArray);
+    })();
+  }, [mediaArray]);
 
   return (
     <FlatList
-      data={mediaArray}
+      data={myMedia}
       renderItem={({item}) => (
         <ListItem
           singleMedia={item}

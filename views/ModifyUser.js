@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FormTextInput from '../components/FormTextInput';
 
 const ModifyUser = ({navigation}) => {
-  const {user, setUser} = useContext(MainContext);
+  const {user, setUser, updateUser, setUpdateUser} = useContext(MainContext);
   const {
     handleInputChange,
     handleInputEnd,
@@ -28,6 +28,7 @@ const ModifyUser = ({navigation}) => {
           const userDetails = await checkToken(userToken);
           if (userDetails) {
             setUser(userDetails);
+            setUpdateUser(updateUser + 1);
             navigation.navigate('Settings');
           } else {
             console.log('EditUserInfo setUser failed');
