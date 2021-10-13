@@ -1,14 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Alert, FlatList, Platform, StyleSheet, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
-import {
-  Avatar,
-  Button,
-  Card,
-  Icon,
-  ListItem,
-  Text,
-} from 'react-native-elements';
+import {Avatar, Button, Card, ListItem, Text} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FilterForm from '../components/FilterForm';
@@ -51,40 +44,34 @@ const Settings = ({navigation}) => {
   }, []);
 
   const addFilteredItems = async () => {
+    let filteredItems;
     if (value) {
-      const filteredItems = {
+      filteredItems = {
         items: value,
       };
-      const data = {full_name: JSON.stringify(filteredItems)};
-      try {
-        const userToken = await AsyncStorage.getItem('userToken');
-        if (userToken) {
-          const result = await editUser(data, userToken);
-          if (result) {
-            const userInfo = await checkToken(userToken);
-            if (userInfo.user_id) {
-              setUser(userInfo);
-              setNewWatchlist(true);
-            }
-          } else {
-            console.log('Add filters failed');
+    } else {
+      filteredItems = {};
+    }
+    const data = {full_name: JSON.stringify(filteredItems)};
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      if (userToken) {
+        const result = await editUser(data, userToken);
+        if (result) {
+          const userInfo = await checkToken(userToken);
+          if (userInfo.user_id) {
+            setUser(userInfo);
+            setNewWatchlist(true);
           }
+        } else {
+          console.log('Add filters failed');
         }
-      } catch (e) {
-        console.log(e.message);
       }
+    } catch (e) {
+      console.log(e.message);
     }
   };
 
-  if (items && value !== items) {
-    console.log('1');
-    addFilteredItems();
-    setItems(value);
-  } else if (!items && value) {
-    console.log('asddd');
-    addFilteredItems();
-    setItems(value);
-  }
   return (
     <>
       {!isLoggedIn ? (
@@ -170,6 +157,12 @@ const Settings = ({navigation}) => {
               />
             </View>
           )}
+          <Button
+            title={'Update filters'}
+            buttonStyle={styles.buttonWhite}
+            titleStyle={fontStyles.boldBlackFont}
+            onPress={addFilteredItems}
+          />
           <ListItem containerStyle={{top: '130%'}} onPress={logout}>
             <Avatar icon={{name: 'logout', color: 'black'}} />
             <ListItem.Content>

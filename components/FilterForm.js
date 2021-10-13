@@ -1,12 +1,8 @@
-import React, {useContext, useState} from 'react';
-import {Button} from 'react-native-elements';
+import React, {useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useUser} from '../hooks/ApiHooks';
-import {MainContext} from '../contexts/MainContext';
 import PropTypes from 'prop-types';
 
-const FilterForm = ({handleInputChange, inputs, value, setValue}) => {
+const FilterForm = ({handleInputChange, value, setValue}) => {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     {label: 'Hats', value: 'hats'},
