@@ -1,3 +1,10 @@
+/**
+ * Entrypoint for the app
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {MainProvider} from './contexts/MainContext';

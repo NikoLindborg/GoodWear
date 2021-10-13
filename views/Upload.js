@@ -38,7 +38,7 @@ const Upload = ({navigation}) => {
     value3,
     setValue3,
   } = useUploadForm();
-  const {uploadMedia} = useMedia();
+  const {uploadMedia, loadingMedia} = useMedia();
   const {addTag} = useTag();
   const {update, setUpdate, isLoggedIn, setAskLogin} = useContext(MainContext);
 
