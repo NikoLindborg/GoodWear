@@ -1,3 +1,10 @@
+/**
+ * JS-file for Navigator. Here a Tab Screen and Stack Screen navigation is created.
+ *
+ * @author Aleksi Kosonen, Niko Lindborg & Aleksi Kytö
+ *
+ **/
+
 import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -127,6 +134,7 @@ const TabScreen = ({navigation}) => {
 };
 
 const StackScreen = () => {
+  // Chat subject state to show subject in chat-view
   const {isLoggedIn, askLogin, chatSubject} = useContext(MainContext);
   const customOptions = {
     headerTintColor: '#E07A5F',

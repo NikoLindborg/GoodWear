@@ -1,4 +1,11 @@
-import React, {useContext} from 'react';
+/**
+ * List component for the app. The list can be either horizontal or vertical and has ListItem as a property.
+ *
+ * @author Aleksi Kosonen, Niko Lindborg & Aleksi Kytö
+ *
+ **/
+
+import React from 'react';
 import {FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';

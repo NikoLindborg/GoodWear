@@ -1,3 +1,12 @@
+/**
+ * Js-file for Home view
+ *
+ * View for getting either all newest posts in App and a filtered view for categories the user has set to watchlist
+ *
+ * @author Aleksi Kosonen, Niko Lindborg & Aleksi Kytö
+ *
+ **/
+
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -30,39 +39,46 @@ const Home = ({navigation}) => {
   const {loadMedia, loadingMedia, mediaArray} = useMedia();
   const [loadingFilteredArray, setLoadingFilteredArray] = useState();
   const [userFilters, setUserFilters] = useState();
-  const [extraFilters, setExtraFilters] = useState([
-    'jackets',
-    'shoes',
-    'hats',
-  ]);
+  const [extraFilters] = useState(['jackets', 'shoes', 'hats']);
   const isFocused = useIsFocused();
 
+  //  Handler for filteredMediaArray state where list is assigned to the state
   const handleFlteredMediaArray = (filteredList) => {
     const list = [];
     filteredList.forEach((e) => list.push(e));
     const anotherList = [...new Set(list)];
+    //  Check for duplicates
     anotherList.sort((e) => e.file_id);
     setFilteredMediaArray(anotherList);
   };
 
+  //  Function that creates the filteredMediaArray based on user's followed categories in watchlist
+  //  If user doesn't have any followed categories this function is ignored
   const setFilteredArray = async () => {
     if (user.full_name && user.full_name.length > 2) {
       const parsedUserData = JSON.parse(user.full_name);
       setUserFilters(parsedUserData.items);
       const list = [];
       for (let i = 0; i < parsedUserData.items.length; i++) {
+        // iterate over every tag that has been found from the users watchlist
         const conditionList = await loadMedia(parsedUserData.items[i]);
+        // get a list of posts that match the tag from the backend
         const filteredList = mediaArray.filter((e) => {
+          // here we filter the list of posts related to the tags, over the whole list of posts,
+          // incase there are posts that have the corresponding tags, but are related to different appID
           return conditionList.some((el) => {
             return el.file_id === e.file_id;
           });
         });
+        // then we push the filtered list into an empty array
         filteredList.forEach((e) => list.push(e));
       }
+      // once the iterations are done, we give the filled list to the filteredMediaArray state handler
       handleFlteredMediaArray(list);
     }
   };
 
+  //  UseEffect used for when watchlist is updated
   useEffect(() => {
     (async () => {
       setFilteredMediaArray();
@@ -74,6 +90,7 @@ const Home = ({navigation}) => {
     })();
   }, [newWatchlist]);
 
+  //  If Firebase.apps already contains an app it doesn't initialize a new one
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
@@ -81,6 +98,8 @@ const Home = ({navigation}) => {
   const chatsRef = db.collection('chats');
   const emptyArray = [];
 
+  //  UseEffect to check if user has new messages in Chat. Information is fetched from Firebase
+  //  and the user is notified if there is new messages in chat via setUnreadMessages state through Navigator
   useEffect(() => {
     emptyArray.splice(0, emptyArray.length);
     chatsRef.get().then((querySnapshot) => {
@@ -281,16 +300,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: 20,
   },
-  textBarGreen: {
-    backgroundColor: '#9AC1AE',
-    height: 50,
-    width: '90%',
-    position: 'absolute',
-    top: 10,
-    flex: 1,
-    justifyContent: 'center',
-    paddingLeft: 20,
-  },
   postBackground: {
     backgroundColor: '#9AC1AE',
     height: 480,
@@ -304,10 +313,6 @@ const styles = StyleSheet.create({
     height: 240,
     width: '100%',
     justifyContent: 'center',
-  },
-  postBackgroundEggshell: {
-    backgroundColor: '#F4F1DE',
-    height: 450,
   },
   shopMore: {
     height: 75,
