@@ -37,7 +37,7 @@ const ListItem = ({singleMedia, navigation, loading}) => {
             style={styles.image}
           />
           <View style={styles.textContainer}>
-            <Text numberOfLines={1} style={fontStyles.regularFont}>
+            <Text numberOfLines={2} style={fontStyles.regularFontCenter}>
               {JSON.parse(singleMedia.description).description}
             </Text>
             {!JSON.parse(singleMedia.description).price.endsWith('€') ? (

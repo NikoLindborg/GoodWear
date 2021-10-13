@@ -6,10 +6,6 @@ const fontStyles = StyleSheet.create({
     fontFamily: 'RobotoCondensed_400Regular',
     fontSize: 16,
   },
-  regularFontSingleItem: {
-    fontFamily: 'RobotoCondensed_400Regular',
-    fontSize: 20,
-  },
   regularFontCenter: {
     fontFamily: 'RobotoCondensed_400Regular',
     fontSize: 16,

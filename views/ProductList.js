@@ -1,17 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {FlatList, SafeAreaView, StyleSheet} from 'react-native';
+import {ActivityIndicator, SafeAreaView, StyleSheet} from 'react-native';
 import {useMedia, useTag} from '../hooks/ApiHooks';
-import ListItem from '../components/ListItem';
-import {MainContext} from '../contexts/MainContext';
+
 import List from '../components/List';
 
 const ProductList = ({route, navigation}) => {
   const {loadSingleMedia} = useMedia();
-  const {mediaArray} = useContext(MainContext);
-
   const {getPostTags} = useTag();
   const sortByCategory = route.params.category;
+  const mediaArray = route.params.data;
 
   const productIdList = [];
   const [finalProducts, setFinalProducts] = useState([]);
@@ -44,12 +42,16 @@ const ProductList = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <List
-        navigation={navigation}
-        isHorizontal={false}
-        data={finalProducts}
-        loading={false}
-      />
+      {loading ? (
+        <ActivityIndicator style={{alignSelf: 'center'}} />
+      ) : (
+        <List
+          navigation={navigation}
+          isHorizontal={false}
+          data={finalProducts}
+          loading={loading}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -57,6 +59,7 @@ const ProductList = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    flex: 1,
   },
 });
 

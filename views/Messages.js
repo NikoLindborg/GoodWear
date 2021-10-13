@@ -41,7 +41,6 @@ const Messages = ({navigation}) => {
     chatsRef.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (doc.id.includes(user.user_id)) {
-          //  emptyArray.push(doc.get("chatId"));
           emptyArray.push(doc.data());
           emptyArray.sort((a, b) => b.lastMessage - a.lastMessage);
           const item = doc.data();
@@ -100,7 +99,6 @@ const Messages = ({navigation}) => {
           keyExtractor={(item) => item.chatId}
           renderItem={({item}) => (
             <TouchableOpacity
-              //  onPress={() => navigation.navigate('Chat', {owner: item.user._id})}
               onPress={() =>
                 navigation.navigate('Chat', {
                   chatId: item.chatId,
