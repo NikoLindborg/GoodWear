@@ -28,12 +28,21 @@ const firebaseConfig = {
 
 export {firebaseConfig};
 ```
-4. Install NPM packages
+4. Make sure you have NPM (node packet manager) installed
+
+5. Make sure you have expo installed
+ ```
+ You neeed it for your smartphone, if you dont have it, go to google play store / app store and install "Expo Go"
+ 
+ You also need it for your computer, if you dont have it installed, you can install it with npm install -g expo-cli
+ ```
+
+6. Install NPM packages
 ```
 npm i
 ```
 
-5. Run the app!
+7. Run the app!
 ```
 npm start
 ```
