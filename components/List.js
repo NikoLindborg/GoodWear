@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import {FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
-import {MainContext} from '../contexts/MainContext';
 
 const List = ({navigation, isHorizontal, data, loading}) => {
   return (
