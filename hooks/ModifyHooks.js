@@ -1,3 +1,9 @@
+/**
+ * Js-file for hooks in modify.js ( modifying media )
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
 import {useState} from 'react';
 import {validator} from '../utils/validator';
 

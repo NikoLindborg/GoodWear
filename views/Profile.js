@@ -1,19 +1,40 @@
+/**
+ * Js-file for user profile
+ *
+ *
+ * Load either list of own files or saved files depending on which is chosen.
+ * Show selected list below
+ *
+ * Also has settings button to navigate to settings.js
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, SafeAreaView, Text, View, Platform} from 'react-native';
 import {Button} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
-import MyItems from '../components/MyItems';
 import SavedItems from '../components/SavedItems';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useUser} from '../hooks/ApiHooks';
+import {useMedia, useUser} from '../hooks/ApiHooks';
 import fontStyles from '../utils/fontStyles';
+import List from '../components/List';
 
 const Profile = ({navigation}) => {
   const [selectedView, setSelectedView] = useState(false);
-  const {user, setUser, isLoggedIn, setAskLogin, update, updateUser} =
+  const {setUser, isLoggedIn, setAskLogin, update, updateUser} =
     useContext(MainContext);
   const {checkToken} = useUser();
+  const {loadingMedia} = useMedia();
+  const [myMedia, setMyMedia] = useState([]);
+  const {mediaArray} = useMedia(true);
+
+  useEffect(() => {
+    (() => {
+      setMyMedia(mediaArray);
+    })();
+  }, [mediaArray]);
 
   const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -132,7 +153,12 @@ const Profile = ({navigation}) => {
                     onPress={() => setSelectedView(!selectedView)}
                   />
                 </View>
-                <MyItems navigation={navigation} />
+                <List
+                  navigation={navigation}
+                  isHorizontal={false}
+                  data={myMedia}
+                  loading={loadingMedia}
+                />
               </>
             )}
           </View>

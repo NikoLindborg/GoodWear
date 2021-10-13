@@ -1,3 +1,9 @@
+/**
+ * Js-file for hooks in modifyUser.js
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
 import {useState} from 'react';
 import {useUser} from './ApiHooks';
 import {validator} from '../utils/validator';

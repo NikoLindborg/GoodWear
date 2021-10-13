@@ -1,3 +1,13 @@
+/**
+ * Js-file for modifying users media files
+ *
+ *
+ * Handle user inputs and set them as new media details with
+ * modifyMedia from ApiHooks.js
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
 import React, {useContext, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {View, ActivityIndicator, Alert} from 'react-native';

@@ -1,3 +1,24 @@
+/**
+ * Js-file for api calls
+ *
+ *
+ * UseMedia() for uploading, modifying and deleting media,
+ * also loads mediaArray which contains either all media or users own media
+ *
+ * UseUser() for register, checkToken ( loads userdata ),
+ * editUser and checkUsername function
+ *
+ * UseLogin() for handling login.
+ *
+ * UseTag() for loading all tags / tags by tag / tags by file_id,
+ * and adding tags
+ *
+ * UseFavourite() for loading list of favourites,
+ * adding and deleting favourites
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
 import {useEffect, useState, useContext} from 'react';
 import {doFetch} from '../utils/http';
 import {appId, baseUrl} from '../utils/variables';
@@ -5,16 +26,14 @@ import {MainContext} from '../contexts/MainContext';
 
 const useMedia = (ownFiles = false) => {
   const [mediaArray, setMediaArray] = useState([]);
-  const {update, user, setLoading, setNewWatchlist} = useContext(MainContext);
+  const {update, user, setNewWatchlist} = useContext(MainContext);
   const [loadingMedia, setLoadingMedia] = useState();
 
   useEffect(() => {
     (async () => {
       setLoadingMedia(true);
-      setLoading(true);
       const array = await loadMedia(appId);
       setMediaArray(array.reverse());
-      setLoading(false);
       setLoadingMedia(false);
       setNewWatchlist(true);
     })();

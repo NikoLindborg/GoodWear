@@ -168,7 +168,7 @@ UploadForm.propTypes = {
   setValue2: PropTypes.func,
   value3: PropTypes.string,
   setValue3: PropTypes.func,
-  image: PropTypes.number,
+  image: PropTypes.object,
 };
 
 export default UploadForm;

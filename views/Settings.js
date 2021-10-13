@@ -1,3 +1,14 @@
+/**
+ * Js-file for user settings in profile
+ *
+ *
+ * Load list of filters set by User
+ * Show list as dropdown menu, where you can also change selected items.
+ *
+ * Navigation to Modify user details
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
 import React, {useContext, useEffect, useState} from 'react';
 import {Platform, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
@@ -8,7 +19,6 @@ import FilterForm from '../components/FilterForm';
 import {useUser} from '../hooks/ApiHooks';
 import useFilterForm from '../hooks/FilterHooks';
 import fontStyles from '../utils/fontStyles';
-import {useIsFocused} from '@react-navigation/native';
 
 const Settings = ({navigation}) => {
   const {
@@ -21,8 +31,6 @@ const Settings = ({navigation}) => {
   } = useContext(MainContext);
   const {checkToken, editUser} = useUser();
   const {inputs, handleInputChange, value, setValue} = useFilterForm();
-  const [items, setItems] = useState([]);
-  const isFocused = useIsFocused();
 
   const logout = async () => {
     await AsyncStorage.clear();
@@ -32,7 +40,6 @@ const Settings = ({navigation}) => {
   const selectedFilters = () => {
     if (user.full_name) {
       const allData = JSON.parse(user.full_name);
-      setItems(allData.items);
       setValue(allData.items);
     }
   };

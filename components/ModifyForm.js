@@ -1,3 +1,13 @@
+/**
+ * Js-file for user settings in profile
+ *
+ *
+ * Form for editing media details to user, handles inputs and send them forward
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import FormTextInput from './FormTextInput';

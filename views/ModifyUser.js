@@ -1,3 +1,12 @@
+/**
+ * Js-file for modifying user details
+ *
+ *
+ * Modify user details by sending new inputs as new user details
+ * to database with editUser from ApiHooks.
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
 import React, {useContext} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';

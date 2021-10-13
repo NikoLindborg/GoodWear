@@ -1,16 +1,28 @@
+/**
+ * Js-file for saved items view
+ *
+ *
+ * Loads list of uploaded media and filters 'saved' media into list.
+ * Use new list of favourites as data for List view
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
 import React, {useState, useEffect, useContext} from 'react';
 import {FlatList} from 'react-native';
-import {useFavourite} from '../hooks/ApiHooks';
+import {useFavourite, useMedia} from '../hooks/ApiHooks';
 import ListItem from '../components/ListItem';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
+import List from './List';
 
 const SavedItems = ({navigation}) => {
   const {loadFavourites} = useFavourite();
   const {mediaArray, updateFavourite} = useContext(MainContext);
   const [savedItems, setSavedItems] = useState();
   const [loading, setLoading] = useState();
+  const {loadingMedia} = useMedia();
   const newMediaArray = [];
 
   const loadFavs = async () => {
@@ -42,16 +54,11 @@ const SavedItems = ({navigation}) => {
   }, [updateFavourite]);
 
   return (
-    <FlatList
+    <List
+      navigation={navigation}
+      isHorizontal={false}
       data={savedItems}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({item}) => (
-        <ListItem
-          singleMedia={item}
-          navigation={navigation}
-          loading={loading}
-        />
-      )}
+      loading={loadingMedia}
     />
   );
 };
