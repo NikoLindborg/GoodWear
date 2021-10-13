@@ -1,3 +1,14 @@
+/**
+ * Js-file for SingleItem view
+ *
+ * View for Single Item. The view shows selected item and let's you favourite and start a chat with product's seller.
+ *
+ * View also provides tags for set item and if item is logged in user's own, user is able to modify or delete it
+ *
+ * @author Aleksi Kosonen, Niko Lindborg & Aleksi Kytö
+ *
+ **/
+
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -27,6 +38,8 @@ const SingleItem = ({route, navigation}) => {
     update,
     setUpdate,
   } = useContext(MainContext);
+
+  //  Function for generating a unique chatId to Firebase based on users userId:s
   const setChatId = (firstId, secondId) => {
     const chatId =
       Math.min(firstId, secondId) + '_' + Math.max(firstId, secondId);
@@ -37,9 +50,13 @@ const SingleItem = ({route, navigation}) => {
   const {getPostTags} = useTag();
   const [postTags, setPostTags] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isMyItem, setIsMyItem] = useState(false);
+  const {deleteMedia} = useMedia();
+  const [showBox, setShowBox] = useState(true);
   const allData = JSON.parse(description);
   const singleItemFont = fontStyles.regularFont;
 
+  //  Fetching post's tags based on file_id
   const getTags = async () => {
     try {
       const tags = await getPostTags(file_id);
@@ -54,6 +71,7 @@ const SingleItem = ({route, navigation}) => {
   const {addFavourite, deleteFavourite} = useFavourite();
   const {loadFavourites} = useFavourite();
 
+  //  Adding item to favourites
   const saveItem = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
@@ -68,6 +86,7 @@ const SingleItem = ({route, navigation}) => {
     }
   };
 
+  //  Remove item from favourites
   const removeSavedItem = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
@@ -82,6 +101,7 @@ const SingleItem = ({route, navigation}) => {
     }
   };
 
+  //  Fetch all favorites where file_id is the same as posts file_id
   const getFavourites = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
@@ -98,10 +118,6 @@ const SingleItem = ({route, navigation}) => {
     }
   };
 
-  const [isMyItem, setIsMyItem] = useState(false);
-  const {deleteMedia} = useMedia();
-  const [showBox, setShowBox] = useState(true);
-
   const checkIfMyItem = () => {
     if (user_id) {
       if (user.user_id === user_id) {
@@ -110,6 +126,7 @@ const SingleItem = ({route, navigation}) => {
     }
   };
 
+  //  Delete items that are user's own. Also alert user before deleting
   const deleteItem = async () => {
     Alert.alert('Delete post?', 'Are you sure you want to delete this post?', [
       {
@@ -204,7 +221,7 @@ const SingleItem = ({route, navigation}) => {
                         <Icon
                           name="heart"
                           type="font-awesome"
-                          size={20}
+                          size={35}
                           color={'red'}
                         />
                       }
@@ -219,7 +236,7 @@ const SingleItem = ({route, navigation}) => {
                         <Icon
                           name="heart-o"
                           type="font-awesome"
-                          size={20}
+                          size={35}
                           color={'black'}
                         />
                       }
@@ -229,6 +246,7 @@ const SingleItem = ({route, navigation}) => {
               </View>
               <View style={styles.space} />
 
+              {/* Here the posts tags are used to check whether the post's gender is unisex and tags are displayed correclty*/}
               <View style={styles.productInfo}>
                 {postTags.length < 6 ? (
                   <>
@@ -358,7 +376,7 @@ const styles = StyleSheet.create({
   },
   imageContainerBottom: {
     width: '100%',
-    height: 40,
+    height: 50,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

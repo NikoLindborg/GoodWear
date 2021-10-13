@@ -1,15 +1,21 @@
+/**
+ * ListItem component for List. The component gets singlemedia as a parameter and displays it's properties as a card.
+ *
+ * @author Aleksi Kosonen, Niko Lindborg & Aleksi Kytö
+ *
+ **/
+
 import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useContext} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
 import {Text, Card} from 'react-native-elements';
 import fontStyles from '../utils/fontStyles';
-import {MainContext} from '../contexts/MainContext';
 
 const ListItem = ({singleMedia, navigation, loading}) => {
   return (
@@ -17,6 +23,7 @@ const ListItem = ({singleMedia, navigation, loading}) => {
       style={{alignItems: 'center'}}
       navigation={navigation}
       onPress={() => {
+        //  These values are passed to SingleItem so they don't need to be fetched anymore
         navigation.navigate('SingleItem', {
           filename: singleMedia.filename,
           title: singleMedia.title,
@@ -38,8 +45,10 @@ const ListItem = ({singleMedia, navigation, loading}) => {
           />
           <View style={styles.textContainer}>
             <Text numberOfLines={2} style={fontStyles.regularFontCenter}>
+              {/** Description and price are added as form data to description and need to be parsed **/}
               {JSON.parse(singleMedia.description).description}
             </Text>
+            {/** Conditional render for if the price doesn't end with €, it is added to the render **/}
             {!JSON.parse(singleMedia.description).price.endsWith('€') ? (
               <Text style={fontStyles.regularFont}>
                 {JSON.parse(singleMedia.description).price}€

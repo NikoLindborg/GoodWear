@@ -40,8 +40,7 @@ const Upload = ({navigation}) => {
   } = useUploadForm();
   const {uploadMedia} = useMedia();
   const {addTag} = useTag();
-  const {update, setUpdate, isLoggedIn, setAskLogin, loading} =
-    useContext(MainContext);
+  const {update, setUpdate, isLoggedIn, setAskLogin} = useContext(MainContext);
 
   const doReset = () => {
     setImage();
@@ -79,7 +78,7 @@ const Upload = ({navigation}) => {
         await addTag(result.file_id, inputs.gender, userToken);
       }
       setUpdate(update + 1);
-      if (tagResult.message && !loading) {
+      if (tagResult.message && !loadingMedia) {
         Alert.alert(
           'Upload',
           result.message,
@@ -168,7 +167,7 @@ const Upload = ({navigation}) => {
                 title="Upload"
                 handleSubmit={doUpload}
                 handleInputChange={handleInputChange}
-                loading={loading}
+                loading={loadingMedia}
                 handleInputEnd={handleInputEnd}
                 uploadErrors={uploadErrors}
                 image={image}

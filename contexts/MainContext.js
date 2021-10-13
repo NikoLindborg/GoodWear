@@ -12,7 +12,6 @@ const MainProvider = (props) => {
   const [updateFavourite, setUpdateFavourite] = useState(0);
   const [updateFilter, setUpdateFilter] = useState(0);
   const [unreadMessages, setUnreadMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [chatSubject, setChatSubject] = useState('');
   const [newWatchlist, setNewWatchlist] = useState(false);
   const [checkedItems, setCheckedItems] = useState(false);
@@ -36,8 +35,6 @@ const MainProvider = (props) => {
         setUpdateFilter,
         askLogin,
         setAskLogin,
-        loading,
-        setLoading,
         chatSubject,
         setChatSubject,
         updateUser,
