@@ -52,7 +52,7 @@ const Chat = (chatUserIds) => {
     setChatUser({
       _id: user.user_id,
       name: user.username,
-      avatar: require('../assets/images/avatar.png'),
+      avatar: require('../assets/images/user.png'),
     });
     const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
       const messagesFirestore = querySnapshot
