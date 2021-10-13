@@ -8,6 +8,7 @@
 import React, {useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import PropTypes from 'prop-types';
+import fontStyles from '../utils/fontStyles';
 
 const FilterForm = ({handleInputChange, value, setValue}) => {
   // states needed for the dropdown picker
@@ -39,6 +40,8 @@ const FilterForm = ({handleInputChange, value, setValue}) => {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
+        style={{borderColor: 'white', marginBottom: 10}}
+        textStyle={fontStyles.regularFont}
         onChangeValue={(value) => handleInputChange('category', value)}
         selectedItemContainerStyle={{
           backgroundColor: '#E07A5F',
