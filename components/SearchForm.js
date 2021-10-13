@@ -1,3 +1,10 @@
+/**
+ * Form component used for in search
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import FormTextInput from './FormTextInput';
@@ -7,6 +14,8 @@ import {StyleSheet} from 'react-native';
 import fontStyles from '../utils/fontStyles';
 
 const SearchForm = ({title, handleSubmit, handleInputChange, loading}) => {
+  // state variables used in the dropdown components
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([

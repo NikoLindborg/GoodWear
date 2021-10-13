@@ -1,3 +1,10 @@
+/**
+ * Form component used for registering in login screen
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {Alert, StyleSheet, View} from 'react-native';
@@ -27,6 +34,7 @@ const RegisterForm = ({navigation}) => {
           user_id: loginInfo.user.user_id,
           username: loginInfo.user.username,
         };
+        // once registering is done, the user is logged in and the context user is set
         setUser(userObject);
         setIsLoggedIn(true);
       }
@@ -45,7 +53,7 @@ const RegisterForm = ({navigation}) => {
         onChangeText={(txt) => handleInputChange('username', txt, inputs)}
         onEndEditing={async (event) => {
           const text = event.nativeEvent.text;
-          const availability = await checkUserAvailable(text);
+          await checkUserAvailable(text);
           handleInputEnd('username', text, inputs);
         }}
         errorMessage={registerErrors.username}

@@ -1,3 +1,10 @@
+/**
+ * Form component used for uploading
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import FormTextInput from './FormTextInput';
@@ -20,6 +27,7 @@ const UploadForm = ({
   setValue3,
   image,
 }) => {
+  // state variables needed with the dropdown lists
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     {label: 'Hats', value: 'hats'},

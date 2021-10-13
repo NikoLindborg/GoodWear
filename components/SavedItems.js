@@ -33,6 +33,7 @@ const SavedItems = ({navigation}) => {
       if (favouriteArray) {
         favouriteArray.forEach((favourite) => {
           mediaArray.forEach((media) => {
+            console.log(media)
             if (favourite.file_id === media.file_id) {
               newMediaArray.push(media);
             }

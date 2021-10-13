@@ -1,7 +1,15 @@
+/**
+ * Js-file for login screens registerForm hooks.
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import {useState} from 'react';
 import {useUser} from './ApiHooks';
 import {validator} from '../utils/validator';
 
+// constraints for validator
 const constraints = {
   username: {
     presence: {
@@ -39,7 +47,9 @@ const useSignUpForm = () => {
   });
 
   const [registerErrors, setRegisterErrors] = useState({});
+
   const handleInputEnd = (name, text, input) => {
+    // when input ends, check input for validator
     if (text === '') {
       text = null;
       return;
@@ -94,6 +104,7 @@ const useSignUpForm = () => {
   };
 
   const checkUserAvailable = async (text) => {
+    // check if there is already user with the name that the user is trying to choose
     if (text.length < 3) {
       return;
     }

@@ -1,7 +1,13 @@
+/**
+ * FontStyle variables for the App. Styles are exported so they can be used everywhere
+ *
+ * @author Aleksi Kosonen, Niko Lindborg & Aleksi Kytö
+ *
+ **/
+
 import {StyleSheet} from 'react-native';
 
 const fontStyles = StyleSheet.create({
-  // FONTS
   regularFont: {
     fontFamily: 'RobotoCondensed_400Regular',
     fontSize: 16,

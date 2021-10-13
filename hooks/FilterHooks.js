@@ -1,3 +1,10 @@
+/**
+ * Js-file for hooks related to watchlist (settings.js and filterform)
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import {useState} from 'react';
 
 const useFilterForm = (callback) => {

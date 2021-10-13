@@ -1,3 +1,10 @@
+/**
+ * Js-file for hooks in search.js.
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import {useState} from 'react';
 
 const useSearchForm = () => {

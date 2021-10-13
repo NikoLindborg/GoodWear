@@ -1,6 +1,13 @@
+/**
+ * Js-file for upload screen.
+ *
+ *
+ * @Author Aleksi Kytö, Niko Lindborg, Aleksi Kosonen
+ * */
+
 import React, {useState, useEffect, useContext} from 'react';
 import PropTypes from 'prop-types';
-import {Alert, View} from 'react-native';
+import {Alert, View, Keyboard} from 'react-native';
 import UploadForm from '../components/UploadForm';
 import {Image, Button, Card, Text} from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
@@ -10,10 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appId} from '../utils/variables';
 import {MainContext} from '../contexts/MainContext';
 import {Platform, StyleSheet} from 'react-native';
-import {KeyboardAvoidingView} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native';
-import {Keyboard} from 'react-native';
-import {ScrollView} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import fontStyles from '../utils/fontStyles';
 
@@ -34,7 +38,7 @@ const Upload = ({navigation}) => {
     value3,
     setValue3,
   } = useUploadForm();
-  const {uploadMedia, loadingMedia} = useMedia();
+  const {uploadMedia} = useMedia();
   const {addTag} = useTag();
   const {update, setUpdate, isLoggedIn, setAskLogin} = useContext(MainContext);
 
@@ -44,6 +48,7 @@ const Upload = ({navigation}) => {
   };
 
   const doUpload = async () => {
+    // here we check the images filetype, this is done this way because of android
     const filename = image.uri.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
     let type = match ? `image/${match[1]}` : `image`;
@@ -61,26 +66,16 @@ const Upload = ({navigation}) => {
       const userToken = await AsyncStorage.getItem('userToken');
       const result = await uploadMedia(formData, userToken);
       const tagResult = await addTag(result.file_id, appId, userToken);
-      const categoryResult = await addTag(
-        result.file_id,
-        inputs.category,
-        userToken
-      );
-      const conditionResult = await addTag(
-        result.file_id,
-        inputs.condition,
-        userToken
-      );
-      const sizeResult = await addTag(result.file_id, inputs.size, userToken);
+      // first we upload the file, then we add the appId tag into it, after which we add all the tags
+      // related to the post
+      await addTag(result.file_id, inputs.category, userToken);
+      await addTag(result.file_id, inputs.condition, userToken);
+      await addTag(result.file_id, inputs.size, userToken);
       if (inputs.gender === 'unisex') {
-        const menResult = await addTag(result.file_id, 'male', userToken);
-        const femaleResult = await addTag(result.file_id, 'female', userToken);
+        await addTag(result.file_id, 'male', userToken);
+        await addTag(result.file_id, 'female', userToken);
       } else {
-        const genderResult = await addTag(
-          result.file_id,
-          inputs.gender,
-          userToken
-        );
+        await addTag(result.file_id, inputs.gender, userToken);
       }
       setUpdate(update + 1);
       if (tagResult.message && !loadingMedia) {

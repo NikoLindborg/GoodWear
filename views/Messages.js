@@ -1,4 +1,13 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+/**
+ * Js-file for Messages view
+ *
+ * View for getting conversations that the logged in user is a participant in.
+ *
+ * @author Aleksi Kosonen, Niko Lindborg & Aleksi Kytö
+ *
+ **/
+
+import React, {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import {uploadsUrl} from '../utils/variables';
 import PropTypes from 'prop-types';
@@ -25,6 +34,7 @@ const Messages = ({navigation}) => {
   const isFocused = useIsFocused();
   const [isLoaded, setIsLoaded] = useState(false);
 
+  //  If Firebase.apps already contains an app it doesn't initialize a new one
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
@@ -32,10 +42,13 @@ const Messages = ({navigation}) => {
   const db = firebase.firestore();
   const chatsRef = db.collection('chats');
 
+  //  Empty arrays needed for updating messagesArray State
   const emptyArray = [];
   const emptyArrayTwo = [];
   const [messagesArray, setMessagesArray] = useState([]);
 
+  //  Function for getting conversations from Firebase based on the logged in user's user_id
+  //  and checking whether they contain new unread messages.
   const checkConversations = () => {
     emptyArrayTwo.splice(0, emptyArray.length);
     chatsRef.get().then((querySnapshot) => {
@@ -64,6 +77,7 @@ const Messages = ({navigation}) => {
     });
   };
 
+  //  Use Effect that is updated then the Messages screen is focused.
   useEffect(() => {
     (() => {
       checkConversations();
@@ -93,7 +107,7 @@ const Messages = ({navigation}) => {
             }}
           />
         </View>
-      ) : isLoaded ? (
+      ) : isLoaded && messagesArray.length > 0 ? (
         <FlatList
           data={messagesArray}
           keyExtractor={(item) => item.chatId}
@@ -142,8 +156,12 @@ const Messages = ({navigation}) => {
             </TouchableOpacity>
           )}
         />
-      ) : (
+      ) : messagesArray.length > 1 ? (
         <ActivityIndicator />
+      ) : (
+        <View style={styles.container}>
+          <Text style={fontStyles.boldFont}>No messages yet</Text>
+        </View>
       )}
     </SafeAreaView>
   );
@@ -162,6 +180,12 @@ const styles = StyleSheet.create({
   },
   conversation: {
     flexDirection: 'column',
+  },
+  container: {
+    flex: 0,
+    alignItems: 'center',
+    height: '100%',
+    justifyContent: 'center',
   },
   notification: {
     backgroundColor: '#E07A5F',
