@@ -27,7 +27,6 @@ const RegisterForm = ({navigation}) => {
       const serverResponse = await register(inputs);
       if (serverResponse) {
         const loginInfo = await login(JSON.stringify(inputs));
-        console.log(loginInfo);
         await AsyncStorage.setItem('userToken', loginInfo.token);
         const userObject = {
           email: loginInfo.user.email,

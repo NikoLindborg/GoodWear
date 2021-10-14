@@ -39,7 +39,6 @@ const Modify = ({route}) => {
   const doModify = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
-      console.log('token: ', userToken);
       const descriptionData = {
         description: inputs.description,
         shipping: inputs.shipping,
@@ -49,7 +48,6 @@ const Modify = ({route}) => {
         title: inputs.title,
         description: JSON.stringify(descriptionData),
       };
-      console.log('modifydataobject', modifyData);
       const result = await modifyMedia(
         modifyData,
         userToken,

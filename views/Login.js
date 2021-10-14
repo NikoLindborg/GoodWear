@@ -37,7 +37,6 @@ const Login = ({navigation}) => {
   // function ran when login screen is opened, to see if the device has token in asyncStorage for automatic login
   const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
-    console.log(userToken);
     if (userToken) {
       try {
         const userInfo = await checkToken(userToken);
