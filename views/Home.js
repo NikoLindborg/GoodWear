@@ -97,7 +97,7 @@ const Home = ({navigation}) => {
   const db = firebase.firestore();
   const chatsRef = db.collection('chats');
   const emptyArray = [];
-
+  console.log(filteredMediaArray);
   //  UseEffect to check if user has new messages in Chat. Information is fetched from Firebase
   //  and the user is notified if there is new messages in chat via setUnreadMessages state through Navigator
   useEffect(() => {
@@ -180,7 +180,7 @@ const Home = ({navigation}) => {
                 Newest in filtered categories
               </Text>
             </View>
-            {!filteredMediaArray && !loadingFilteredArray ? (
+            {!filteredMediaArray || filteredMediaArray.length === 0 ? (
               <Text> Looks like there arent any posts with your filters</Text>
             ) : (
               <>
