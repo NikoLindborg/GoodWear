@@ -75,6 +75,8 @@ const Home = ({navigation}) => {
       }
       // once the iterations are done, we give the filled list to the filteredMediaArray state handler
       handleFlteredMediaArray(list);
+    } else {
+      setUserFilters();
     }
   };
 
@@ -97,7 +99,7 @@ const Home = ({navigation}) => {
   const db = firebase.firestore();
   const chatsRef = db.collection('chats');
   const emptyArray = [];
-  console.log(filteredMediaArray);
+
   //  UseEffect to check if user has new messages in Chat. Information is fetched from Firebase
   //  and the user is notified if there is new messages in chat via setUnreadMessages state through Navigator
   useEffect(() => {
@@ -153,7 +155,7 @@ const Home = ({navigation}) => {
               }}
             />
           </View>
-        ) : !userFilters ? (
+        ) : !userFilters || userFilters.length === 0 ? (
           <View style={styles.introBox}>
             <Text style={fontStyles.bigBoldFont24}>
               {'\n'}Hello {user.username}!{'\n'}
@@ -181,7 +183,10 @@ const Home = ({navigation}) => {
               </Text>
             </View>
             {!filteredMediaArray || filteredMediaArray.length === 0 ? (
-              <Text style={fontStyles.bigBoldFont}> Looks like there arent any posts with your filters</Text>
+              <Text style={fontStyles.bigBoldFont}>
+                {' '}
+                Looks like there arent any posts with your filters
+              </Text>
             ) : (
               <>
                 <List
