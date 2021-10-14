@@ -183,7 +183,7 @@ const Home = ({navigation}) => {
               </Text>
             </View>
             {!filteredMediaArray || filteredMediaArray.length === 0 ? (
-              <Text style={fontStyles.bigBoldFont}>
+              <Text style={fontStyles.boldFont}>
                 {' '}
                 Looks like there arent any posts with your filters
               </Text>
