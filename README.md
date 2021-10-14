@@ -56,3 +56,10 @@ In GoodWear you can post your sellable items and browse other's items. Posts are
 Items can be bought through Chat feature where users can provide needed information for purchasing. Chat uses Firebase Firestore database for storing chats as individual documents. 
 
 GoodWear doesn't require registering for browsing items but it is needed for communicating through Chat and posting items. 
+
+<p align="center">
+  <img src="https://github.com/NikoLindborg/GoodWear/blob/main/assets/ImagesReadMe/home.jpeg" width="200" title="Home">
+  <img src="https://github.com/NikoLindborg/GoodWear/blob/main/assets/ImagesReadMe/singleItem.jpeg" width="200" title="Single Item">
+  <img src="https://github.com/NikoLindborg/GoodWear/blob/main/assets/ImagesReadMe/chat.jpeg" width="200" title="Chat">
+  <img src="https://github.com/NikoLindborg/GoodWear/blob/main/assets/ImagesReadMe/search.jpeg" width="200" title="Search">
+</p>
