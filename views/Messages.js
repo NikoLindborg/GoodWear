@@ -156,7 +156,7 @@ const Messages = ({navigation}) => {
             </TouchableOpacity>
           )}
         />
-      ) : messagesArray.length > 1 ? (
+      ) : !isLoaded ? (
         <ActivityIndicator />
       ) : (
         <View style={styles.container}>

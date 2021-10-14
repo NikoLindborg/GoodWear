@@ -11,7 +11,7 @@
 
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {GiftedChat} from 'react-native-gifted-chat';
+import {GiftedChat, Bubble} from 'react-native-gifted-chat';
 import PropTypes from 'prop-types';
 import 'firebase/firestore';
 import firebase from 'firebase';
@@ -94,7 +94,25 @@ const Chat = (chatUserIds) => {
     });
   };
 
-  return <GiftedChat messages={messages} user={chatUser} onSend={handleSend} />;
+  return (
+    <GiftedChat
+      messages={messages}
+      user={chatUser}
+      onSend={handleSend}
+      renderBubble={(props) => {
+        return (
+          <Bubble
+            {...props}
+            wrapperStyle={{
+              right: {
+                backgroundColor: '#E07A5F',
+              },
+            }}
+          />
+        );
+      }}
+    />
+  );
 };
 
 Chat.propTypes = {
