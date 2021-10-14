@@ -177,7 +177,7 @@ const Home = ({navigation}) => {
           <View style={styles.postBackground}>
             <View style={styles.textBar}>
               <Text style={fontStyles.bigBoldFont24}>
-                Newest in your filtered categories
+                Newest in filtered categories
               </Text>
             </View>
             {!filteredMediaArray && !loadingFilteredArray ? (

@@ -166,85 +166,56 @@ const SingleItem = ({route, navigation}) => {
         {isLoaded ? (
           <>
             <View style={styles.item}>
-              {isMyItem ? (
-                <></>
-              ) : (
-                <>
-                  {favourite ? (
-                    <Button
-                      buttonStyle={styles.buttonWhite}
-                      containerStyle={{
-                        position: 'absolute',
-                        top: 20,
-                        right: 70,
-                        zIndex: 1,
-                      }}
-                      titleStyle={fontStyles.boldBlackFont}
-                      title={'Remove'}
-                      onPress={() => {
-                        removeSavedItem();
-                      }}
-                    />
-                  ) : (
-                    <Button
-                      buttonStyle={styles.buttonWhite}
-                      containerStyle={{
-                        position: 'absolute',
-                        top: 20,
-                        right: 70,
-                        zIndex: 1,
-                      }}
-                      titleStyle={fontStyles.boldBlackFont}
-                      title={'Save'}
-                      onPress={() => {
-                        saveItem();
-                      }}
-                    />
-                  )}
-                </>
-              )}
-
               <View style={styles.imageContainer}>
                 <Image
                   source={{uri: uploadsUrl + filename}}
                   style={styles.imageSingle}
                 />
-                <View style={styles.imageContainerBottom}>
-                  <Text style={fontStyles.bigBoldFont24}>{title}</Text>
-                  {favourite ? (
-                    <Button
-                      buttonStyle={{backgroundColor: 'white'}}
-                      onPress={() => {
-                        removeSavedItem();
-                      }}
-                      icon={
-                        <Icon
-                          name="heart"
-                          type="font-awesome"
-                          size={35}
-                          color={'red'}
-                        />
-                      }
-                    />
-                  ) : (
-                    <Button
-                      buttonStyle={{backgroundColor: 'white'}}
-                      onPress={() => {
-                        saveItem();
-                      }}
-                      icon={
-                        <Icon
-                          name="heart-o"
-                          type="font-awesome"
-                          size={35}
-                          color={'black'}
-                        />
-                      }
-                    />
-                  )}
-                </View>
               </View>
-              <View style={styles.space} />
+              {isMyItem ? (
+                <>
+                  <View style={styles.imageContainerBottom}>
+                    <Text style={fontStyles.bigBoldFont24}>{title}</Text>
+                  </View>
+                </>
+              ) : (
+                <>
+                  <View style={styles.imageContainerBottom}>
+                    <Text style={fontStyles.bigBoldFont24}>{title}</Text>
+                    {favourite ? (
+                      <Button
+                        buttonStyle={{backgroundColor: 'white'}}
+                        onPress={() => {
+                          removeSavedItem();
+                        }}
+                        icon={
+                          <Icon
+                            name="heart"
+                            type="font-awesome"
+                            size={35}
+                            color={'red'}
+                          />
+                        }
+                      />
+                    ) : (
+                      <Button
+                        buttonStyle={{backgroundColor: 'white'}}
+                        onPress={() => {
+                          saveItem();
+                        }}
+                        icon={
+                          <Icon
+                            name="heart-o"
+                            type="font-awesome"
+                            size={35}
+                            color={'black'}
+                          />
+                        }
+                      />
+                    )}
+                  </View>
+                </>
+              )}
 
               {/* Here the posts tags are used to check whether the post's gender is unisex and tags are displayed correclty*/}
               <View style={styles.productInfo}>
@@ -375,7 +346,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F0F0',
   },
   imageContainerBottom: {
-    width: '100%',
+    width: '90%',
     height: 50,
     flexDirection: 'row',
     alignItems: 'center',
@@ -393,7 +364,7 @@ const styles = StyleSheet.create({
   },
   productInfo: {
     width: '90%',
-    marginTop: 40,
+    marginTop: 10,
   },
   item: {
     flex: 1,

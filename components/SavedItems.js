@@ -39,7 +39,7 @@ const SavedItems = ({navigation}) => {
             }
           });
         });
-        setSavedItems(newMediaArray);
+        setSavedItems(newMediaArray.reverse());
       }
     } catch (e) {
       console.log(e.message);

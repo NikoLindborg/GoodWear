@@ -14,6 +14,7 @@ import FormTextInput from './FormTextInput';
 import {Button, Text} from 'react-native-elements';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {StyleSheet} from 'react-native';
+import fontStyles from '../utils/fontStyles';
 
 const ModifyForm = ({
   title,
@@ -79,6 +80,8 @@ const ModifyForm = ({
       />
       <Button
         raised
+        buttonStyle={{backgroundColor: '#E07A5F'}}
+        titleStyle={fontStyles.boldFont}
         title={title}
         onPress={handleSubmit}
         loading={loading}

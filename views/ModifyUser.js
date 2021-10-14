@@ -16,6 +16,7 @@ import useEditForm from '../hooks/EditHooks';
 import {useUser} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FormTextInput from '../components/FormTextInput';
+import fontStyles from '../utils/fontStyles';
 
 const ModifyUser = ({navigation}) => {
   const {user, setUser, updateUser, setUpdateUser} = useContext(MainContext);
@@ -96,7 +97,8 @@ const ModifyUser = ({navigation}) => {
       </View>
       <Button
         title="Save Changes"
-        buttonStyle={{width: 200, height: 100, alignSelf: 'center'}}
+        buttonStyle={{width: 150, height: 50, alignSelf: 'center', backgroundColor: '#E07A5F'}}
+        titleStyle={fontStyles.boldFont}
         onPress={editUserInfo}
         disabled={errors.username || errors.email}
       ></Button>
