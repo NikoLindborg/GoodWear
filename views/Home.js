@@ -181,7 +181,7 @@ const Home = ({navigation}) => {
               </Text>
             </View>
             {!filteredMediaArray || filteredMediaArray.length === 0 ? (
-              <Text> Looks like there arent any posts with your filters</Text>
+              <Text style={fontStyles.bigBoldFont}> Looks like there arent any posts with your filters</Text>
             ) : (
               <>
                 <List
